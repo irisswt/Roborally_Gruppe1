@@ -1,7 +1,6 @@
 # Personal settings
 /.idea/
 *.iml
-placeholder.java
 /.settings
 *.classpath
 *.project

@@ -284,30 +284,33 @@ public class GameController {
      */
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
-        Space target = board.getNeighbour(player.getSpace(), player.getHeading());
-        if(target!=null && target.getPlayer() == null)
+        Heading heading = player.getHeading();
+        Space target = board.getNeighbour(player.getSpace(), heading);
+        if(target != null)
         {
-            player.setSpace(target);
-        }else if(target!=null && target.getPlayer() != null){
-
-            if(canBeMoved(target.getPlayer(),player.getHeading())){
+            try
+            {
+             moveToSpace(player, target, heading);
+            } catch (ImpossibleMoveException e){
 
             }
-        }
-    }
 
-    public boolean canBeMoved(Player player, Heading heading){
-        Space target = board.getNeighbour(player.getSpace(), heading);
-        if(target!=null && target.getPlayer() == null){
-
-        }else if(target==null){
-            return false;
-        }else if(target != null && target.getPlayer() != null){
-            return canBeMoved(target.getPlayer(),heading);
         }
 
-
     }
+    public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
+        Player other = space.getPlayer();
+        if(other != null){
+            Space target = board.getNeighbour(space,heading);
+            if (target != null){
+                moveToSpace(other, target, heading);
+            }else{
+                throw new ImpossibleMoveException(player,space,heading);
+            }
+        }
+        player.setSpace(space);
+    }
+
 
     /**
      * Moves the player forward twice.

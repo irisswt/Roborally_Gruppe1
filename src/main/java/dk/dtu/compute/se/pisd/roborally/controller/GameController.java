@@ -288,7 +288,25 @@ public class GameController {
         if(target!=null && target.getPlayer() == null)
         {
             player.setSpace(target);
+        }else if(target!=null && target.getPlayer() != null){
+
+            if(canBeMoved(target.getPlayer(),player.getHeading())){
+
+            }
         }
+    }
+
+    public boolean canBeMoved(Player player, Heading heading){
+        Space target = board.getNeighbour(player.getSpace(), heading);
+        if(target!=null && target.getPlayer() == null){
+
+        }else if(target==null){
+            return false;
+        }else if(target!=null && target.getPlayer() != null){
+            return canBeMoved(target.getPlayer(),heading);
+        }
+
+
     }
 
     /**

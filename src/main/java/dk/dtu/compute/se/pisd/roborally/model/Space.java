@@ -86,5 +86,8 @@ public class Space extends Subject {
         // notify the space of these changes by calling this method.
         notifyChange();
     }
+    public void landOnSpace(){
+        //do shit
+    }
 
 }

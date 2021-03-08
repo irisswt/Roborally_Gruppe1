@@ -302,7 +302,7 @@ public class GameController {
 
         }else if(target==null){
             return false;
-        }else if(target!=null && target.getPlayer() != null){
+        }else if(target != null && target.getPlayer() != null){
             return canBeMoved(target.getPlayer(),heading);
         }
 

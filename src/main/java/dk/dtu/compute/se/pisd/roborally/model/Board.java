@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Wall;
 import org.jetbrains.annotations.NotNull;
@@ -79,7 +80,8 @@ public class Board extends Subject {
             }
         }
 
-        spaces[1][2] = new PushPanel(this, 1, 2, "Desco", Heading.NORTH);
+        spaces[2][2] = new Laser(this, 2, 2, "Desco", Laser.whatKindOfLaser.START,2, Heading.NORTH);
+        spaces[2][1] = new Laser(this, 2, 1, "Desco", Laser.whatKindOfLaser.END,2, Heading.NORTH);
 
         this.stepMode = false;
     }

@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -147,9 +148,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             case EAST:
             case WEST:
                 for(int i = 1;i<tempSpace.getAmountOFLaser()+1;i++) {
-                        gc.strokeLine(2, SPACE_HEIGHT - i * 20, SPACE_WIDTH - 2, SPACE_HEIGHT - i * 20);
-                    }
-                    break;
+                    gc.strokeLine(2, SPACE_HEIGHT - i * 20, SPACE_WIDTH - 2, SPACE_HEIGHT - i * 20);
+                }
+                break;
             case NORTH:
             case SOUTH:
                 for(int i = 1;i<tempSpace.getAmountOFLaser()+1;i++) {

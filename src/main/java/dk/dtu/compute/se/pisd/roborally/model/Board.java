@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Gear;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Wall;
 import org.jetbrains.annotations.NotNull;
@@ -80,6 +81,7 @@ public class Board extends Subject {
         }
 
         spaces[1][2] = new PushPanel(this, 1, 2, "Desco", Heading.NORTH);
+        spaces[3][5] = new Gear(this, 3, 5, "Desco");
 
         this.stepMode = false;
     }

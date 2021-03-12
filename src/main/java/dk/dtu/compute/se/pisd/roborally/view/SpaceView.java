@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Gear;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -138,6 +139,17 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     }
 
+    private void drawGear() {
+        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(Color.GREY);
+        gc.setLineWidth(7);
+        gc.setLineCap(StrokeLineCap.ROUND);
+        gc.strokeOval(2,2,70,70);
+        this.getChildren().add(canvas);
+
+    }
+
     /**
      * Method to update GUI for a space if there's a player on that space.
      */
@@ -175,7 +187,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (this.space instanceof PushPanel) {
                 drawPushPanel();
             }
-
+            if (this.space instanceof Gear) {
+                drawGear();
+            }
         }
     }
 

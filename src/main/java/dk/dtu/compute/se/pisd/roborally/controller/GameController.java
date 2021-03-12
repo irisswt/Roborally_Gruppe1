@@ -290,7 +290,6 @@ public class GameController {
             player.setSpace(target);
             target.landOnSpace();
         }
-
     }
 
     /**

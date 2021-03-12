@@ -112,8 +112,8 @@ public class SpaceView extends StackPane implements ViewObserver {
         PushPanel tempSpace = (PushPanel) space;
         Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.BLACK);
-        gc.setLineWidth(6);
+        gc.setStroke(Color.GREEN);
+        gc.setLineWidth(5);
         gc.setLineCap(StrokeLineCap.ROUND);
         for (Heading x : tempSpace.getHeading()) {
             switch (x) {

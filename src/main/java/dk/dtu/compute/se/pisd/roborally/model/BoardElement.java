@@ -1,6 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 public abstract class BoardElement extends Space{
+    private boolean canLandOn;
     private String description;
     /**
      * Constructor for Space.
@@ -13,4 +14,7 @@ public abstract class BoardElement extends Space{
         super(board, x, y);
         this.description = description;
     }
+    public boolean getcanLandOn(){
+        return canLandOn;
+    };
 }

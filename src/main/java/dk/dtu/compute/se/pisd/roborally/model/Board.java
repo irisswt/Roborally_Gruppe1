@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Wall;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
+        spaces[1][1] = new Wall(this,1,1,"test",new Heading[]{Heading.NORTH,Heading.WEST,Heading.SOUTH,Heading.EAST});
         this.stepMode = false;
     }
 

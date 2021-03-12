@@ -33,9 +33,18 @@ public class Laser extends BoardElement {
         return headin;
     }
 
+    public whatKindOfLaser getLaserType() {
+        return laserType;
+    }
+
+    public int getAmountOFLaser() {
+        return amountOFLaser;
+    }
 
     @Override
     public void landOnSpace() {
-        //draw damage card
+        for(int i = 0;i<amountOFLaser;i++){
+            //draw damage card
+        }
     }
 }

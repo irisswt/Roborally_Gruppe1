@@ -108,30 +108,30 @@ public class SpaceView extends StackPane implements ViewObserver {
      * Pls make smarter
      * kh jonathan
      */
+    // TODO: Fix headings (reverse)
     private void drawPushPanel() {
         PushPanel tempSpace = (PushPanel) space;
         Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setStroke(Color.GREEN);
-        gc.setLineWidth(5);
+        gc.setLineWidth(20);
         gc.setLineCap(StrokeLineCap.ROUND);
-        for (Heading x : tempSpace.getHeading()) {
-            switch (x) {
-                case SOUTH:
-                    gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
-                    break;
-                case NORTH:
-                    gc.strokeLine(2, SPACE_HEIGHT-73, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                    break;
-                case WEST:
-                    gc.strokeLine(2, SPACE_HEIGHT-2, SPACE_WIDTH-73, SPACE_HEIGHT-73);
-                    break;
-                case EAST:
-                    gc.strokeLine(73, SPACE_HEIGHT-2, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                    break;
-            }
+        switch (tempSpace.getHeading()) {
+            case SOUTH:
+                gc.strokeLine(2, SPACE_HEIGHT-73, SPACE_WIDTH-2, SPACE_HEIGHT-73);
+                break;
+            case NORTH:
 
-        }this.getChildren().add(canvas);
+                gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
+                break;
+            case WEST:
+                gc.strokeLine(73, SPACE_HEIGHT-2, SPACE_WIDTH-2, SPACE_HEIGHT-73);
+                break;
+            case EAST:
+                gc.strokeLine(2, SPACE_HEIGHT-2, SPACE_WIDTH-73, SPACE_HEIGHT-73);
+                break;
+        }
+        this.getChildren().add(canvas);
 
     }
 

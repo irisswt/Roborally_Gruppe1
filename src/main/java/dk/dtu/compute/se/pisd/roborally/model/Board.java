@@ -79,8 +79,7 @@ public class Board extends Subject {
             }
         }
 
-        Heading[] test = new Heading[]{Heading.NORTH};
-        spaces[2][2] = new PushPanel(this, 1, 2, "Desco", test);
+        spaces[1][2] = new PushPanel(this, 1, 2, "Desco", Heading.NORTH);
 
         this.stepMode = false;
     }

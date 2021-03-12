@@ -22,13 +22,10 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Gear;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.PushPanel;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Wall;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
@@ -158,10 +155,19 @@ public class SpaceView extends StackPane implements ViewObserver {
                     gc.strokeLine(SPACE_WIDTH -i*20, 2, SPACE_WIDTH -i*20, SPACE_HEIGHT - 2);
                 }
                 break;
-
         }
         this.getChildren().add(canvas);
+    }
 
+    public void drawCheckpoint(){
+        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(Color.YELLOW);
+        gc.setLineWidth(7);
+        gc.setLineCap(StrokeLineCap.ROUND);
+        gc.strokeOval(2,2,70,70);
+        this.getChildren().add(canvas);
+        
     }
 
     /**
@@ -246,10 +252,14 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
             if (this.space instanceof Gear) {
                 drawGear();
+            }
             if(this.space instanceof  Laser){
                 drawLaser();
+            }
+            if(this.space instanceof Checkpoint){
+                drawCheckpoint();
+            }
             }
         }
     }
 
-}

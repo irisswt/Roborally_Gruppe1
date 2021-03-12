@@ -22,10 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Gear;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.PushPanel;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Wall;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -85,6 +82,7 @@ public class Board extends Subject {
         spaces[3][5] = new Gear(this, 3, 5, "Desco");
         spaces[2][2] = new Laser(this, 2, 2, "Desco", Laser.whatKindOfLaser.START,2, Heading.NORTH);
         spaces[2][1] = new Laser(this, 2, 1, "Desco", Laser.whatKindOfLaser.END,2, Heading.NORTH);
+        spaces[3][3] = new Checkpoint(this,3,3,"Desco",1);
 
         this.stepMode = false;
     }

@@ -29,6 +29,20 @@ public class Laser extends BoardElement {
         END
     }
 
+    public Heading getHeadin() {
+        return headin;
+    }
+
+
+    @Override
+    public boolean getcanLandOn() {
+        if(laserType == whatKindOfLaser.MIDDLE){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     @Override
     public void landOnSpace() {
         //draw damage card

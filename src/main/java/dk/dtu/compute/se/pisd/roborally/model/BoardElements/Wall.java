@@ -24,7 +24,5 @@ public class Wall extends BoardElement {
     }
 
     @Override
-    public void landOnSpace() {
-        super.landOnSpace();
-    }
+    public void landOnSpace() {}
 }

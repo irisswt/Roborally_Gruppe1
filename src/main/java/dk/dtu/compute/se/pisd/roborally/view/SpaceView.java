@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -80,7 +81,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         Wall tempSpace = (Wall) space;
         Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.RED);
+        gc.setStroke(Color.YELLOW);
         gc.setLineWidth(5);
         gc.setLineCap(StrokeLineCap.ROUND);
         for (Heading x : tempSpace.getHeading()) {
@@ -100,6 +101,65 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
 
         }this.getChildren().add(canvas);
+
+    }
+    private void drawLaser() {
+        Laser tempSpace = (Laser) space;
+        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(Color.YELLOW);
+        gc.setLineWidth(5);
+        gc.setLineCap(StrokeLineCap.ROUND);
+        if(tempSpace.getLaserType() == Laser.whatKindOfLaser.START){
+            switch (tempSpace.getHeadin()) {
+                case SOUTH:
+                    gc.strokeLine(2, SPACE_HEIGHT-73, SPACE_WIDTH-2, SPACE_HEIGHT-73);
+                    break;
+                case NORTH:
+
+                    gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
+                    break;
+                case WEST:
+                    gc.strokeLine(73, SPACE_HEIGHT-2, SPACE_WIDTH-2, SPACE_HEIGHT-73);
+                    break;
+                case EAST:
+                    gc.strokeLine(2, SPACE_HEIGHT-2, SPACE_WIDTH-73, SPACE_HEIGHT-73);
+                    break;
+            }
+        }
+        else if(tempSpace.getLaserType() == Laser.whatKindOfLaser.END){
+            switch (tempSpace.getHeadin()) {
+                case SOUTH:
+                    gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
+                    break;
+                case NORTH:
+                    gc.strokeLine(2, SPACE_HEIGHT-73, SPACE_WIDTH-2, SPACE_HEIGHT-73);
+                    break;
+                case WEST:
+                    gc.strokeLine(2, SPACE_HEIGHT-2, SPACE_WIDTH-73, SPACE_HEIGHT-73);
+                    break;
+                case EAST:
+                    gc.strokeLine(73, SPACE_HEIGHT-2, SPACE_WIDTH-2, SPACE_HEIGHT-73);
+                    break;
+            }
+        }
+        gc.setStroke(Color.RED);
+        switch (tempSpace.getHeadin()){
+            case EAST:
+            case WEST:
+                for(int i = 1;i<tempSpace.getAmountOFLaser()+1;i++) {
+                        gc.strokeLine(2, SPACE_HEIGHT - i * 20, SPACE_WIDTH - 2, SPACE_HEIGHT - i * 20);
+                    }
+                    break;
+            case NORTH:
+            case SOUTH:
+                for(int i = 1;i<tempSpace.getAmountOFLaser()+1;i++) {
+                    gc.strokeLine(SPACE_WIDTH -i*20, 2, SPACE_WIDTH -i*20, SPACE_HEIGHT - 2);
+                }
+                break;
+
+        }
+        this.getChildren().add(canvas);
 
     }
 
@@ -170,6 +230,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
             if (this.space instanceof PushPanel) {
                 drawPushPanel();
+            }
+            if(this.space instanceof  Laser){
+                drawLaser();
             }
         }
     }

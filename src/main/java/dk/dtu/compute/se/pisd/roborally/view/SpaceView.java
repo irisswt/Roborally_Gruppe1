@@ -22,7 +22,6 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -167,6 +166,7 @@ public class SpaceView extends StackPane implements ViewObserver {
      * Riped from drawWall
      * Pls make smarter
      * kh jonathan
+     * Is drawn so the push panel will push in the direction of the heading
      */
     // TODO: Fix headings (reverse)
     private void drawPushPanel() {

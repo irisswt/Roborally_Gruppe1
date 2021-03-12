@@ -29,6 +29,11 @@ public class Laser extends BoardElement {
         END
     }
 
+    public Heading getHeadin() {
+        return headin;
+    }
+
+
     @Override
     public void landOnSpace() {
         //draw damage card

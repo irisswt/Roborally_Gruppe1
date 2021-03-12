@@ -17,14 +17,11 @@ public class PushPanel extends BoardElement {
     public PushPanel(Board board, int x, int y, String description, Heading heading[]) {
         super(board, x, y, description);
         this.heading = heading;
+        this.canLandOn = true;
     }
 
     public Heading[] getHeading(){
         return heading;
     }
 
-    @Override
-    public void landOnSpace() {
-        super.landOnSpace();
-    }
 }

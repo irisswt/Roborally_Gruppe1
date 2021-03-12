@@ -246,6 +246,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
             if (this.space instanceof Gear) {
                 drawGear();
+            }
             if(this.space instanceof  Laser){
                 drawLaser();
             }

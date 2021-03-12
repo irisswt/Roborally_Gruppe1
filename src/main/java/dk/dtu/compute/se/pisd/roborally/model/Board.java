@@ -77,7 +77,6 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
-        spaces[1][1] = new Wall(this,1,1,"test",new Heading[]{Heading.NORTH,Heading.WEST,Heading.SOUTH,Heading.EAST});
         this.stepMode = false;
     }
 

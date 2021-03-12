@@ -1,8 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.model.BoardElements;
 
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 
 public class PushPanel extends BoardElement {
     private Heading heading;
@@ -22,6 +20,16 @@ public class PushPanel extends BoardElement {
 
     public Heading getHeading(){
         return heading;
+    }
+
+    @Override
+    public void landOnSpace() {
+        Player curPlayer = this.getPlayer();
+        Space nextSpace = this.board.getNeighbour(this, heading);
+        notifyChange();
+        // TODO: Change to push other players
+        nextSpace.setPlayer(curPlayer);
+        notifyChange();
     }
 
 }

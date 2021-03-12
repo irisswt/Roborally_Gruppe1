@@ -70,6 +70,8 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 
+
+
         // updatePlayer();
 
         // This space view should listen to changes of the space
@@ -107,6 +109,7 @@ public class SpaceView extends StackPane implements ViewObserver {
      * Riped from drawWall
      * Pls make smarter
      * kh jonathan
+     * Is drawn so the push panel will push in the direction of the heading
      */
     // TODO: Fix headings (reverse)
     private void drawPushPanel() {
@@ -165,12 +168,14 @@ public class SpaceView extends StackPane implements ViewObserver {
     public void updateView(Subject subject) {
         if (subject == this.space) {
             updatePlayer();
+
             if(this.space instanceof Wall){
                 drawWall();
             }
             if (this.space instanceof PushPanel) {
                 drawPushPanel();
             }
+
         }
     }
 

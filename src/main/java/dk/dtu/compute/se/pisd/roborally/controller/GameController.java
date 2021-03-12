@@ -288,7 +288,9 @@ public class GameController {
         if(target!=null && target.getPlayer() == null)
         {
             player.setSpace(target);
+            target.landOnSpace();
         }
+
     }
 
     /**

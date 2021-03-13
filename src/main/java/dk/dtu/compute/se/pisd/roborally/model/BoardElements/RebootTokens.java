@@ -3,8 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.model.BoardElements;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
 
-public class Checkpoint extends BoardElement {
-    private int numberOfCheckpoint;
+public class RebootTokens extends BoardElement {
     /**
      * Constructor for Space.
      *
@@ -13,19 +12,12 @@ public class Checkpoint extends BoardElement {
      * @param y           the position on the vertical axis.
      * @param description
      */
-    public Checkpoint(Board board, int x, int y, String description,int numberOfCheckpoint) {
+    public RebootTokens(Board board, int x, int y, String description) {
         super(board, x, y, description);
-        this.numberOfCheckpoint = numberOfCheckpoint;
-    }
-
-    public int getNumberOfCheckpoint() {
-        return numberOfCheckpoint;
     }
 
     @Override
     public void landOnSpace() {
-        if(board.getCurrentPlayer().getCheckpoint() == numberOfCheckpoint-1){
-            board.getCurrentPlayer().setCheckpoint(numberOfCheckpoint);
-        }
+        //todo when reboot is created
     }
 }

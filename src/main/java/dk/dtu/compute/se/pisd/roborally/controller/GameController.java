@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Wall;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -284,11 +285,23 @@ public class GameController {
      */
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
+        Boolean canMove = true;
         Space target = board.getNeighbour(player.getSpace(), player.getHeading());
-        if(target!=null && target.getPlayer() == null)
+        if(target!=null && target.getPlayer() == null && target instanceof BoardElement == false)
         {
             player.setSpace(target);
             target.landOnSpace();
+        }
+        else if(player.getSpace() instanceof Wall){
+            for(Heading i:((Wall) player.getSpace()).getHeading()){
+                if(i == player.getHeading()){
+                    canMove = false;
+                }
+            }
+            if(canMove == true ){
+                player.setSpace(target);
+                target.landOnSpace();
+            }
         }
     }
 

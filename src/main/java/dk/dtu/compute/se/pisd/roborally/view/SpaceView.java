@@ -160,14 +160,27 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     public void drawCheckpoint(){
+        Checkpoint tempSpace = (Checkpoint) space;
         Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setStroke(Color.YELLOW);
         gc.setLineWidth(7);
         gc.setLineCap(StrokeLineCap.ROUND);
         gc.strokeOval(2,2,70,70);
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(1);
+        gc.strokeText(String.valueOf(tempSpace.getNumberOfCheckpoint()), SPACE_WIDTH/2, SPACE_HEIGHT/2);
         this.getChildren().add(canvas);
-        
+    }
+    private void drawRebootTokens() {
+        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(Color.GREEN);
+        gc.setLineWidth(7);
+        gc.setLineCap(StrokeLineCap.ROUND);
+        gc.strokeOval(2,2,70,70);
+        this.getChildren().add(canvas);
+
     }
 
     /**

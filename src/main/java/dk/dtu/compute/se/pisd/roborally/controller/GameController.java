@@ -313,6 +313,10 @@ public class GameController {
         moveForward(player);
     }
 
+    /**
+     * Moves the player three fields forward
+     * @param player the player that needs to move
+     */
     public void moveThreeForward(@NotNull Player player) {
         fastForward(player);
         moveForward(player);
@@ -336,6 +340,10 @@ public class GameController {
         player.setHeading(player.getHeading().prev());
     }
 
+    /**
+     * Moves the player one field backwards without turning around.
+     * @param player the player that needs to move
+     */
     public void moveBackward(@NotNull Player player) {
         Space target = board.getNeighbour(player.getSpace(), player.getHeading().next().next());
         if(target!=null && target.getPlayer() == null)
@@ -344,6 +352,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Turns the player around to face the opposite direction without moving.
+     * @param player the player that gets turned around
+     */
     public void uTurn(@NotNull Player player) {
         player.setHeading(player.getHeading().next().next());
     }

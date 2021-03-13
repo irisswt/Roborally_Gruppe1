@@ -183,6 +183,17 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     }
 
+    public void drawPriorityAntenna(){
+        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(Color.GREY);
+        gc.setLineWidth(7);
+        gc.setLineCap(StrokeLineCap.ROUND);
+        gc.strokeOval(2,2,70,70);
+        this.getChildren().add(canvas);
+
+    }
+
     /**
      * Riped from drawWall
      * Pls make smarter
@@ -271,6 +282,12 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
             if(this.space instanceof Checkpoint){
                 drawCheckpoint();
+            }
+            if(this.space instanceof RebootTokens){
+                drawRebootTokens();
+            }
+            if(this.space instanceof PriorityAntenna){
+                drawPriorityAntenna();
             }
             }
         }

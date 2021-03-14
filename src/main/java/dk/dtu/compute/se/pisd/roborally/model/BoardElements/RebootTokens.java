@@ -5,7 +5,7 @@ import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
 
 public class RebootTokens extends BoardElement {
     /**
-     * Constructor for Space.
+     * Constructor for RebootTokens.
      *
      * @param board       The board the space is on.
      * @param x           the position on the horizontal axis.

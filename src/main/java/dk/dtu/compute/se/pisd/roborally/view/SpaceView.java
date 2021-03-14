@@ -22,10 +22,11 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.view.BoardElementsView.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
@@ -33,6 +34,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 
 /**
  * Class responsible for each Space GUI that a board is made of.
@@ -75,168 +77,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         space.attach(this);
         update(space);
     }
-    private void drawWall() {
-        Wall tempSpace = (Wall) space;
-        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.YELLOW);
-        gc.setLineWidth(5);
-        gc.setLineCap(StrokeLineCap.ROUND);
-        for (Heading x : tempSpace.getHeading()) {
-            switch (x) {
-                case SOUTH:
-                    gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
-                    break;
-                case NORTH:
-                    gc.strokeLine(2, SPACE_HEIGHT-73, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                    break;
-                case WEST:
-                    gc.strokeLine(2, SPACE_HEIGHT-2, SPACE_WIDTH-73, SPACE_HEIGHT-73);
-                    break;
-                case EAST:
-                    gc.strokeLine(73, SPACE_HEIGHT-2, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                    break;
-            }
-
-        }this.getChildren().add(canvas);
-
-    }
-    private void drawLaser() {
-        Laser tempSpace = (Laser) space;
-        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.YELLOW);
-        gc.setLineWidth(5);
-        gc.setLineCap(StrokeLineCap.ROUND);
-        if(tempSpace.getLaserType() == Laser.whatKindOfLaser.START){
-            switch (tempSpace.getHeadin()) {
-                case SOUTH:
-                    gc.strokeLine(2, SPACE_HEIGHT-73, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                    break;
-                case NORTH:
-
-                    gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
-                    break;
-                case WEST:
-                    gc.strokeLine(73, SPACE_HEIGHT-2, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                    break;
-                case EAST:
-                    gc.strokeLine(2, SPACE_HEIGHT-2, SPACE_WIDTH-73, SPACE_HEIGHT-73);
-                    break;
-            }
-        }
-        else if(tempSpace.getLaserType() == Laser.whatKindOfLaser.END){
-            switch (tempSpace.getHeadin()) {
-                case SOUTH:
-                    gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
-                    break;
-                case NORTH:
-                    gc.strokeLine(2, SPACE_HEIGHT-73, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                    break;
-                case WEST:
-                    gc.strokeLine(2, SPACE_HEIGHT-2, SPACE_WIDTH-73, SPACE_HEIGHT-73);
-                    break;
-                case EAST:
-                    gc.strokeLine(73, SPACE_HEIGHT-2, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                    break;
-            }
-        }
-        gc.setStroke(Color.RED);
-        switch (tempSpace.getHeadin()){
-            case EAST:
-            case WEST:
-                for(int i = 1;i<tempSpace.getAmountOFLaser()+1;i++) {
-                    gc.strokeLine(2, SPACE_HEIGHT - i * 20, SPACE_WIDTH - 2, SPACE_HEIGHT - i * 20);
-                }
-                break;
-            case NORTH:
-            case SOUTH:
-                for(int i = 1;i<tempSpace.getAmountOFLaser()+1;i++) {
-                    gc.strokeLine(SPACE_WIDTH -i*20, 2, SPACE_WIDTH -i*20, SPACE_HEIGHT - 2);
-                }
-                break;
-        }
-        this.getChildren().add(canvas);
-    }
-
-    public void drawCheckpoint(){
-        Checkpoint tempSpace = (Checkpoint) space;
-        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.YELLOW);
-        gc.setLineWidth(7);
-        gc.setLineCap(StrokeLineCap.ROUND);
-        gc.strokeOval(2,2,70,70);
-        gc.setStroke(Color.BLACK);
-        gc.setLineWidth(1);
-        gc.strokeText(String.valueOf(tempSpace.getNumberOfCheckpoint()), SPACE_WIDTH/2, SPACE_HEIGHT/2);
-        this.getChildren().add(canvas);
-    }
-    private void drawRebootTokens() {
-        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.GREEN);
-        gc.setLineWidth(7);
-        gc.setLineCap(StrokeLineCap.ROUND);
-        gc.strokeOval(2,2,70,70);
-        this.getChildren().add(canvas);
-
-    }
-
-    public void drawPriorityAntenna(){
-        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.GREY);
-        gc.setLineWidth(7);
-        gc.setLineCap(StrokeLineCap.ROUND);
-        gc.strokeOval(2,2,70,70);
-        this.getChildren().add(canvas);
-
-    }
-
-    /**
-     * Riped from drawWall
-     * Pls make smarter
-     * kh jonathan
-     * Is drawn so the push panel will push in the direction of the heading
-     */
-    // TODO: Fix headings (reverse)
-    private void drawPushPanel() {
-        PushPanel tempSpace = (PushPanel) space;
-        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.GREEN);
-        gc.setLineWidth(20);
-        gc.setLineCap(StrokeLineCap.ROUND);
-        switch (tempSpace.getHeading()) {
-            case SOUTH:
-                gc.strokeLine(2, SPACE_HEIGHT-73, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                break;
-            case NORTH:
-
-                gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
-                break;
-            case WEST:
-                gc.strokeLine(73, SPACE_HEIGHT-2, SPACE_WIDTH-2, SPACE_HEIGHT-73);
-                break;
-            case EAST:
-                gc.strokeLine(2, SPACE_HEIGHT-2, SPACE_WIDTH-73, SPACE_HEIGHT-73);
-                break;
-        }
-        this.getChildren().add(canvas);
-
-    }
-
-    private void drawGear() {
-        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.GREY);
-        gc.setLineWidth(7);
-        gc.setLineCap(StrokeLineCap.ROUND);
-        gc.strokeOval(2,2,70,70);
-        this.getChildren().add(canvas);
-
-    }
 
     /**
      * Method to update GUI for a space if there's a player on that space.
@@ -269,27 +109,26 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (subject == this.space) {
             updatePlayer();
             if(this.space instanceof Wall){
-                drawWall();
+                WallView.drawWall(this,space);
             }
             if (this.space instanceof PushPanel) {
-                drawPushPanel();
+                PushPanelView.drawPushPanel(this,space);
             }
             if (this.space instanceof Gear) {
-                drawGear();
+                GearView.drawGear(this,space);
             }
             if(this.space instanceof  Laser){
-                drawLaser();
+                LaserView.drawLaser(this,space);
             }
             if(this.space instanceof Checkpoint){
-                drawCheckpoint();
+                CheckpointView.drawCheckpoint(this,space);
             }
             if(this.space instanceof RebootTokens){
-                drawRebootTokens();
+                RebootTokensView.drawRebootTokens(this,space);
             }
             if(this.space instanceof PriorityAntenna){
-                drawPriorityAntenna();
+                PriorityAntennaView.drawPriorityAntenna(this,space);
             }
             }
         }
     }
-

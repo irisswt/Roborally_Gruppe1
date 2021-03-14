@@ -13,6 +13,7 @@ public class Wall extends BoardElement {
      * @param x           the position on the horizontal axis.
      * @param y           the position on the vertical axis.
      * @param description
+     * @param heading takes an array of headings
      */
     public Wall(Board board, int x, int y, String description, Heading heading[]) {
         super(board, x, y, description);
@@ -22,7 +23,4 @@ public class Wall extends BoardElement {
     public Heading[] getHeading(){
         return heading;
     }
-
-    @Override
-    public void landOnSpace() {}
 }

@@ -257,17 +257,37 @@ public class Board extends Subject {
         int y = space.y;
         switch (heading) {
             case SOUTH:
-                y = (y + 1) % height;
-                break;
+                if (y+1 < height) {
+                    y = (y + 1) % height;
+                    break;
+                }else{
+                    return null;
+                }
+
             case WEST:
-                x = (x + width - 1) % width;
-                break;
+                if((x + width - 1) > 0){
+                    x = (x + width - 1) % width;
+                    break;
+                }else{
+                    return null;
+                }
+
             case NORTH:
-                y = (y + height - 1) % height;
-                break;
+
+                if ((y + height - 1) > 0) {
+                    y = (y + 1) % height;
+                    break;
+                }else{
+                    return null;
+                }
+
             case EAST:
-                x = (x + 1) % width;
-                break;
+                if (( (x + 1)) < width) {
+                    y = (y + 1) % height;
+                    break;
+                }else{
+                    return null;
+                }
         }
 
         return getSpace(x, y);

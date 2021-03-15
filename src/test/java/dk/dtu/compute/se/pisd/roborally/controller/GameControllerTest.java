@@ -1,9 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,15 +45,18 @@ class GameControllerTest {
     }
 
     @Test
-    void moveForward() {
+    void moveForward() throws ImpossibleMoveException {
         Board board = gameController.board;
-        Player current = board.getCurrentPlayer();
+        Player player1 = board.getPlayer(0);
+        Player player2 = board.getPlayer(1);
 
-        gameController.moveForward(current);
+        gameController.moveToSpace(player1, board.getSpace(0,0),Heading.SOUTH );
+        gameController.moveToSpace(player2,board.getSpace(0,1),Heading.SOUTH);
+        player1.setHeading(Heading.SOUTH);
+        gameController.moveForward(player1);
+        Assertions.assertEquals(player1,board.getSpace(0,1).getPlayer(),"Player " + player1.getName() + " should beSpace (0,1)!");
+        Assertions.assertEquals(player2,board.getSpace(0,2).getPlayer(),"Player " + player2.getName() + " should beSpace (0,1)!");
 
-        Assertions.assertEquals(current, board.getSpace(0, 1).getPlayer(), "Player " + current.getName() + " should beSpace (0,1)!");
-        Assertions.assertEquals(Heading.SOUTH, current.getHeading(), "Player 0 should be heading SOUTH!");
-        Assertions.assertNull(board.getSpace(0, 0).getPlayer(), "Space (0,0) should be empty!");
     }
 
     @Test

@@ -34,16 +34,15 @@ class WallTest {
     }
 
     @AfterEach
-    void tearDown() {
+   void tearDown() {
         gameController = null;
     }
-
+ /*
     @Test
     void move() {
         Board board = gameController.board;
         Player player1 = board.getPlayer(0);
         player1.setCheckpoint(0);
-        board.setSpace(2,2,new Wall(board,2,2,"test",new Heading[]{Heading.SOUTH,Heading.EAST,Heading.WEST,Heading.NORTH}));
         player1.setSpace(board.getSpace(2,2));
         board.setCurrentPlayer(player1);
         gameController.moveForward(player1);
@@ -57,5 +56,5 @@ class WallTest {
         player1.setHeading(Heading.SOUTH);
         gameController.moveForward(player1);
         assertEquals( player1.getSpace(),board.getSpace(2,2));
-    }
+    } */
 }

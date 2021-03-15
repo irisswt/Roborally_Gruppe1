@@ -27,8 +27,8 @@ public class PushPanel extends BoardElement {
     }
 
     /**
-     * Land on space will take a player that is on the field
-     * And push
+     * Takes current player on space
+     * // TODO: Throws exception to call method
      */
     @Override
     public void landOnSpace() {

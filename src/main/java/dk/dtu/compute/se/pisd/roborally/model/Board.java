@@ -83,6 +83,7 @@ public class Board extends Subject {
         spaces[2][2] = new Laser(this, 2, 2, "Desco", Laser.whatKindOfLaser.START,2, Heading.NORTH);
         spaces[2][1] = new Laser(this, 2, 1, "Desco", Laser.whatKindOfLaser.END,2, Heading.NORTH);
         spaces[3][3] = new Checkpoint(this,3,3,"Desco",1);
+        spaces[4][2] = new Pit(this,4,2,"desco");
 
         this.stepMode = false;
     }

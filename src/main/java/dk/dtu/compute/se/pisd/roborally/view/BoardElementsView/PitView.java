@@ -17,9 +17,9 @@ public class PitView {
     public static void drawPit(SpaceView spaceView, Space space){
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.DARKGRAY);
-        gc.setLineWidth(7);
-        gc.setLineCap(StrokeLineCap.ROUND);
+        gc.setStroke(Color.GREY);
+        gc.setLineWidth(50);
+        gc.setLineCap(StrokeLineCap.SQUARE);
         gc.strokeOval(2,2,70,70);
         spaceView.getChildren().add(canvas);
     }

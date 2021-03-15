@@ -6,11 +6,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
+
 /**
- * Riped from PriorityAntennaView
+ * Riped from PriorityAntennaView*
+ * TODO make pretty
  * kh Thomse
  */
-
 
 public class PitView {
     public static void drawPit(SpaceView spaceView, Space space){

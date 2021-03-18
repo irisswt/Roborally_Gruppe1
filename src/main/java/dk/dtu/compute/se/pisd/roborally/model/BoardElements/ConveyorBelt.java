@@ -1,4 +1,4 @@
-package dk.dtu.compute.se.pisd.roborally.view.BoardElementsView;
+package dk.dtu.compute.se.pisd.roborally.model.BoardElements;
 
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElement;

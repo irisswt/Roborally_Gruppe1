@@ -272,6 +272,18 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
+                case MOVE_THREE_FORWARD:
+                    this.moveThreeForward(player);
+                    break;
+                case U_TURN:
+                    this.uTurn(player);
+                    break;
+                case BACKWARD:
+                    this.moveBackward(player);
+                    break;
+                case AGAIN:
+                    this.again(player);
+                    break;
                 default:
                     // DO NOTHING (for now)
             }
@@ -323,6 +335,15 @@ public class GameController {
     }
 
     /**
+     * Moves the player three fields forward
+     * @param player the player that needs to move
+     */
+    public void moveThreeForward(@NotNull Player player) {
+        fastForward(player);
+        moveForward(player);
+    }
+
+    /**
      * Turns the player right without moving them.
      * @param player the player that needs to move
      */
@@ -339,6 +360,50 @@ public class GameController {
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
     }
+
+    /**
+     * Moves the player one field backwards without turning around.
+     * @param player the player that needs to move
+     */
+    public void moveBackward(@NotNull Player player) {
+        Space target = board.getNeighbour(player.getSpace(), player.getHeading().next().next());
+        if(target!=null && target.getPlayer() == null)
+        {
+            player.setSpace(target);
+        }
+    }
+
+    /**
+     * Turns the player around to face the opposite direction without moving.
+     * @param player the player that gets turned around
+     */
+    public void uTurn(@NotNull Player player) {
+        player.setHeading(player.getHeading().next().next());
+    }
+
+    /**
+     * Currently not working with interactive cards
+     * @param player
+     */
+    public void again(@NotNull Player player){
+        if(board.getStep()!=0){
+            int i = board.getStep();
+            int j = 0;
+            while(player.getProgramField(i).getCard().command == Command.AGAIN && board.getStep() != 0){
+                i--;
+                j++;
+            }
+            if(player.getProgramField(board.getStep()-j).getCard().command.isInteractive()){
+                executeCommandOptionAndContinue(player.getProgramField(board.getStep()-j).getCard().command);
+            }
+            else{
+                executeCommand(player, player.getProgramField(board.getStep()-j).getCard().command);
+            }
+
+        }
+    }
+
+
 
     /**
      * A method to move a card from on space to another.

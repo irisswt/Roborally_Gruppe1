@@ -310,6 +310,7 @@ public class GameController {
         }
 
     }
+
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Player other = space.getPlayer();
         if(other != null){

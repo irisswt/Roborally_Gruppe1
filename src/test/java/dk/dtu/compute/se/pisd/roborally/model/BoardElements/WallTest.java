@@ -37,7 +37,7 @@ class WallTest {
    void tearDown() {
         gameController = null;
     }
- /*
+
     @Test
     void move() {
         Board board = gameController.board;
@@ -56,5 +56,5 @@ class WallTest {
         player1.setHeading(Heading.SOUTH);
         gameController.moveForward(player1);
         assertEquals( player1.getSpace(),board.getSpace(2,2));
-    } */
+    }
 }

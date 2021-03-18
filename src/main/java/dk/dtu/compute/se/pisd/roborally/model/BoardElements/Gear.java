@@ -2,6 +2,9 @@ package dk.dtu.compute.se.pisd.roborally.model.BoardElements;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
+/**
+ * Class for the gear board element
+ */
 public class Gear extends BoardElement {
     private Heading heading;
     /**
@@ -22,6 +25,9 @@ public class Gear extends BoardElement {
         return null;
     }
 
+    /**
+     * Gets the current player on the space and turns it 90 deg
+     */
     @Override
     public void landOnSpace() {
         Player curPlayer = this.getPlayer();

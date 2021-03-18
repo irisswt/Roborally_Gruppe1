@@ -43,7 +43,6 @@ class CheckpointTest {
         Player player2 = board.getPlayer(1);
         player1.setCheckpoint(0);
         player2.setCheckpoint(1);
-        board.setSpace(2,2,new Checkpoint(board,2,2,"test",2));
         player1.setSpace(board.getSpace(3,2));
         board.setCurrentPlayer(player1);
         gameController.moveForward(player1);

@@ -83,6 +83,7 @@ public class Board extends Subject {
         spaces[2][2] = new Laser(this, 2, 2, "Desco", Laser.whatKindOfLaser.START,2, Heading.NORTH);
         spaces[2][1] = new Laser(this, 2, 1, "Desco", Laser.whatKindOfLaser.END,2, Heading.NORTH);
         spaces[3][3] = new Checkpoint(this,3,3,"Desco",1);
+        spaces[4][2] = new Pit(this,4,2,"desco");
 
         this.stepMode = false;
     }
@@ -265,17 +266,37 @@ public class Board extends Subject {
         int y = space.y;
         switch (heading) {
             case SOUTH:
-                y = (y + 1) % height;
-                break;
+                if (y+1 < height) {
+                    y = (y + 1) % height;
+                    break;
+                }else{
+                    return null;
+                }
+
             case WEST:
-                x = (x + width - 1) % width;
-                break;
+                if((x + width - 1) > 0){
+                    x = (x + width - 1) % width;
+                    break;
+                }else{
+                    return null;
+                }
+
             case NORTH:
-                y = (y + height - 1) % height;
-                break;
+
+                if ((y + height - 1) > 0) {
+                    y = (y + 1) % height;
+                    break;
+                }else{
+                    return null;
+                }
+
             case EAST:
-                x = (x + 1) % width;
-                break;
+                if (( (x + 1)) < width) {
+                    y = (y + 1) % height;
+                    break;
+                }else{
+                    return null;
+                }
         }
 
         return getSpace(x, y);

@@ -129,6 +129,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             if(this.space instanceof PriorityAntenna){
                 PriorityAntennaView.drawPriorityAntenna(this,space);
             }
+            if(this.space instanceof Pit){
+                PitView.drawPit(this,space);
+            }
             }
         }
     }

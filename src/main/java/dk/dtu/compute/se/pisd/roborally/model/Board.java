@@ -78,7 +78,7 @@ public class Board extends Subject {
             }
         }
 
-
+        spaces[5][4] = new PushPanel(this,5,4,"test",Heading.NORTH);
         this.stepMode = false;
     }
 

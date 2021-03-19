@@ -77,7 +77,8 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
-
+        spaces[5][1] = new Checkpoint(this,5,1,"test",1);
+        spaces[5][6] = new Checkpoint(this,5,6,"test",2);
         spaces[5][4] = new PushPanel(this,5,4,"test",Heading.NORTH);
         this.stepMode = false;
     }
@@ -260,7 +261,7 @@ public class Board extends Subject {
         int y = space.y;
         switch (heading) {
             case SOUTH:
-                if (y+1 <= height) {
+                if (y+1 < height) {
                     y = (y + 1) % height;
                     break;
                 }else{
@@ -285,7 +286,7 @@ public class Board extends Subject {
                 }
 
             case EAST:
-                if (( (x + 1)) <= width) {
+                if (( (x + 1)) < width) {
                     x = (x + 1) % width;
                     break;
                 }else{

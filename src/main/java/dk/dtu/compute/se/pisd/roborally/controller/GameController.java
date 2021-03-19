@@ -301,7 +301,7 @@ public class GameController {
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
         Heading heading = player.getHeading();
-        Space target = board.getNeighbour(player.getSpace(), heading);
+        Space target = board.getNeighbour(player.getSpace(), player.getHeading());
         if(target != null)
         {
             try
@@ -330,9 +330,9 @@ public class GameController {
 
         if(other != null && canmove ){
             Space target = board.getNeighbour(space,heading);
-            if (target != null && space instanceof Wall == false){
+            if (target != null && !(target instanceof Wall)){
                 moveToSpace(other, target, heading);
-            }else if(space instanceof Wall ){
+            }else if(target instanceof Wall ){
                Heading[] wallHeadings = ((Wall) space).getHeading();
                for(Heading h: wallHeadings){
                    if (heading.next().next() == h){
@@ -347,7 +347,23 @@ public class GameController {
                 throw new ImpossibleMoveException(player,space,heading);
             }
         }
+
+            player.setSpace(space);
+
+
+
+/*
+
+        if(other != null){
+            Space target = board.getNeighbour(space,heading);
+            if(target != null){
+            moveToSpace(other,target,heading);
+            }else{
+                throw new ImpossibleMoveException(player,space,heading);
+            }
+        }
         player.setSpace(space);
+*/
     }
 
 
@@ -419,10 +435,17 @@ public class GameController {
      * @param player the player that needs to move
      */
     public void moveBackward(@NotNull Player player) {
-        Space target = board.getNeighbour(player.getSpace(), player.getHeading().next().next());
+        Heading heading = player.getHeading().next().next();
+        Space target = board.getNeighbour(player.getSpace(), heading);
+
         if(target!=null && target.getPlayer() == null)
         {
-            player.setSpace(target);
+            try
+            {
+                moveToSpace(player, target, heading);
+            } catch (ImpossibleMoveException e){
+
+            }
         }
     }
 

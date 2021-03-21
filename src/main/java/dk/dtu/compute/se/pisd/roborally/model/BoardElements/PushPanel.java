@@ -26,19 +26,4 @@ public class PushPanel extends BoardElement {
         return heading;
     }
 
-    /**
-     * Takes current player on space
-     * // TODO: Throws exception to call method
-     */
-    @Override
-    public void landOnSpace() {
-        Player curPlayer = this.getPlayer();
-        Space nextSpace = this.board.getNeighbour(this, heading);
-        // TODO: Change to show player is pushed
-        notifyChange();
-        // TODO: Change to push other players
-        nextSpace.setPlayer(curPlayer);
-        notifyChange();
-    }
-
 }

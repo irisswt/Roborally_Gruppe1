@@ -77,14 +77,9 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
-
-        spaces[1][2] = new PushPanel(this, 1, 2, "Desco", Heading.NORTH);
-        spaces[3][5] = new Gear(this, 3, 5, "Desco");
-        spaces[2][2] = new Laser(this, 2, 2, "Desco", Laser.whatKindOfLaser.START,2, Heading.NORTH);
-        spaces[2][1] = new Laser(this, 2, 1, "Desco", Laser.whatKindOfLaser.END,2, Heading.NORTH);
-        spaces[3][3] = new Checkpoint(this,3,3,"Desco",1);
-        spaces[4][2] = new Pit(this,4,2,"desco");
-
+        spaces[5][1] = new Checkpoint(this,5,1,"test",1);
+        spaces[5][6] = new Checkpoint(this,5,6,"test",2);
+        spaces[5][4] = new PushPanel(this,5,4,"test",Heading.NORTH);
         this.stepMode = false;
     }
 
@@ -274,7 +269,7 @@ public class Board extends Subject {
                 }
 
             case WEST:
-                if((x + width - 1) > 0){
+                if((x - 1) >= 0){
                     x = (x + width - 1) % width;
                     break;
                 }else{
@@ -283,8 +278,8 @@ public class Board extends Subject {
 
             case NORTH:
 
-                if ((y + height - 1) > 0) {
-                    y = (y + 1) % height;
+                if ((y - 1) >= 0) {
+                    y = (y - 1) % height;
                     break;
                 }else{
                     return null;
@@ -292,7 +287,7 @@ public class Board extends Subject {
 
             case EAST:
                 if (( (x + 1)) < width) {
-                    y = (y + 1) % height;
+                    x = (x + 1) % width;
                     break;
                 }else{
                     return null;

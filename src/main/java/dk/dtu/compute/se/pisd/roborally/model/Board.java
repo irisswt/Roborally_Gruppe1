@@ -20,6 +20,7 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.model;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
@@ -310,7 +311,8 @@ public class Board extends Subject {
         // XXX: V2 changed the status so that it shows the phase, the player and the step
         return "Phase: " + getPhase().name() +
                 ", Player = " + getCurrentPlayer().getName() +
-                ", Step: " + getStep();
+                ", Step: " + getStep()+
+                ", Checkpoint "+ getCurrentPlayer().getCheckpoint();
     }
 
 

@@ -19,21 +19,9 @@ public class Gear extends BoardElement {
         super(board, x, y, description);
         this.canLandOn = true;
     }
-
-    // TODO: Remove?
+    
     public Heading getHeading(){
         return null;
-    }
-
-    /**
-     * Gets the current player on the space and turns it 90 deg
-     */
-    @Override
-    public void landOnSpace() {
-        Player curPlayer = this.getPlayer();
-        Heading playerHeading = curPlayer.getHeading();
-        curPlayer.setHeading(playerHeading.next());
-        notifyChange();
     }
 
 }

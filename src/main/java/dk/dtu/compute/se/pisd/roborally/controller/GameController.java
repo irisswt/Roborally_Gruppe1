@@ -22,10 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Pit;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.PushPanel;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Wall;
+import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -396,6 +393,12 @@ public class GameController {
             if(space instanceof Pit){
 
             }
+
+            if(space instanceof Gear) {
+                Heading playerHeading = player.getHeading();
+                player.setHeading(playerHeading.next());
+            }
+
             space = player.getSpace();
             space.landOnSpace();
     }

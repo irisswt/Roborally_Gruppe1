@@ -17,7 +17,7 @@ public class CheckpointView {
         gc.setLineWidth(7);
         gc.setLineCap(StrokeLineCap.ROUND);
         gc.strokeOval(2,2,70,70);
-        gc.setStroke(Color.BLACK);
+        gc.setStroke(Color.RED);
         gc.setLineWidth(1);
         gc.strokeText(String.valueOf(tempSpace.getNumberOfCheckpoint()), SpaceView.SPACE_WIDTH/2, SpaceView.SPACE_WIDTH/2);
         spaceView.getChildren().add(canvas);

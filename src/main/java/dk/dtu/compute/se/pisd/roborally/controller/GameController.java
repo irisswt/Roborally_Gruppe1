@@ -320,6 +320,14 @@ public class GameController {
 
     }
 
+    /**
+     * The method checking if a move is possible, and if someone is in the way of your move.
+     * If a player is standing in your way, you just push the player in the same direction you're moving
+     * @param player The player that wants to move
+     * @param space The space the player wants to move to
+     * @param heading The way the player is moving (north, south, east or west)
+     * @throws ImpossibleMoveException if the player rams into a wall, or one of the players in the chain of pushes is going to make an illegal move
+     */
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Player other = space.getPlayer();
         Boolean canmove = true;
@@ -360,6 +368,11 @@ public class GameController {
 
     }
 
+    /**
+     * Checks if a player is standing on a board-element, and makes it act corresponding to said board-element
+     * @param player that needs to be checked
+     * @throws ImpossibleMoveException if the player is going to make an illegal move
+     */
 
     public void endRegistre(Player player) throws ImpossibleMoveException {
 

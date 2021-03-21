@@ -187,7 +187,7 @@ public class GameController {
     // XXX: V2 //TODO: here is endregistre
     private void executeNextStep() {
         try {
-            endRegistre(board.getCurrentPlayer());
+            endRegister(board.getCurrentPlayer());
         }catch(ImpossibleMoveException e){
 
         }
@@ -374,7 +374,7 @@ public class GameController {
      * @throws ImpossibleMoveException if the player is going to make an illegal move
      */
 
-    public void endRegistre(Player player) throws ImpossibleMoveException {
+    public void endRegister(Player player) throws ImpossibleMoveException {
 
 
             Space space = player.getSpace();

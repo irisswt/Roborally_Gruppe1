@@ -46,7 +46,9 @@ class Repository implements IRepository {
 	private static final String GAME_PHASE = "phase";
 
 	private static final String GAME_STEP = "step";
-	
+
+	private static final String GAME_BOARD_NAME = "boardName";
+
 	private static final String PLAYER_PLAYERID = "playerID";
 	
 	private static final String PLAYER_NAME = "name";
@@ -73,6 +75,7 @@ class Repository implements IRepository {
 	public boolean createGameInDB(Board game) {
 		if (game.getGameId() == null) {
 			Connection connection = connector.getConnection();
+			System.out.println("Creating game in DB");
 			try {
 				connection.setAutoCommit(false);
 
@@ -84,6 +87,7 @@ class Repository implements IRepository {
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
+
 
 				// If you have a foreign key constraint for current players,
 				// the check would need to be temporarily disabled, since
@@ -104,9 +108,8 @@ class Repository implements IRepository {
 				// statement.close();
 
 				createPlayersInDB(game);
-				/* TOODO this method needs to be implemented first
 				createCardFieldsInDB(game);
-				 */
+
 
 				// since current player is a foreign key, it can oly be
 				// inserted after the players are created, since MySQL does
@@ -122,6 +125,8 @@ class Repository implements IRepository {
 				} else {
 					// TODO error handling
 				}
+				rs.updateString(GAME_BOARD_NAME, game.boardName);
+				rs.updateRow();
 				rs.close();
 
 				connection.commit();
@@ -162,6 +167,7 @@ class Repository implements IRepository {
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
+				rs.updateString(GAME_BOARD_NAME, game.boardName);
 				rs.updateRow();
 			} else {
 				// TODO error handling
@@ -169,9 +175,8 @@ class Repository implements IRepository {
 			rs.close();
 
 			updatePlayersInDB(game);
-			/* TOODO this method needs to be implemented first
+
 			updateCardFieldsInDB(game);
-			*/
 
             connection.commit();
             connection.setAutoCommit(true);
@@ -288,6 +293,7 @@ class Repository implements IRepository {
 			rs.updateInt(PLAYER_POSITION_X, player.getSpace().x);
 			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
 			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
+			rs.updateInt(PLAYER_CHECKPOINT, player.getCheckpoint());
 			rs.insertRow();
 		}
 
@@ -447,6 +453,13 @@ class Repository implements IRepository {
 		return select_games_stmt;
 	}
 
+	private void createCardFieldsInDB(Board game) {
+		// TODO: ASd
+	}
+
+	private void updateCardFieldsInDB(Board game) {
+		// TODO: ASd
+	}
 
 
 }

@@ -63,6 +63,7 @@ public class RoboRally extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+        RepositoryAccess.getRepository();
         stage = primaryStage;
         RepositoryAccess.getRepository();
         AppController appController = new AppController(this);

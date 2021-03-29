@@ -46,7 +46,9 @@ class Repository implements IRepository {
 	private static final String GAME_PHASE = "phase";
 
 	private static final String GAME_STEP = "step";
-	
+
+	private static final String GAME_BOARD_NAME = "boardName";
+
 	private static final String PLAYER_PLAYERID = "playerID";
 	
 	private static final String PLAYER_NAME = "name";
@@ -60,6 +62,8 @@ class Repository implements IRepository {
 	private static final String PLAYER_POSITION_Y = "positionY";
 
 	private static final String PLAYER_HEADING = "heading";
+
+	private static final String PLAYER_CHECKPOINT = "checkpoint";
 
 	private Connector connector;
 	
@@ -83,6 +87,7 @@ class Repository implements IRepository {
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
+
 
 				// If you have a foreign key constraint for current players,
 				// the check would need to be temporarily disabled, since
@@ -120,6 +125,8 @@ class Repository implements IRepository {
 				} else {
 					// TODO error handling
 				}
+				rs.updateString(GAME_BOARD_NAME, game.boardName);
+				rs.updateRow();
 				rs.close();
 
 				connection.commit();
@@ -160,6 +167,7 @@ class Repository implements IRepository {
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
+				rs.updateString(GAME_BOARD_NAME, game.boardName);
 				rs.updateRow();
 			} else {
 				// TODO error handling
@@ -285,6 +293,7 @@ class Repository implements IRepository {
 			rs.updateInt(PLAYER_POSITION_X, player.getSpace().x);
 			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
 			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
+			rs.updateInt(PLAYER_CHECKPOINT, player.getCheckpoint());
 			rs.insertRow();
 		}
 

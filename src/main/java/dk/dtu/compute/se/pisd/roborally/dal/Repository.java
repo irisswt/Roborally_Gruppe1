@@ -71,6 +71,7 @@ class Repository implements IRepository {
 	public boolean createGameInDB(Board game) {
 		if (game.getGameId() == null) {
 			Connection connection = connector.getConnection();
+			System.out.println("Creating game in DB");
 			try {
 				connection.setAutoCommit(false);
 
@@ -102,9 +103,8 @@ class Repository implements IRepository {
 				// statement.close();
 
 				createPlayersInDB(game);
-				/* TOODO this method needs to be implemented first
 				createCardFieldsInDB(game);
-				 */
+
 
 				// since current player is a foreign key, it can oly be
 				// inserted after the players are created, since MySQL does
@@ -167,9 +167,8 @@ class Repository implements IRepository {
 			rs.close();
 
 			updatePlayersInDB(game);
-			/* TOODO this method needs to be implemented first
+
 			updateCardFieldsInDB(game);
-			*/
 
             connection.commit();
             connection.setAutoCommit(true);
@@ -445,6 +444,13 @@ class Repository implements IRepository {
 		return select_games_stmt;
 	}
 
+	private void createCardFieldsInDB(Board game) {
+		// TODO: ASd
+	}
+
+	private void updateCardFieldsInDB(Board game) {
+		// TODO: ASd
+	}
 
 
 }

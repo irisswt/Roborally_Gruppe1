@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
@@ -39,6 +40,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -77,6 +79,7 @@ public class AppController implements Observer {
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
 
+
         if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
@@ -107,6 +110,9 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
+
+        Boolean isSame = false;
+
         TextInputDialog dialog = new TextInputDialog("walter");
         dialog.setTitle("Text Input Dialog");
         dialog.setHeaderText("Look, a Text Input Dialog");
@@ -118,9 +124,23 @@ public class AppController implements Observer {
         }
 
 // The Java 8 way to get the response value (with lambda expression).
-        RepositoryAccess.getRepository().createGameInDB(gameController.board);
-        LoadBoard.saveBoard(gameController.board,result.get());
-        RepositoryAccess.getRepository().createGameInDB(gameController.board);
+        List<GameInDB> gameIDs = RepositoryAccess.getRepository().getGames();
+
+        gameController.board.setName(result.get());
+
+        for(GameInDB gameID : gameIDs){
+            if(gameController.board.getGameId() != null) {
+                if (gameID.id == gameController.board.getGameId()) {
+                    isSame = true;
+                }
+            }
+        }
+        if(isSame){
+            RepositoryAccess.getRepository().updateGameInDB(gameController.board);
+        }
+        else{
+            RepositoryAccess.getRepository().createGameInDB(gameController.board);
+        }
 
     }
 
@@ -129,18 +149,27 @@ public class AppController implements Observer {
         // XXX needs to be implememted eventually
         // for now, we just create a new game
         if (gameController == null) {
-            TextInputDialog dialog = new TextInputDialog("walter");
-            dialog.setTitle("Text Input Dialog");
-            dialog.setHeaderText("Look, a Text Input Dialog");
-            dialog.setContentText("Please enter your name:");
-
-// Traditional way to get the response value.
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
+            GameInDB currentGame = null;
+            List<GameInDB> gameIDs = RepositoryAccess.getRepository().getGames();
+            List<String>  gameName = new ArrayList<String>();
+            for(GameInDB game : gameIDs){
+                gameName.add(game.name);
             }
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(gameName.get(0),gameName);
 
-// The Java 8 way to get the response value (with lambda expression).
-            LoadBoard.loadBoard(result.get());
+            dialog.setTitle("Player number");
+            dialog.setHeaderText("Select number of players");
+            Optional<String> result = dialog.showAndWait();
+            for(GameInDB game : gameIDs){
+               if(game.name == result.get()){
+                   currentGame = game;
+               }
+            }
+            //todo same name
+            gameController = new GameController(RepositoryAccess.getRepository().loadGameFromDB(currentGame.id));
+
+            roboRally.createBoardView(gameController);
+
         }
     }
 

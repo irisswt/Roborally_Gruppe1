@@ -26,6 +26,8 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -34,6 +36,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -104,13 +107,36 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
+        TextInputDialog dialog = new TextInputDialog("walter");
+        dialog.setTitle("Text Input Dialog");
+        dialog.setHeaderText("Look, a Text Input Dialog");
+        dialog.setContentText("Please enter your name:");
+
+// Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+        }
+
+// The Java 8 way to get the response value (with lambda expression).
+        LoadBoard.saveBoard(gameController.board,result.get());
     }
 
     public void loadGame() {
         // XXX needs to be implememted eventually
         // for now, we just create a new game
         if (gameController == null) {
-            newGame();
+            TextInputDialog dialog = new TextInputDialog("walter");
+            dialog.setTitle("Text Input Dialog");
+            dialog.setHeaderText("Look, a Text Input Dialog");
+            dialog.setContentText("Please enter your name:");
+
+// Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+            }
+
+// The Java 8 way to get the response value (with lambda expression).
+            LoadBoard.loadBoard(result.get());
         }
     }
 

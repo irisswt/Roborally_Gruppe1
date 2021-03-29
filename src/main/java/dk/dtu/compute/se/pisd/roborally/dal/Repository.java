@@ -61,6 +61,8 @@ class Repository implements IRepository {
 
 	private static final String PLAYER_HEADING = "heading";
 
+	private static final String PLAYER_CHECKPOINT = "checkpoint";
+
 	private Connector connector;
 	
 	Repository(Connector connector){

@@ -118,6 +118,7 @@ public class AppController implements Observer {
         }
 
 // The Java 8 way to get the response value (with lambda expression).
+        RepositoryAccess.getRepository().createGameInDB(gameController.board);
         LoadBoard.saveBoard(gameController.board,result.get());
     }
 

@@ -21,9 +21,12 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * GameController contains the logic for the game. Is responsible for the logic behind taking a turn
@@ -302,39 +305,49 @@ public class GameController {
 
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Player other = space.getPlayer();
-        boolean canmove = true;
+        boolean canMove = true;
 
-        if (player.getSpace() instanceof Wall){
-            Heading[] wallHeadings = ((Wall) space).getHeading();
-            for(Heading h: wallHeadings){
-                if (heading == h){
-                    canmove = false;
+        List<Heading> wallHeadingsPlayer = player.getSpace().getWalls();
+        System.out.println("walls at player:" + wallHeadingsPlayer);
+
+        if (!wallHeadingsPlayer.isEmpty()) {
+            for (Heading h : wallHeadingsPlayer) {
+                if (heading.next().next() == h) {
+                    canMove = false;
                 }
             }
         }
 
-        if(other != null && canmove ){
-            Space target = board.getNeighbour(space,heading);
-            if (target != null && !(target instanceof Wall)){
-                moveToSpace(other, target, heading);
-            }else if(target instanceof Wall ){
-
-                Heading[] wallHeadings = ((Wall) space).getHeading();
-               for(Heading h: wallHeadings){
-                   if (heading.next().next() == h){
-                      canmove = false;
-                   }
+        if (other != null && canMove) {
+            System.out.println("Der er en i vejen");
+            Space target = board.getNeighbour(space, heading);
+            if (target != null) {
+                System.out.println("Target er ikke null");
+                List<Heading> wallHeadings = target.getWalls();
+                System.out.println("walls at target:" + wallHeadings);
+                if (!wallHeadings.isEmpty()) {
+                    for (Heading h : wallHeadings) {
+                        if (heading.next().next() == h) {
+                            canMove = false;
+                        }
+                    }
+                    if (canMove) {
+                        moveToSpace(other, target, heading);
+                    } else {
+                        throw new ImpossibleMoveException(player, space, heading);
+                    }
+                } else {
+                    moveToSpace(other, target, heading);
                 }
-                if (canmove){
-                    moveToSpace(other,target,heading);
-                }
-
-            }else{
-                throw new ImpossibleMoveException(player,space,heading);
+            } else {
+                System.out.println("Target er null");
+                throw new ImpossibleMoveException(player, space, heading);
             }
+        } else if (!canMove) {
+            System.out.println("Cant move bool");
+            throw new ImpossibleMoveException(player, space, heading);
         }
-
-            player.setSpace(space);
+        player.setSpace(space);
 
 
 
@@ -416,7 +429,7 @@ public class GameController {
         Heading heading = player.getHeading().next().next();
         Space target = board.getNeighbour(player.getSpace(), heading);
 
-        if(target!=null && target.getPlayer() == null)
+        if(target!=null)
         {
             try
             {

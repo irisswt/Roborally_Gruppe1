@@ -51,13 +51,6 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space)  {
-        // TODO Assignment V1: method should be implemented by the students:
-        //   - the current player should be moved to the given space
-        //     (if it is free()
-        //   - and the current player should be set to the player
-        //     following the current player
-        //   - the counter of moves in the game should be increased by one
-        //     if the player is moved
         if(space.getPlayer() == null)
         {
             board.getCurrentPlayer().setSpace(space);
@@ -70,7 +63,6 @@ public class GameController {
      * This method is the start of the programming phase,
      * and fills each players programming field with programming cards.
      */
-    // XXX: V2
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -97,7 +89,6 @@ public class GameController {
      * A method to take a random card from an array created from the Command class enums.
      * @return a random generated CommandCard in-game known as a programming card
      */
-    // XXX: V2
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
@@ -109,7 +100,6 @@ public class GameController {
      * Will make the command/programming cards invisible in the GUI and set the phase to ACTIVATION instead of PROGRAMMING.
      * Sets the first register visible and the rest invisible
      */
-    // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -122,7 +112,6 @@ public class GameController {
      * Makes the current programming card that's being executed visible.
      * @param register the current register that needs to be made visible.
      */
-    // XXX: V2
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -137,7 +126,6 @@ public class GameController {
      * Method to make all registers empty in the GUI.
      * Is used in finishProgrammingPhase method.
      */
-    // XXX: V2
     private void makeProgramFieldsInvisible() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -151,7 +139,6 @@ public class GameController {
     /**
      * Executes all the cards in the registers.
      */
-    // XXX: V2
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
@@ -160,7 +147,6 @@ public class GameController {
     /**
      * Executes a single register.
      */
-    // XXX: V2
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
@@ -169,7 +155,6 @@ public class GameController {
     /**
      * Executes next card. Depending on the stepMode either runs a single time or continuously.
      */
-    // XXX: V2
     private void continuePrograms() {
         do {
             executeNextStep();
@@ -181,7 +166,7 @@ public class GameController {
      * Then it executes the current card in the register for the current player.
      * If the card has an interaction it will set the phase to PLAYER_INTERACTION.
      */
-    // XXX: V2 //TODO: here is endregistre
+    //TODO: here is end registre
     private void executeNextStep() {
         try {
             endRegistre(board.getCurrentPlayer());
@@ -258,7 +243,6 @@ public class GameController {
      * @param player the player that needs to move
      * @param command command depending on the card chosen. Will dictate how the player will move.
      */
-    // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
@@ -300,7 +284,6 @@ public class GameController {
      * Method to move the player one field forward if nothing is occupying the space.
      * @param player the player that needs to move
      */
-    // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
         Heading heading = player.getHeading();
         Space target = board.getNeighbour(player.getSpace(), player.getHeading());
@@ -394,7 +377,6 @@ public class GameController {
      * Moves the player forward twice.
      * @param player the player that needs to move
      */
-    // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
         moveForward(player);
         moveForward(player);
@@ -413,7 +395,6 @@ public class GameController {
      * Turns the player right without moving them.
      * @param player the player that needs to move
      */
-    // TODO Assignment V2
     public void turnRight(@NotNull Player player) {
         player.setHeading(player.getHeading().next());
     }
@@ -422,7 +403,6 @@ public class GameController {
      * Turns the player left without moving them.
      * @param player the player that needs to move
      */
-    // TODO Assignment V2
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
     }

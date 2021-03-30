@@ -166,10 +166,10 @@ public class GameController {
      * Then it executes the current card in the register for the current player.
      * If the card has an interaction it will set the phase to PLAYER_INTERACTION.
      */
-    //TODO: here is end registre
+    //TODO: here is end register
     private void executeNextStep() {
         try {
-            endRegistre(board.getCurrentPlayer());
+            endRegister(board.getCurrentPlayer());
         }catch(ImpossibleMoveException e){
 
         }
@@ -302,7 +302,7 @@ public class GameController {
 
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Player other = space.getPlayer();
-        Boolean canmove = true;
+        boolean canmove = true;
 
         if (player.getSpace() instanceof Wall){
             Heading[] wallHeadings = ((Wall) space).getHeading();
@@ -318,7 +318,8 @@ public class GameController {
             if (target != null && !(target instanceof Wall)){
                 moveToSpace(other, target, heading);
             }else if(target instanceof Wall ){
-               Heading[] wallHeadings = ((Wall) space).getHeading();
+
+                Heading[] wallHeadings = ((Wall) space).getHeading();
                for(Heading h: wallHeadings){
                    if (heading.next().next() == h){
                       canmove = false;
@@ -341,7 +342,7 @@ public class GameController {
     }
 
 
-    public void endRegistre(Player player) throws ImpossibleMoveException {
+    public void endRegister(Player player) throws ImpossibleMoveException {
 
 
             Space space = player.getSpace();

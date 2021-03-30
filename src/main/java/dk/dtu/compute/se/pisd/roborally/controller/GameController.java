@@ -312,7 +312,7 @@ public class GameController {
 
         if (!wallHeadingsPlayer.isEmpty()) {
             for (Heading h : wallHeadingsPlayer) {
-                if (heading.next().next() == h) {
+                if (heading == h) {
                     canMove = false;
                 }
             }
@@ -347,8 +347,9 @@ public class GameController {
             System.out.println("Cant move bool");
             throw new ImpossibleMoveException(player, space, heading);
         }
+        if (canMove) {
         player.setSpace(space);
-
+        }
 
 
 

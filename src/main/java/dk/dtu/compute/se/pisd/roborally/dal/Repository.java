@@ -65,6 +65,10 @@ class Repository implements IRepository {
 
 	private static final String PLAYER_CHECKPOINT = "checkpoint";
 
+	private static final String CARDINPLAYERSHAND_CARDNO = "cardNo";
+
+	private static final String CARDINPLAYERSHAND_CARDVALUE = "cardValue";
+
 	private Connector connector;
 	
 	Repository(Connector connector){
@@ -109,6 +113,7 @@ class Repository implements IRepository {
 
 				createPlayersInDB(game);
 				createCardFieldsInDB(game);
+				createPlayersHandCardsInDB(game);
 
 
 				// since current player is a foreign key, it can oly be
@@ -299,6 +304,25 @@ class Repository implements IRepository {
 
 		rs.close();
 	}
+
+	private void createPlayersHandCardsInDB(Board game) throws SQLException {
+		// TODO code should be more defensive
+		PreparedStatement ps = getSelectCardInPlayersHandStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		for (int i = 0; i < game.getPlayersNumber(); i++) {
+			Player player = game.getPlayer(i);
+			for(int j=0; j<8; j++) {
+				rs.moveToInsertRow();
+				rs.updateInt(PLAYER_GAMEID, game.getGameId());
+				rs.updateInt(PLAYER_PLAYERID, i);
+				rs.updateInt(CARDINPLAYERSHAND_CARDNO, j);
+				rs.updateInt(CARDINPLAYERSHAND_CARDVALUE, game.getPlayer(i).getCardField(j).getCard().command.value);
+				rs.insertRow();
+			}
+		}
+		rs.close();
+	}
 	
 	private void loadPlayersFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersASCStatement();
@@ -412,6 +436,26 @@ class Repository implements IRepository {
 			}
 		}
 		return select_players_stmt;
+	}
+	private static final String SQL_SELECT_CARDINPLAYERSHAND =
+			"SELECT * FROM CardInPlayersHand WHERE gameID = ?";
+
+	private PreparedStatement select_cardInPlayersHand_stmt = null;
+
+	private PreparedStatement getSelectCardInPlayersHandStatementU() {
+		if (select_cardInPlayersHand_stmt == null) {
+			Connection connection = connector.getConnection();
+			try {
+				select_cardInPlayersHand_stmt = connection.prepareStatement(
+						SQL_SELECT_CARDINPLAYERSHAND,
+						ResultSet.TYPE_FORWARD_ONLY,
+						ResultSet.CONCUR_UPDATABLE);
+			} catch (SQLException e) {
+				// TODO error handling
+				e.printStackTrace();
+			}
+		}
+		return select_cardInPlayersHand_stmt;
 	}
 
 	private static final String SQL_SELECT_PLAYERS_ASC =

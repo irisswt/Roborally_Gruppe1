@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS CardInPlayersHand (
   CardNo INT,
   CardValue INT,
 
-  PRIMARY KEY(PlayerID, GameID),
+  PRIMARY KEY(PlayerID, GameID, CardNo),
   FOREIGN KEY(gameID, playerID) REFERENCES Player(gameID, playerID)
 );;
 

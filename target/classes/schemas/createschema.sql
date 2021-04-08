@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS CardInPlayersHand (
 
   PRIMARY KEY(PlayerID, GameID),
   FOREIGN KEY(gameID, playerID) REFERENCES Player(gameID, playerID)
-);
+);;
 
 SET FOREIGN_KEY_CHECKS = 1;;
 

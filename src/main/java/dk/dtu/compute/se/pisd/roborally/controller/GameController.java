@@ -303,53 +303,72 @@ public class GameController {
 
     }
 
+    /**
+     *
+     * @param player
+     * @param heading
+     * @return Boolean
+     * Checks if a move is possible in regard to tokens
+     *
+     */
+    public Boolean isMovePossible(Player player,Heading heading){
+
+        Space target = board.getNeighbour(player.getSpace(),heading);
+        List<Heading> wallHeadings = target.getWalls();
+        if(target != null){
+            if(!wallHeadings.isEmpty()){
+                for(Heading h: wallHeadings){
+                    if(h == heading.next().next()){
+                        return false;
+                    }
+                }
+            }
+        }else{
+            return false;
+        }
+
+
+        wallHeadings = player.getSpace().getWalls();
+        if(!wallHeadings.isEmpty()){
+            for(Heading h: wallHeadings){
+                if(h == heading){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     *
+     * @param player
+     * @param space
+     * @param heading
+     * @throws ImpossibleMoveException
+     * Checks if the player can move to desired space.
+     * If another player is on that space, it tries to move the second player before the first one.
+     * If a player cannot move, the impossible move exception is thrown
+     */
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
-        Player other = space.getPlayer();
-        boolean canMove = true;
+        Boolean canMove;
+        canMove = isMovePossible(player,heading);
 
-        List<Heading> wallHeadingsPlayer = player.getSpace().getWalls();
-        System.out.println("walls at player:" + wallHeadingsPlayer);
 
-        if (!wallHeadingsPlayer.isEmpty()) {
-            for (Heading h : wallHeadingsPlayer) {
-                if (heading == h) {
-                    canMove = false;
-                }
+
+
+
+        if(space != null && canMove){
+            Player other = space.getPlayer();
+            Space target = board.getNeighbour(space,heading);
+            if(other != null){
+                moveToSpace(other, target, heading);
             }
+            player.setSpace(space);
+        }else{
+            throw new ImpossibleMoveException(player,space,heading);
         }
 
-        if (other != null && canMove) {
-            System.out.println("Der er en i vejen");
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                System.out.println("Target er ikke null");
-                List<Heading> wallHeadings = target.getWalls();
-                System.out.println("walls at target:" + wallHeadings);
-                if (!wallHeadings.isEmpty()) {
-                    for (Heading h : wallHeadings) {
-                        if (heading.next().next() == h) {
-                            canMove = false;
-                        }
-                    }
-                    if (canMove) {
-                        moveToSpace(other, target, heading);
-                    } else {
-                        throw new ImpossibleMoveException(player, space, heading);
-                    }
-                } else {
-                    moveToSpace(other, target, heading);
-                }
-            } else {
-                System.out.println("Target er null");
-                throw new ImpossibleMoveException(player, space, heading);
-            }
-        } else if (!canMove) {
-            System.out.println("Cant move bool");
-            throw new ImpossibleMoveException(player, space, heading);
-        }
-        if (canMove) {
-        player.setSpace(space);
-        }
 
 
 

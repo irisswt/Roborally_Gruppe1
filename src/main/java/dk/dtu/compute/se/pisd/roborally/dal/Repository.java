@@ -65,9 +65,9 @@ class Repository implements IRepository {
 
 	private static final String PLAYER_CHECKPOINT = "checkpoint";
 
-	private static final String CARDINPLAYERSHAND_CARDNO = "cardNo";
+	private static final String CARDINPLAYERSHAND_CARDNO = "CardNo";
 
-	private static final String CARDINPLAYERSHAND_CARDVALUE = "cardValue";
+	private static final String CARDINPLAYERSHAND_CARDVALUE = "CardValue";
 
 	private Connector connector;
 	
@@ -237,7 +237,7 @@ class Repository implements IRepository {
 
 			game.setGameId(id);			
 			loadPlayersFromDB(game);
-		//	loadCardsInPlayersHandFromDB(game);
+			loadCardsInPlayersHandFromDB(game);
 
 			if (playerNo >= 0 && playerNo < game.getPlayersNumber()) {
 				game.setCurrentPlayer(game.getPlayer(playerNo));
@@ -357,32 +357,27 @@ class Repository implements IRepository {
 	/**
 	 * HJÆLP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 */
-/*	private void loadCardsInPlayersHandFromDB(Board game) throws SQLException {
-		PreparedStatement ps = getSelectPlayersASCStatement();
+	private void loadCardsInPlayersHandFromDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardInPlayersHandStatementU();
 		ps.setInt(1, game.getGameId());
 
 		ResultSet rs = ps.executeQuery();
+		Command[] commands = Command.values();
+		System.out.println(game.getPlayersNumber());
+		System.out.println(game.getGameId());
+
+
 		int i = 0;
 		while (rs.next()) {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
-			if (i++ == playerId) {
-				for(int j=0; j<8;j++){
-					int cardValue = rs.getInt(CARDINPLAYERSHAND_CARDVALUE);
-
-					CommandCard commandCard = new CommandCard();
-					game.getPlayer(playerId).getCardField(j).setCard(new CommandCard(rs.getInt(CARDINPLAYERSHAND_CARDVALUE)));
-				}
-				// TODO this should be more defensive
-
-
-				// TODO  should also load players program and hand here
-			} else {
-				// TODO error handling
-				System.err.println("Game in DB does not have a player with id " + i +"!");
-			}
+			System.out.println("Current player id:"+playerId);
+			int cardValue = rs.getInt(CARDINPLAYERSHAND_CARDVALUE)-1;
+			int cardNumber = rs.getInt(CARDINPLAYERSHAND_CARDNO);
+			System.out.println("Current card value:"+cardValue);
+			game.getPlayer(playerId).getCardField(cardNumber).setCard(new CommandCard(commands[cardValue]));
 		}
 		rs.close();
-	} */
+	}
 	
 	private void updatePlayersInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersStatementU();

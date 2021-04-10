@@ -365,9 +365,7 @@ class Repository implements IRepository {
 		Command[] commands = Command.values();
 		System.out.println(game.getPlayersNumber());
 		System.out.println(game.getGameId());
-
-
-		int i = 0;
+		
 		while (rs.next()) {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
 			System.out.println("Current player id:"+playerId);

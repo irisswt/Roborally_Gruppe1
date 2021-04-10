@@ -180,7 +180,7 @@ class Repository implements IRepository {
 			rs.close();
 
 			updatePlayersInDB(game);
-
+			updatePlayersHandCardsInDB(game);
 			updateCardFieldsInDB(game);
 
             connection.commit();
@@ -373,6 +373,29 @@ class Repository implements IRepository {
 		}
 		rs.close();
 		
+		// TODO error handling/consistency check: check whether all players were updated
+	}
+
+	private void updatePlayersHandCardsInDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardInPlayersHandStatementU();
+		ps.setInt(1, game.getGameId());
+
+		ResultSet rs = ps.executeQuery();
+		Player player;
+		for(int i = 0; i<game.getPlayersNumber(); i++) {
+			if (rs.next()) {
+				int playerId = rs.getInt(PLAYER_PLAYERID);
+				// TODO should be more defensive
+				player = game.getPlayer(playerId);
+				for (int j = 0; j < 8; i++) {
+					rs.updateInt(CARDINPLAYERSHAND_CARDNO, j);
+					rs.updateInt(CARDINPLAYERSHAND_CARDVALUE, player.getCardField(j).getCard().command.value);
+					rs.updateRow();
+				}
+			}
+		}
+		rs.close();
+
 		// TODO error handling/consistency check: check whether all players were updated
 	}
 

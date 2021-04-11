@@ -41,6 +41,16 @@ CREATE TABLE IF NOT EXISTS CardInPlayersHand (
   FOREIGN KEY(gameID, playerID) REFERENCES Player(gameID, playerID)
 );;
 
+CREATE TABLE IF NOT EXISTS CardInPlayersRegister (
+  GameID INT NOT NULL UNIQUE,
+  PlayerID TINYINT NOT NULL,
+  RegisterNo INT,
+  CardValue INT,
+
+  PRIMARY KEY(PlayerID, GameID,Registerno),
+  FOREIGN KEY(gameID, playerID) REFERENCES Player(gameID, playerID)
+);;
+
 
 SET FOREIGN_KEY_CHECKS = 1;;
 

@@ -69,6 +69,10 @@ class Repository implements IRepository {
 
 	private static final String CARDINPLAYERSHAND_CARDVALUE = "CardValue";
 
+	private static final String CARDINPLAYERSREGISTER_REGISTERNO = "RegisterNo";
+
+	private static final String CARDINPLAYERSREGISTER_CARDVALUE = "CardValue";
+
 	private Connector connector;
 	
 	Repository(Connector connector){
@@ -113,7 +117,7 @@ class Repository implements IRepository {
 
 				createPlayersInDB(game);
 				createPlayersHandCardsInDB(game);
-
+				createPlayersRegisterCardsInDB(game);
 
 				// since current player is a foreign key, it can oly be
 				// inserted after the players are created, since MySQL does
@@ -323,6 +327,25 @@ class Repository implements IRepository {
 		}
 		rs.close();
 	}
+
+	private void createPlayersRegisterCardsInDB(Board game) throws SQLException {
+		// TODO code should be more defensive
+		PreparedStatement ps = getSelectCardInPlayersRegisterStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		for (int i = 0; i < game.getPlayersNumber(); i++) {
+			Player player = game.getPlayer(i);
+			for(int j=0; j<5; j++) {
+				rs.moveToInsertRow();
+				rs.updateInt(PLAYER_GAMEID, game.getGameId());
+				rs.updateInt(PLAYER_PLAYERID, i);
+				rs.updateInt(CARDINPLAYERSREGISTER_REGISTERNO, j);
+				rs.updateInt(CARDINPLAYERSREGISTER_CARDVALUE, game.getPlayer(i).getProgramField(j).getCard().command.value);
+				rs.insertRow();
+			}
+		}
+		rs.close();
+	}
 	
 	private void loadPlayersFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersASCStatement();
@@ -502,6 +525,27 @@ class Repository implements IRepository {
 			}
 		}
 		return select_cardInPlayersHand_stmt;
+	}
+
+	private static final String SQL_SELECT_CARDINPLAYERSREGISTER =
+			"SELECT * FROM CardInPlayersRegister WHERE gameID = ?";
+
+	private PreparedStatement select_cardInPlayersRegister_stmt = null;
+
+	private PreparedStatement getSelectCardInPlayersRegisterStatementU() {
+		if (select_cardInPlayersRegister_stmt == null) {
+			Connection connection = connector.getConnection();
+			try {
+				select_cardInPlayersRegister_stmt = connection.prepareStatement(
+						SQL_SELECT_CARDINPLAYERSREGISTER,
+						ResultSet.TYPE_FORWARD_ONLY,
+						ResultSet.CONCUR_UPDATABLE);
+			} catch (SQLException e) {
+				// TODO error handling
+				e.printStackTrace();
+			}
+		}
+		return select_cardInPlayersRegister_stmt;
 	}
 
 	private static final String SQL_SELECT_PLAYERS_ASC =

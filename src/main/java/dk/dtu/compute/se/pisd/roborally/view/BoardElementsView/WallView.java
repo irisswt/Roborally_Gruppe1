@@ -11,13 +11,12 @@ import javafx.scene.shape.StrokeLineCap;
 
 public class WallView {
     public static void drawWall(SpaceView spaceView, Space space) {
-        Wall tempSpace = (Wall) space;
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setStroke(Color.YELLOW);
         gc.setLineWidth(5);
         gc.setLineCap(StrokeLineCap.ROUND);
-        for (Heading x : tempSpace.getHeading()) {
+        for (Heading x : space.getWalls()) {
             switch (x) {
                 case SOUTH:
                     gc.strokeLine(2, SpaceView.SPACE_HEIGHT - 2, SpaceView.SPACE_WIDTH - 2, SpaceView.SPACE_HEIGHT - 2);

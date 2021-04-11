@@ -22,17 +22,16 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
+import dk.dtu.compute.se.pisd.roborally.controller.CheckpointController;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.view.BoardElementsView.*;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 
@@ -106,11 +105,9 @@ public class SpaceView extends StackPane implements ViewObserver {
      */
     @Override
     public void updateView(Subject subject) {
+        updatePlayer();
+        for (FieldAction x : space.getActions())
         if (subject == this.space) {
-            updatePlayer();
-            if(this.space instanceof Wall){
-                WallView.drawWall(this,space);
-            }
             if (this.space instanceof PushPanel) {
                 PushPanelView.drawPushPanel(this,space);
             }
@@ -120,9 +117,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             if(this.space instanceof  Laser){
                 LaserView.drawLaser(this,space);
             }
-            if(this.space instanceof Checkpoint){
-                CheckpointView.drawCheckpoint(this,space);
-            }
+                if (x instanceof CheckpointController) {
+                    CheckpointView.drawCheckpoint(this, x);
+                }
             if(this.space instanceof RebootTokens){
                 RebootTokensView.drawRebootTokens(this,space);
             }
@@ -132,9 +129,16 @@ public class SpaceView extends StackPane implements ViewObserver {
             if(this.space instanceof Pit){
                 PitView.drawPit(this,space);
             }
-            if(this.space instanceof ConveyorBelt){
-                ConveyorBeltView.drawConveyorBeltView(this,space);
+            if(x instanceof ConveyorBelt){
+                ConveyorBeltView.drawConveyorBeltView(this,x);
             }
+
+            if(this.space.getWalls().size() > 0){
+                WallView.drawWall(this,space);
             }
+
+
+            }
+
         }
     }

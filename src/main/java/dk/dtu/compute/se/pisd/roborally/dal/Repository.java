@@ -242,6 +242,7 @@ class Repository implements IRepository {
 			game.setGameId(id);			
 			loadPlayersFromDB(game);
 			loadCardsInPlayersHandFromDB(game);
+			loadCardsInPlayersRegisterFromDB(game);
 
 			if (playerNo >= 0 && playerNo < game.getPlayersNumber()) {
 				game.setCurrentPlayer(game.getPlayer(playerNo));
@@ -377,25 +378,30 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
-	/**
-	 * HJÆLP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	 */
 	private void loadCardsInPlayersHandFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersHandStatementU();
 		ps.setInt(1, game.getGameId());
-
 		ResultSet rs = ps.executeQuery();
 		Command[] commands = Command.values();
-		System.out.println(game.getPlayersNumber());
-		System.out.println(game.getGameId());
-		
 		while (rs.next()) {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
-			System.out.println("Current player id:"+playerId);
 			int cardValue = rs.getInt(CARDINPLAYERSHAND_CARDVALUE)-1;
 			int cardNumber = rs.getInt(CARDINPLAYERSHAND_CARDNO);
-			System.out.println("Current card value:"+cardValue);
 			game.getPlayer(playerId).getCardField(cardNumber).setCard(new CommandCard(commands[cardValue]));
+		}
+		rs.close();
+	}
+
+	private void loadCardsInPlayersRegisterFromDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardInPlayersRegisterStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		Command[] commands = Command.values();
+		while (rs.next()) {
+			int playerId = rs.getInt(PLAYER_PLAYERID);
+			int cardValue = rs.getInt(CARDINPLAYERSREGISTER_CARDVALUE)-1;
+			int registerNumber = rs.getInt(CARDINPLAYERSREGISTER_REGISTERNO);
+			game.getPlayer(playerId).getProgramField(registerNumber).setCard(new CommandCard(commands[cardValue]));
 		}
 		rs.close();
 	}

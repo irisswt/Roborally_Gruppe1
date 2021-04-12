@@ -121,26 +121,28 @@ public class AppController implements Observer {
 // Traditional way to get the response value.
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
+            gameController.board.setName(result.get());
+            List<GameInDB> gameIDs = RepositoryAccess.getRepository().getGames();
+
+
+
+            for(GameInDB gameID : gameIDs){
+                if(gameController.board.getGameId() != null) {
+                    if (gameID.id == gameController.board.getGameId()) {
+                        isSame = true;
+                    }
+                }
+            }
+            if(isSame){
+                RepositoryAccess.getRepository().updateGameInDB(gameController.board);
+            }
+            else{
+                RepositoryAccess.getRepository().createGameInDB(gameController.board);
+            }
         }
 
 // The Java 8 way to get the response value (with lambda expression).
-        List<GameInDB> gameIDs = RepositoryAccess.getRepository().getGames();
 
-        gameController.board.setName(result.get());
-
-        for(GameInDB gameID : gameIDs){
-            if(gameController.board.getGameId() != null) {
-                if (gameID.id == gameController.board.getGameId()) {
-                    isSame = true;
-                }
-            }
-        }
-        if(isSame){
-            RepositoryAccess.getRepository().updateGameInDB(gameController.board);
-        }
-        else{
-            RepositoryAccess.getRepository().createGameInDB(gameController.board);
-        }
 
     }
 

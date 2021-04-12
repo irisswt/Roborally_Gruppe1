@@ -42,12 +42,12 @@ CREATE TABLE IF NOT EXISTS CardInPlayersHand (
 );;
 
 CREATE TABLE IF NOT EXISTS CardInPlayersRegister (
-  GameID INT NOT NULL UNIQUE,
+  GameID INT NOT NULL,
   PlayerID TINYINT NOT NULL,
   RegisterNo INT,
   CardValue INT,
 
-  PRIMARY KEY(PlayerID, GameID,Registerno),
+  PRIMARY KEY(PlayerID, GameID,RegisterNo),
   FOREIGN KEY(gameID, playerID) REFERENCES Player(gameID, playerID)
 );;
 

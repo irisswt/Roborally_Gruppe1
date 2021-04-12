@@ -457,7 +457,12 @@ class Repository implements IRepository {
 				player = game.getPlayer(playerId);
 				for (int j = 0; j < 8; i++) {
 					rs.updateInt(CARDINPLAYERSHAND_CARDNO, j);
-					rs.updateInt(CARDINPLAYERSHAND_CARDVALUE, player.getCardField(j).getCard().command.value);
+					if(player.getCardField(j).getCard() != null) {
+						rs.updateInt(CARDINPLAYERSHAND_CARDVALUE, player.getCardField(j).getCard().command.value);
+					}
+					else{
+						rs.updateInt(CARDINPLAYERSHAND_CARDVALUE, -1);
+					}
 					rs.updateRow();
 				}
 			}
@@ -480,7 +485,12 @@ class Repository implements IRepository {
 				player = game.getPlayer(playerId);
 				for (int j = 0; j < 5; i++) {
 					rs.updateInt(CARDINPLAYERSREGISTER_REGISTERNO, j);
-					rs.updateInt(CARDINPLAYERSREGISTER_CARDVALUE, player.getProgramField(j).getCard().command.value);
+					if(player.getCardField(j).getCard() != null) {
+						rs.updateInt(CARDINPLAYERSREGISTER_CARDVALUE, player.getCardField(j).getCard().command.value);
+					}
+					else{
+						rs.updateInt(CARDINPLAYERSREGISTER_CARDVALUE, -1);
+					}
 					rs.updateRow();
 				}
 			}

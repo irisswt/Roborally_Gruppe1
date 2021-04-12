@@ -397,7 +397,7 @@ class Repository implements IRepository {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
 			int cardValue = rs.getInt(CARDINPLAYERSHAND_CARDVALUE)-1;
 			int cardNumber = rs.getInt(CARDINPLAYERSHAND_CARDNO);
-			if(cardValue == -1){}
+			if(cardValue < 0){}
 			else {
 				game.getPlayer(playerId).getCardField(cardNumber).setCard(new CommandCard(commands[cardValue]));
 			}
@@ -414,7 +414,7 @@ class Repository implements IRepository {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
 			int cardValue = rs.getInt(CARDINPLAYERSREGISTER_CARDVALUE)-1;
 			int registerNumber = rs.getInt(CARDINPLAYERSREGISTER_REGISTERNO);
-			if(cardValue == -1){}
+			if(cardValue < 0){}
 			else {
 				game.getPlayer(playerId).getProgramField(registerNumber).setCard(new CommandCard(commands[cardValue]));
 			}

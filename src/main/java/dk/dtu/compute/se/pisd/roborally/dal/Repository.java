@@ -326,7 +326,7 @@ class Repository implements IRepository {
 					rs.updateInt(CARDINPLAYERSHAND_CARDVALUE, game.getPlayer(i).getCardField(j).getCard().command.value);
 				}
 				else{
-					rs.updateInt(CARDINPLAYERSHAND_CARDVALUE, Types.NULL);
+					rs.updateInt(CARDINPLAYERSHAND_CARDVALUE, -1);
 				}
 				rs.insertRow();
 			}
@@ -350,7 +350,7 @@ class Repository implements IRepository {
 					rs.updateInt(CARDINPLAYERSREGISTER_CARDVALUE, game.getPlayer(i).getProgramField(j).getCard().command.value);
 				}
 				else{
-					rs.updateInt(CARDINPLAYERSREGISTER_CARDVALUE, Types.NULL);
+					rs.updateInt(CARDINPLAYERSREGISTER_CARDVALUE, -1);
 				}
 				rs.insertRow();
 			}
@@ -397,7 +397,10 @@ class Repository implements IRepository {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
 			int cardValue = rs.getInt(CARDINPLAYERSHAND_CARDVALUE)-1;
 			int cardNumber = rs.getInt(CARDINPLAYERSHAND_CARDNO);
-			game.getPlayer(playerId).getCardField(cardNumber).setCard(new CommandCard(commands[cardValue]));
+			if(cardValue == -1){}
+			else {
+				game.getPlayer(playerId).getCardField(cardNumber).setCard(new CommandCard(commands[cardValue]));
+			}
 		}
 		rs.close();
 	}
@@ -411,7 +414,10 @@ class Repository implements IRepository {
 			int playerId = rs.getInt(PLAYER_PLAYERID);
 			int cardValue = rs.getInt(CARDINPLAYERSREGISTER_CARDVALUE)-1;
 			int registerNumber = rs.getInt(CARDINPLAYERSREGISTER_REGISTERNO);
-			game.getPlayer(playerId).getProgramField(registerNumber).setCard(new CommandCard(commands[cardValue]));
+			if(cardValue == -1){}
+			else {
+				game.getPlayer(playerId).getProgramField(registerNumber).setCard(new CommandCard(commands[cardValue]));
+			}
 		}
 		rs.close();
 	}

@@ -21,9 +21,12 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * GameController contains the logic for the game. Is responsible for the logic behind taking a turn
@@ -51,13 +54,6 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space)  {
-        // TODO Assignment V1: method should be implemented by the students:
-        //   - the current player should be moved to the given space
-        //     (if it is free()
-        //   - and the current player should be set to the player
-        //     following the current player
-        //   - the counter of moves in the game should be increased by one
-        //     if the player is moved
         if(space.getPlayer() == null)
         {
             board.getCurrentPlayer().setSpace(space);
@@ -70,7 +66,6 @@ public class GameController {
      * This method is the start of the programming phase,
      * and fills each players programming field with programming cards.
      */
-    // XXX: V2
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -97,7 +92,6 @@ public class GameController {
      * A method to take a random card from an array created from the Command class enums.
      * @return a random generated CommandCard in-game known as a programming card
      */
-    // XXX: V2
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
@@ -109,7 +103,6 @@ public class GameController {
      * Will make the command/programming cards invisible in the GUI and set the phase to ACTIVATION instead of PROGRAMMING.
      * Sets the first register visible and the rest invisible
      */
-    // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -122,7 +115,6 @@ public class GameController {
      * Makes the current programming card that's being executed visible.
      * @param register the current register that needs to be made visible.
      */
-    // XXX: V2
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -137,7 +129,6 @@ public class GameController {
      * Method to make all registers empty in the GUI.
      * Is used in finishProgrammingPhase method.
      */
-    // XXX: V2
     private void makeProgramFieldsInvisible() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -151,7 +142,6 @@ public class GameController {
     /**
      * Executes all the cards in the registers.
      */
-    // XXX: V2
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
@@ -160,7 +150,6 @@ public class GameController {
     /**
      * Executes a single register.
      */
-    // XXX: V2
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
@@ -169,7 +158,6 @@ public class GameController {
     /**
      * Executes next card. Depending on the stepMode either runs a single time or continuously.
      */
-    // XXX: V2
     private void continuePrograms() {
         do {
             executeNextStep();
@@ -181,10 +169,10 @@ public class GameController {
      * Then it executes the current card in the register for the current player.
      * If the card has an interaction it will set the phase to PLAYER_INTERACTION.
      */
-    // XXX: V2 //TODO: here is endregistre
+    //TODO: here is end register
     private void executeNextStep() {
         try {
-            endRegistre(board.getCurrentPlayer());
+            endRegister(board.getCurrentPlayer());
         }catch(ImpossibleMoveException e){
 
         }
@@ -258,7 +246,6 @@ public class GameController {
      * @param player the player that needs to move
      * @param command command depending on the card chosen. Will dictate how the player will move.
      */
-    // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
@@ -300,7 +287,6 @@ public class GameController {
      * Method to move the player one field forward if nothing is occupying the space.
      * @param player the player that needs to move
      */
-    // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
         Heading heading = player.getHeading();
         Space target = board.getNeighbour(player.getSpace(), player.getHeading());
@@ -317,40 +303,71 @@ public class GameController {
 
     }
 
-    public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
-        Player other = space.getPlayer();
-        Boolean canmove = true;
+    /**
+     *
+     * @param player
+     * @param heading
+     * @return Boolean
+     * Checks if a move is possible in regard to tokens
+     *
+     */
+    public Boolean isMovePossible(Player player,Heading heading){
 
-        if (player.getSpace() instanceof Wall){
-            Heading[] wallHeadings = ((Wall) space).getHeading();
+        Space target = board.getNeighbour(player.getSpace(),heading);
+        List<Heading> wallHeadings = target.getWalls();
+        if(target != null){
+            if(!wallHeadings.isEmpty()){
+                for(Heading h: wallHeadings){
+                    if(h == heading.next().next()){
+                        return false;
+                    }
+                }
+            }
+        }else{
+            return false;
+        }
+
+
+        wallHeadings = player.getSpace().getWalls();
+        if(!wallHeadings.isEmpty()){
             for(Heading h: wallHeadings){
-                if (heading == h){
-                    canmove = false;
+                if(h == heading){
+                    return false;
                 }
             }
         }
+        return true;
+    }
 
-        if(other != null && canmove ){
+
+    /**
+     *
+     * @param player
+     * @param space
+     * @param heading
+     * @throws ImpossibleMoveException
+     * Checks if the player can move to desired space.
+     * If another player is on that space, it tries to move the second player before the first one.
+     * If a player cannot move, the impossible move exception is thrown
+     */
+    public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
+        Boolean canMove;
+        canMove = isMovePossible(player,heading);
+
+
+
+
+
+        if(space != null && canMove){
+            Player other = space.getPlayer();
             Space target = board.getNeighbour(space,heading);
-            if (target != null && !(target instanceof Wall)){
+            if(other != null){
                 moveToSpace(other, target, heading);
-            }else if(target instanceof Wall ){
-               Heading[] wallHeadings = ((Wall) space).getHeading();
-               for(Heading h: wallHeadings){
-                   if (heading.next().next() == h){
-                      canmove = false;
-                   }
-                }
-                if (canmove){
-                    moveToSpace(other,target,heading);
-                }
-
-            }else{
-                throw new ImpossibleMoveException(player,space,heading);
             }
-        }
-
             player.setSpace(space);
+        }else{
+            throw new ImpossibleMoveException(player,space,heading);
+        }
 
 
 
@@ -358,7 +375,7 @@ public class GameController {
     }
 
 
-    public void endRegistre(Player player) throws ImpossibleMoveException {
+    public void endRegister(Player player) throws ImpossibleMoveException {
 
 
             Space space = player.getSpace();
@@ -394,7 +411,6 @@ public class GameController {
      * Moves the player forward twice.
      * @param player the player that needs to move
      */
-    // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
         moveForward(player);
         moveForward(player);
@@ -413,7 +429,6 @@ public class GameController {
      * Turns the player right without moving them.
      * @param player the player that needs to move
      */
-    // TODO Assignment V2
     public void turnRight(@NotNull Player player) {
         player.setHeading(player.getHeading().next());
     }
@@ -422,7 +437,6 @@ public class GameController {
      * Turns the player left without moving them.
      * @param player the player that needs to move
      */
-    // TODO Assignment V2
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
     }
@@ -435,7 +449,7 @@ public class GameController {
         Heading heading = player.getHeading().next().next();
         Space target = board.getNeighbour(player.getSpace(), heading);
 
-        if(target!=null && target.getPlayer() == null)
+        if(target!=null)
         {
             try
             {

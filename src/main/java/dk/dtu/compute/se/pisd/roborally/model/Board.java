@@ -91,6 +91,11 @@ public class Board extends Subject {
         spaces[5][1] = new Checkpoint(this,5,1,"test",1);
         spaces[5][6] = new Checkpoint(this,5,6,"test",2);
         spaces[5][4] = new PushPanel(this,5,4,"test",Heading.NORTH);
+
+        spaces[3][3].getWalls().add(Heading.NORTH);
+
+        System.out.println("heading of wall:"+spaces[3][3].getWalls());
+
         this.stepMode = false;
     }
 

@@ -22,6 +22,10 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for the Spaces a board is made of.
@@ -38,6 +42,10 @@ public class Space extends Subject {
     public final int y;
 
     private Player player;
+
+    private List<Heading> walls = new ArrayList<>();
+    private List<FieldAction> actions = new ArrayList<>();
+
 
     /**
      * Constructor for Space.
@@ -78,6 +86,15 @@ public class Space extends Subject {
             }
             notifyChange();
         }
+    }
+
+
+    public List<Heading> getWalls() {
+        return walls;
+    }
+
+    public List<FieldAction> getActions() {
+        return actions;
     }
 
     void playerChanged() {

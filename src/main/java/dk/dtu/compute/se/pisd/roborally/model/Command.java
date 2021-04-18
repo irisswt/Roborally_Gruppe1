@@ -35,18 +35,19 @@ public enum Command {
 
     // This is a very simplistic way of realizing different commands.
 
-    FORWARD("Move 1 forward"),
-    RIGHT("Turn Right"),
-    LEFT("Turn Left"),
-    FAST_FORWARD("Move 2 forward"),
-    MOVE_THREE_FORWARD("Move 3 forward"),
-    U_TURN("Make a U-turn"),
-    BACKWARD("Move 1 backwards"),
-    AGAIN("Repeat programming of last register"),
+    FORWARD("Move 1 forward",1),
+    RIGHT("Turn Right",2),
+    LEFT("Turn Left",3),
+    FAST_FORWARD("Move 2 forward",4),
+    MOVE_THREE_FORWARD("Move 3 forward",5),
+    U_TURN("Make a U-turn",6),
+    BACKWARD("Move 1 backwards",7),
+    AGAIN("Repeat programming of last register",8),
     // XXX Assignment V3
-    OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
+    OPTION_LEFT_RIGHT("Left OR Right",9, LEFT, RIGHT);
 
     final public String displayName;
+    final public int value;
 
     // XXX Assignment V3
     // Command(String displayName) {
@@ -62,8 +63,9 @@ public enum Command {
      * @param displayName the name of the card
      * @param options the options the card offers.
      */
-    Command(String displayName, Command... options) {
+    Command(String displayName, int value, Command... options) {
         this.displayName = displayName;
+        this.value = value;
         this.options = Collections.unmodifiableList(Arrays.asList(options));
     }
 

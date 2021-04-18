@@ -20,6 +20,7 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.model;
+
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
@@ -32,8 +33,8 @@ import java.util.List;
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
 
 /**
- * A class for the gameboard itself.
- * Also keeps track of the number of players and the current one along with the phase for the game.
+ * A class for the gameboard itself. Also keeps track of the number of players
+ * and the current one along with the phase for the game.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
@@ -43,6 +44,16 @@ public class Board extends Subject {
     public final int width;
 
     public final int height;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String name;
 
     public final String boardName;
 
@@ -61,10 +72,11 @@ public class Board extends Subject {
     private boolean stepMode;
 
     /**
-     * Constructor for Board.
-     * If the boardName is included will create a custom board.
-     * @param width the width of the board.
-     * @param height the height of the board.
+     * Constructor for Board. If the boardName is included will create a custom
+     * board.
+     * 
+     * @param width     the width of the board.
+     * @param height    the height of the board.
      * @param boardName the custom/premade board name.
      */
     public Board(int width, int height, @NotNull String boardName) {
@@ -73,21 +85,26 @@ public class Board extends Subject {
         this.height = height;
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
-            for(int y = 0; y < height; y++) {
+            for (int y = 0; y < height; y++) {
                 Space space = new Space(this, x, y);
                 spaces[x][y] = space;
             }
         }
-        spaces[5][1] = new Checkpoint(this,5,1,"test",1);
-        spaces[5][6] = new Checkpoint(this,5,6,"test",2);
-        spaces[5][4] = new PushPanel(this,5,4,"test",Heading.NORTH);
-        spaces[6][6] = new Gear(this,6,6,"test");
+        spaces[5][1] = new Checkpoint(this, 5, 1, "test", 1);
+        spaces[5][6] = new Checkpoint(this, 5, 6, "test", 2);
+        spaces[5][4] = new PushPanel(this, 5, 4, "test", Heading.NORTH);
+
+        spaces[3][3].getWalls().add(Heading.NORTH);
+
+        System.out.println("heading of wall:" + spaces[3][3].getWalls());
+
         this.stepMode = false;
     }
 
     /**
      * Constructor for the board with overload. Made for a default board.
-     * @param width the width of the board.
+     * 
+     * @param width  the width of the board.
      * @param height the height of the board.
      */
     public Board(int width, int height) {
@@ -96,6 +113,7 @@ public class Board extends Subject {
 
     /**
      * Get method for gameId.
+     * 
      * @return gameId.
      */
     public Integer getGameId() {
@@ -114,13 +132,13 @@ public class Board extends Subject {
 
     /**
      * Get method for a space on a x/y coordinate.
+     * 
      * @param x the position on the horizontal axis
      * @param y the position on the vertical axis
      * @return the space object on the coordinates.
      */
     public Space getSpace(int x, int y) {
-        if (x >= 0 && x < width &&
-                y >= 0 && y < height) {
+        if (x >= 0 && x < width && y >= 0 && y < height) {
             return spaces[x][y];
         } else {
             return null;
@@ -129,6 +147,7 @@ public class Board extends Subject {
 
     /**
      * Get method for the number of players
+     * 
      * @return the number of players in int.
      */
     public int getPlayersNumber() {
@@ -137,6 +156,7 @@ public class Board extends Subject {
 
     /**
      * Adds a player to the arraylist of players. Updates the GUI.
+     * 
      * @param player the player being added.
      */
     public void addPlayer(@NotNull Player player) {
@@ -148,6 +168,7 @@ public class Board extends Subject {
 
     /**
      * Get method for a player object.
+     * 
      * @param i the number the player has.
      * @return the player object.
      */
@@ -161,6 +182,7 @@ public class Board extends Subject {
 
     /**
      * Get method for the current player.
+     * 
      * @return the current player object.
      */
     public Player getCurrentPlayer() {
@@ -169,6 +191,7 @@ public class Board extends Subject {
 
     /**
      * Set method for the current player. Also updates the GUI.
+     * 
      * @param player the player object that becomes the current player.
      */
     public void setCurrentPlayer(Player player) {
@@ -180,6 +203,7 @@ public class Board extends Subject {
 
     /**
      * Get method for the phase.
+     * 
      * @return the phase the game is in.
      */
     public Phase getPhase() {
@@ -188,6 +212,7 @@ public class Board extends Subject {
 
     /**
      * Set method for the phase and updates the GUI.
+     * 
      * @param phase the phase the game is going to be set in.
      */
     public void setPhase(Phase phase) {
@@ -199,6 +224,7 @@ public class Board extends Subject {
 
     /**
      * Get method for the step.
+     * 
      * @return the current step.
      */
     public int getStep() {
@@ -207,6 +233,7 @@ public class Board extends Subject {
 
     /**
      * Set method for the step. Also updates the GUI.
+     * 
      * @param step The new current step.
      */
     public void setStep(int step) {
@@ -218,6 +245,7 @@ public class Board extends Subject {
 
     /**
      * Get method for stepMode.
+     * 
      * @return stepMode
      */
     public boolean isStepMode() {
@@ -226,6 +254,7 @@ public class Board extends Subject {
 
     /**
      * Set method for stepMode. Also updates the GUI.
+     * 
      * @param stepMode if stepMode is on or off.
      */
     public void setStepMode(boolean stepMode) {
@@ -237,6 +266,7 @@ public class Board extends Subject {
 
     /**
      * Get method for the number of a player.
+     * 
      * @param player The player object that one wants to find the number of.
      * @return The players number. If no board exists returns a -1.
      */
@@ -250,50 +280,51 @@ public class Board extends Subject {
 
     /**
      * Returns the neighbour of the given space of the board in the given heading.
-     * The neighbour is returned only, if it can be reached from the given space
-     * (no walls or obstacles in either of the involved spaces); otherwise,
-     * null will be returned.
+     * The neighbour is returned only, if it can be reached from the given space (no
+     * walls or obstacles in either of the involved spaces); otherwise, null will be
+     * returned.
      *
-     * @param space the space for which the neighbour should be computed
+     * @param space   the space for which the neighbour should be computed
      * @param heading the heading of the neighbour
-     * @return the space in the given direction; null if there is no (reachable) neighbour
+     * @return the space in the given direction; null if there is no (reachable)
+     *         neighbour
      */
     public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
         int x = space.x;
         int y = space.y;
         switch (heading) {
-            case SOUTH:
-                if (y+1 < height) {
-                    y = (y + 1) % height;
-                    break;
-                }else{
-                    return null;
-                }
+        case SOUTH:
+            if (y + 1 < height) {
+                y = (y + 1) % height;
+                break;
+            } else {
+                return null;
+            }
 
-            case WEST:
-                if((x - 1) >= 0){
-                    x = (x + width - 1) % width;
-                    break;
-                }else{
-                    return null;
-                }
+        case WEST:
+            if ((x - 1) >= 0) {
+                x = (x + width - 1) % width;
+                break;
+            } else {
+                return null;
+            }
 
-            case NORTH:
+        case NORTH:
 
-                if ((y - 1) >= 0) {
-                    y = (y - 1) % height;
-                    break;
-                }else{
-                    return null;
-                }
+            if ((y - 1) >= 0) {
+                y = (y - 1) % height;
+                break;
+            } else {
+                return null;
+            }
 
-            case EAST:
-                if (( (x + 1)) < width) {
-                    x = (x + 1) % width;
-                    break;
-                }else{
-                    return null;
-                }
+        case EAST:
+            if (((x + 1)) < width) {
+                x = (x + 1) % width;
+                break;
+            } else {
+                return null;
+            }
         }
 
         return getSpace(x, y);
@@ -301,6 +332,7 @@ public class Board extends Subject {
 
     /**
      * Method to display a status message in the bottom of the window.
+     * 
      * @return the message to be displayed.
      */
     public String getStatusMessage() {
@@ -308,12 +340,10 @@ public class Board extends Subject {
         // the students, this method gives a string representation of the current
         // status of the game
 
-        // XXX: V2 changed the status so that it shows the phase, the player and the step
-        return "Phase: " + getPhase().name() +
-                ", Player = " + getCurrentPlayer().getName() +
-                ", Step: " + getStep()+
-                ", Checkpoint "+ getCurrentPlayer().getCheckpoint();
+        // XXX: V2 changed the status so that it shows the phase, the player and the
+        // step
+        return "Phase: " + getPhase().name() + ", Player = " + getCurrentPlayer().getName() + ", Step: " + getStep()
+                + ", Checkpoint " + getCurrentPlayer().getCheckpoint();
     }
-
 
 }

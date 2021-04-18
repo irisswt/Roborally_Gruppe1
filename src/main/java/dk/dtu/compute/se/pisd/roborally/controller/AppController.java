@@ -44,7 +44,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import java.io.File;
+import java.io.FileReader;
 
 /**
  * The controller for the application itself. Responsible for overall actions of
@@ -106,20 +111,30 @@ public class AppController implements Observer {
             // file
             // here we just create an empty board with the required number of players.
             if (boardResult.isPresent()) {
-                Board board = new Board(8, 8, boardResult.get());
-                gameController = new GameController(board);
-                int no = result.get();
-                for (int i = 0; i < no; i++) {
-                    Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                    board.addPlayer(player);
-                    player.setSpace(board.getSpace(i % board.width, i));
+
+                try {
+                    String path = "src/main/resources/boards/" + boardResult.get() + ".json";
+                    JsonElement obj = new JsonParser().parse(new FileReader(path));
+                    int width = obj.getAsJsonObject().get("width").getAsInt();
+                    int height = obj.getAsJsonObject().get("height").getAsInt();
+                    Board board = new Board(width, height, boardResult.get());
+                    gameController = new GameController(board);
+                    int no = result.get();
+                    for (int i = 0; i < no; i++) {
+                        Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                        board.addPlayer(player);
+                        player.setSpace(board.getSpace(i % board.width, i));
+                    }
+
+                    // XXX: V2
+                    // board.setCurrentPlayer(board.getPlayer(0));
+                    gameController.startProgrammingPhase();
+
+                    roboRally.createBoardView(gameController);
+                } catch (Exception e) {
+                    ;
                 }
 
-                // XXX: V2
-                // board.setCurrentPlayer(board.getPlayer(0));
-                gameController.startProgrammingPhase();
-
-                roboRally.createBoardView(gameController);
             }
         }
     }

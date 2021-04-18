@@ -22,19 +22,16 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.*;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.view.BoardElementsView.*;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
+
 
 /**
  * Class responsible for each Space GUI that a board is made of.
@@ -106,35 +103,36 @@ public class SpaceView extends StackPane implements ViewObserver {
      */
     @Override
     public void updateView(Subject subject) {
+        updatePlayer();
+        for (FieldAction action : space.getActions())
         if (subject == this.space) {
-            updatePlayer();
-            if(this.space instanceof Wall){
-                WallView.drawWall(this,space);
+            if (action instanceof PushPanel) {
+                PushPanelView.drawPushPanel(this,action);
             }
-            if (this.space instanceof PushPanel) {
-                PushPanelView.drawPushPanel(this,space);
+            if (action instanceof Gear) {
+                GearView.drawGear(this,action);
             }
-            if (this.space instanceof Gear) {
-                GearView.drawGear(this,space);
+            if(action instanceof Laser){
+                LaserView.drawLaser(this,action);
             }
-            if(this.space instanceof  Laser){
-                LaserView.drawLaser(this,space);
+                if (action instanceof Checkpoint) {
+                    CheckpointView.drawCheckpoint(this, action);
+                }
+            if(action instanceof RebootTokens){
+                RebootTokensView.drawRebootTokens(this,action);
             }
-            if(this.space instanceof Checkpoint){
-                CheckpointView.drawCheckpoint(this,space);
-            }
-            if(this.space instanceof RebootTokens){
-                RebootTokensView.drawRebootTokens(this,space);
-            }
-            if(this.space instanceof PriorityAntenna){
+            if(action instanceof PriorityAntenna){
                 PriorityAntennaView.drawPriorityAntenna(this,space);
             }
-            if(this.space instanceof Pit){
+            if(action instanceof Pit){
                 PitView.drawPit(this,space);
             }
-            if(this.space instanceof ConveyorBelt){
-                ConveyorBeltView.drawConveyorBeltView(this,space);
+            if(action instanceof ConveyorBelt){
+                ConveyorBeltView.drawConveyorBeltView(this,action);
             }
+
+
             }
+
         }
     }

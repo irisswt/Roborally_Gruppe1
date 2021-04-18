@@ -44,11 +44,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.io.File;
 
 /**
- * The controller for the application itself. Responsible for overall actions of
- * the application such as starting a new game or shutting down the application.
+ * The controller for the application itself.
+ * Responsible for overall actions of the application such as starting a new game or shutting down the application.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
@@ -64,7 +63,6 @@ public class AppController implements Observer {
 
     /**
      * The constructor for AppController.
-     * 
      * @param roboRally the GUI.
      */
     public AppController(@NotNull RoboRally roboRally) {
@@ -72,21 +70,15 @@ public class AppController implements Observer {
     }
 
     /**
-     * Method to start a new game. Will present a dropdown menu with number of
-     * players and create the chosen amount of players along with other elements
-     * required for the game to start such as a board and the GUI.
+     * Method to start a new game. Will present a dropdown menu with number of players
+     * and create the chosen amount of players along with other elements required for the game to start such as a board and the GUI.
      */
     public void newGame() {
-        File boardFolder = new File("src/main/resources/boards");
-        String[] fileNames = boardFolder.list();
-        String[] boardNames = new String[fileNames.length];
-        for (int i = 0; i < fileNames.length; i++) {
-            boardNames[i] = fileNames[i].replace(".json", "");
-        }
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
+
 
         if (result.isPresent()) {
             if (gameController != null) {
@@ -115,12 +107,11 @@ public class AppController implements Observer {
                     player.setSpace(board.getSpace(i % board.width, i));
                 }
 
-                // XXX: V2
-                // board.setCurrentPlayer(board.getPlayer(0));
-                gameController.startProgrammingPhase();
+            // XXX: V2
+            // board.setCurrentPlayer(board.getPlayer(0));
+            gameController.startProgrammingPhase();
 
-                roboRally.createBoardView(gameController);
-            }
+            roboRally.createBoardView(gameController);
         }
     }
 
@@ -134,27 +125,31 @@ public class AppController implements Observer {
         dialog.setHeaderText("Look, a Text Input Dialog");
         dialog.setContentText("Please enter your name:");
 
-        // Traditional way to get the response value.
+// Traditional way to get the response value.
         Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
+        if (result.isPresent()){
             gameController.board.setName(result.get());
             List<GameInDB> gameIDs = RepositoryAccess.getRepository().getGames();
 
-            for (GameInDB gameID : gameIDs) {
-                if (gameController.board.getGameId() != null) {
+
+
+            for(GameInDB gameID : gameIDs){
+                if(gameController.board.getGameId() != null) {
                     if (gameID.id == gameController.board.getGameId()) {
                         isSame = true;
                     }
                 }
             }
-            if (isSame) {
+            if(isSame){
                 RepositoryAccess.getRepository().updateGameInDB(gameController.board);
-            } else {
+            }
+            else{
                 RepositoryAccess.getRepository().createGameInDB(gameController.board);
             }
         }
 
-        // The Java 8 way to get the response value (with lambda expression).
+// The Java 8 way to get the response value (with lambda expression).
+
 
     }
 
@@ -165,23 +160,23 @@ public class AppController implements Observer {
         if (gameController == null) {
             GameInDB currentGame = null;
             List<GameInDB> gameIDs = RepositoryAccess.getRepository().getGames();
-            List<String> gameName = new ArrayList<String>();
-            for (GameInDB game : gameIDs) {
+            List<String>  gameName = new ArrayList<String>();
+            for(GameInDB game : gameIDs){
                 gameName.add(game.name);
             }
-            ChoiceDialog<String> dialog = new ChoiceDialog<>(gameName.get(0), gameName);
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(gameName.get(0),gameName);
 
             dialog.setTitle("Player number");
             dialog.setHeaderText("Select number of players");
             Optional<String> result = dialog.showAndWait();
             try {
-                for (GameInDB game : gameIDs) {
-                    if (game.name == result.get()) {
+                for(GameInDB game : gameIDs){
+                    if(game.name == result.get()){
                         currentGame = game;
                     }
-                }
+                 }
 
-                // todo same name
+                 //todo same name
                 gameController = new GameController(RepositoryAccess.getRepository().loadGameFromDB(currentGame.id));
 
                 roboRally.createBoardView(gameController);
@@ -194,11 +189,11 @@ public class AppController implements Observer {
     }
 
     /**
-     * Stop playing the current game, giving the user the option to save the game or
-     * to cancel stopping the game. The method returns true if the game was
-     * successfully stopped (with or without saving the game); returns false, if the
-     * current game was not stopped. In case there is no current game, false is
-     * returned.
+     * Stop playing the current game, giving the user the option to save
+     * the game or to cancel stopping the game. The method returns true
+     * if the game was successfully stopped (with or without saving the
+     * game); returns false, if the current game was not stopped. In case
+     * there is no current game, false is returned.
      *
      * @return true if the current game was stopped, false otherwise
      */
@@ -216,8 +211,8 @@ public class AppController implements Observer {
     }
 
     /**
-     * Method for the purpose of exiting the game/application. This will create an
-     * alert as a GUI element asking if the user wants to exit the game.
+     * Method for the purpose of exiting the game/application. This will create an alert
+     * as a GUI element asking if the user wants to exit the game.
      */
     public void exit() {
         if (gameController != null) {
@@ -240,12 +235,12 @@ public class AppController implements Observer {
 
     /**
      * Get method for the gameController object to see if it's null.
-     * 
      * @return the GameController object
      */
     public boolean isGameRunning() {
         return gameController != null;
     }
+
 
     @Override
     public void update(Subject subject) {

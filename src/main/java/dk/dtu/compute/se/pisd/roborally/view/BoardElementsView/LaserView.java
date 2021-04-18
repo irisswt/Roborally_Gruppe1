@@ -1,6 +1,8 @@
 package dk.dtu.compute.se.pisd.roborally.view.BoardElementsView;
 
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Laser;
+
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 import javafx.scene.canvas.Canvas;
@@ -9,8 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 
 public class LaserView {
-        public  static void drawLaser(SpaceView spaceView, Space space) {
-        Laser tempSpace = (Laser) space;
+        public  static void drawLaser(SpaceView spaceView, FieldAction fieldAction) {
+        Laser tempSpace = (Laser) fieldAction;
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setStroke(Color.YELLOW);

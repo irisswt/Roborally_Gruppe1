@@ -22,8 +22,11 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Gear;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Pit;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.*;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -41,7 +44,7 @@ public class GameController {
 
     /**
      * The constructor for GameController
-     * 
+     *
      * @param board the gameboard itself.
      */
     public GameController(@NotNull Board board) {
@@ -92,7 +95,7 @@ public class GameController {
     /**
      * A method to take a random card from an array created from the Command class
      * enums.
-     * 
+     *
      * @return a random generated CommandCard in-game known as a programming card
      */
     private CommandCard generateRandomCommandCard() {
@@ -117,7 +120,7 @@ public class GameController {
 
     /**
      * Makes the current programming card that's being executed visible.
-     * 
+     *
      * @param register the current register that needs to be made visible.
      */
     private void makeProgramFieldsVisible(int register) {
@@ -221,7 +224,7 @@ public class GameController {
     /**
      * Will execute the option chosen by a player and continue the game. Needs to be
      * adjusted later to remove duplicated code.
-     * 
+     *
      * @param option the option the player has chosen from the interactive card.
      */
     public void executeCommandOptionAndContinue(@NotNull Command option) {
@@ -247,7 +250,7 @@ public class GameController {
 
     /**
      * The actual logic for moving the players robot
-     * 
+     *
      * @param player  the player that needs to move
      * @param command command depending on the card chosen. Will dictate how the
      *                player will move.
@@ -293,7 +296,7 @@ public class GameController {
     /**
      * Method to move the player one field forward if nothing is occupying the
      * space.
-     * 
+     *
      * @param player the player that needs to move
      */
     public void moveForward(@NotNull Player player) {
@@ -320,8 +323,9 @@ public class GameController {
     public Boolean isMovePossible(Player player, Heading heading) {
 
         Space target = board.getNeighbour(player.getSpace(), heading);
-        List<Heading> wallHeadings = target.getWalls();
+
         if (target != null) {
+            List<Heading> wallHeadings = target.getWalls();
             if (!wallHeadings.isEmpty()) {
                 for (Heading h : wallHeadings) {
                     if (h == heading.next().next()) {
@@ -333,7 +337,7 @@ public class GameController {
             return false;
         }
 
-        wallHeadings = player.getSpace().getWalls();
+        List<Heading> wallHeadings = player.getSpace().getWalls();
         if (!wallHeadings.isEmpty()) {
             for (Heading h : wallHeadings) {
                 if (h == heading) {
@@ -366,16 +370,19 @@ public class GameController {
                 moveToSpace(other, target, heading);
             }
             player.setSpace(space);
-        } else {
-            throw new ImpossibleMoveException(player, space, heading);
+        }else{
+            throw new ImpossibleMoveException(player,space,heading);
         }
+
+
+
 
     }
 
     /**
      * Checks if a player is standing on a board-element, and makes it act
      * corresponding to said board-element
-     * 
+     *
      * @param player that needs to be checked
      * @throws ImpossibleMoveException if the player is going to make an illegal
      *                                 move
@@ -383,39 +390,69 @@ public class GameController {
 
     public void endRegister(Player player) throws ImpossibleMoveException {
 
-        Space space = player.getSpace();
 
-        if (space instanceof ConveyorBelt) {
-            for (int i = 0; i < ((ConveyorBelt) space).getSpeed(); i++) {
-                if (board.getNeighbour(space, ((ConveyorBelt) space).getHeading()).getPlayer() == null) {
-                    moveToSpace(player, board.getNeighbour(space, ((ConveyorBelt) space).getHeading()),
-                            ((ConveyorBelt) space).getHeading());
+        Space space = player.getSpace();
+        for (FieldAction action : space.getActions()) {
+            if (action instanceof ConveyorBelt)
+                for (int i = 0; i < ((ConveyorBelt) action).getSpeed(); i++) {
+                    Heading heading = ((ConveyorBelt) action).getHeading();
+                    Space target = board.getNeighbour(player.getSpace(), heading);
+                    if(target != null)
+                    {
+                        try
+                        {
+                            moveToSpace(player, target, heading);
+                        } catch (ImpossibleMoveException e){
+
+                        }
+
+                    }
+
+
+                    /*if (board.getNeighbour(space, ((ConveyorBelt) action).getHeading()).getPlayer() == null) {
+                        moveToSpace(player, board.getNeighbour(space, ((ConveyorBelt) action).getHeading()), ((ConveyorBelt) action).getHeading());
+                    }
+
+                     */
+
+                }
+
+        if (action instanceof PushPanel) {
+            Heading heading = ((PushPanel) action).getHeading();
+            Space target = board.getNeighbour(player.getSpace(), heading);
+            if(target != null)
+            {
+                try
+                {
+                    moveToSpace(player, target, heading);
+                } catch (ImpossibleMoveException e){
+
                 }
 
             }
 
         }
-        if (space instanceof PushPanel) {
-            moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()),
-                    ((PushPanel) space).getHeading());
-        }
 
-        if (space instanceof Pit) {
+
+        if (action instanceof Pit) {
 
         }
 
-        if (space instanceof Gear) {
+        if (action instanceof Gear) {
             Heading playerHeading = player.getHeading();
             player.setHeading(playerHeading.next());
         }
 
         space = player.getSpace();
         space.landOnSpace();
+        if (!space.getActions().isEmpty()) {
+            space.getActions().get(0).doAction(this, space);
+        }
+    }
     }
 
     /**
      * Moves the player forward twice.
-     * 
      * @param player the player that needs to move
      */
     public void fastForward(@NotNull Player player) {
@@ -425,7 +462,6 @@ public class GameController {
 
     /**
      * Moves the player three fields forward
-     * 
      * @param player the player that needs to move
      */
     public void moveThreeForward(@NotNull Player player) {
@@ -435,7 +471,6 @@ public class GameController {
 
     /**
      * Turns the player right without moving them.
-     * 
      * @param player the player that needs to move
      */
     public void turnRight(@NotNull Player player) {
@@ -444,7 +479,6 @@ public class GameController {
 
     /**
      * Turns the player left without moving them.
-     * 
      * @param player the player that needs to move
      */
     public void turnLeft(@NotNull Player player) {
@@ -453,17 +487,18 @@ public class GameController {
 
     /**
      * Moves the player one field backwards without turning around.
-     * 
      * @param player the player that needs to move
      */
     public void moveBackward(@NotNull Player player) {
         Heading heading = player.getHeading().next().next();
         Space target = board.getNeighbour(player.getSpace(), heading);
 
-        if (target != null) {
-            try {
+        if(target!=null)
+        {
+            try
+            {
                 moveToSpace(player, target, heading);
-            } catch (ImpossibleMoveException e) {
+            } catch (ImpossibleMoveException e){
 
             }
         }
@@ -471,7 +506,6 @@ public class GameController {
 
     /**
      * Turns the player around to face the opposite direction without moving.
-     * 
      * @param player the player that gets turned around
      */
     public void uTurn(@NotNull Player player) {
@@ -480,31 +514,31 @@ public class GameController {
 
     /**
      * Currently not working with interactive cards
-     * 
      * @param player
      */
-    public void again(@NotNull Player player) {
-        if (board.getStep() != 0) {
+    public void again(@NotNull Player player){
+        if(board.getStep()!=0){
             int i = board.getStep();
             int j = 0;
-            while (player.getProgramField(i).getCard().command == Command.AGAIN && board.getStep() != 0) {
+            while(player.getProgramField(i).getCard().command == Command.AGAIN && board.getStep() != 0){
                 i--;
                 j++;
             }
-            if (player.getProgramField(board.getStep() - j).getCard().command.isInteractive()) {
-                executeCommandOptionAndContinue(player.getProgramField(board.getStep() - j).getCard().command);
-            } else {
-                executeCommand(player, player.getProgramField(board.getStep() - j).getCard().command);
+            if(player.getProgramField(board.getStep()-j).getCard().command.isInteractive()){
+                executeCommandOptionAndContinue(player.getProgramField(board.getStep()-j).getCard().command);
+            }
+            else{
+                executeCommand(player, player.getProgramField(board.getStep()-j).getCard().command);
             }
 
         }
     }
 
+
+
     /**
-     * A method to move a card from on space to another. Is used in the programming
-     * phase to move cards from the players card field to the register and vice
-     * versa.
-     * 
+     * A method to move a card from on space to another.
+     * Is used in the programming phase to move cards from the players card field to the register and vice versa.
      * @param source Which field the card is placed on.
      * @param target The field the card is ending on.
      * @return a true if a card has been moved and a false if not.
@@ -522,8 +556,8 @@ public class GameController {
     }
 
     /**
-     * A method called when no corresponding controller operation is implemented
-     * yet. This should eventually be removed.
+     * A method called when no corresponding controller operation is implemented yet. This
+     * should eventually be removed.
      */
     public void notImplemented() {
         // XXX just for now to indicate that the actual method is not yet implemented

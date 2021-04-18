@@ -22,6 +22,9 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Gear;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PushPanel;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -86,6 +89,13 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
+        /*spaces[7][1].getActions().add(new Gear());
+        spaces[7][2].getActions().add(new PushPanel());
+        ((PushPanel)spaces[7][2].getActions().get(0)).setHeading(Heading.WEST);
+
+        LoadBoard.saveBoard(this,"fuck2");
+
+         */
         this.stepMode = false;
     }
 

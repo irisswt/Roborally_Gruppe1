@@ -31,7 +31,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
+
 
 /**
  * Class responsible for each Space GUI that a board is made of.
@@ -104,35 +104,31 @@ public class SpaceView extends StackPane implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         updatePlayer();
-        for (FieldAction x : space.getActions())
+        for (FieldAction action : space.getActions())
         if (subject == this.space) {
-            if (x instanceof PushPanel) {
-                PushPanelView.drawPushPanel(this,x);
+            if (action instanceof PushPanel) {
+                PushPanelView.drawPushPanel(this,action);
             }
-            if (x instanceof Gear) {
-                GearView.drawGear(this,x);
+            if (action instanceof Gear) {
+                GearView.drawGear(this,action);
             }
-            if(x instanceof Laser){
-                LaserView.drawLaser(this,x);
+            if(action instanceof Laser){
+                LaserView.drawLaser(this,action);
             }
-                if (x instanceof CheckpointController) {
-                    CheckpointView.drawCheckpoint(this, x);
+                if (action instanceof Checkpoint) {
+                    CheckpointView.drawCheckpoint(this, action);
                 }
-            if(this.space instanceof RebootTokens){
-                RebootTokensView.drawRebootTokens(this,space);
+            if(action instanceof RebootTokens){
+                RebootTokensView.drawRebootTokens(this,action);
             }
-            if(this.space instanceof PriorityAntenna){
+            if(action instanceof PriorityAntenna){
                 PriorityAntennaView.drawPriorityAntenna(this,space);
             }
-            if(this.space instanceof Pit){
+            if(action instanceof Pit){
                 PitView.drawPit(this,space);
             }
-            if(x instanceof ConveyorBelt){
-                ConveyorBeltView.drawConveyorBeltView(this,x);
-            }
-
-            if(this.space.getWalls().size() > 0){
-                WallView.drawWall(this,space);
+            if(action instanceof ConveyorBelt){
+                ConveyorBeltView.drawConveyorBeltView(this,action);
             }
 
 

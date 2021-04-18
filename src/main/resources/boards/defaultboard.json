@@ -204,7 +204,7 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.CheckpointController",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Checkpoint",
           "INSTANCE": {
             "checkpointnumber": 1
           }

@@ -1,7 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.view.BoardElementsView;
 
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.CheckpointController;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,7 +10,7 @@ import javafx.scene.shape.StrokeLineCap;
 
 public class CheckpointView {
     public static void drawCheckpoint(SpaceView spaceView, FieldAction fieldAction){
-        CheckpointController checpoint = (CheckpointController) fieldAction;
+        Checkpoint checpoint = (Checkpoint) fieldAction;
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_WIDTH);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setStroke(Color.YELLOW);

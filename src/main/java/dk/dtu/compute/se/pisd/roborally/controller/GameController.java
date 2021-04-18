@@ -23,9 +23,10 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Gear;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Pit;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.*;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -433,11 +434,11 @@ public class GameController {
         }
 
 
-        if (space instanceof Pit) {
+        if (action instanceof Pit) {
 
         }
 
-        if (space instanceof TCGear) {
+        if (action instanceof Gear) {
             Heading playerHeading = player.getHeading();
             player.setHeading(playerHeading.next());
         }

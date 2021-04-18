@@ -162,15 +162,21 @@ public class AppController implements Observer {
             dialog.setTitle("Player number");
             dialog.setHeaderText("Select number of players");
             Optional<String> result = dialog.showAndWait();
-            for(GameInDB game : gameIDs){
-               if(game.name == result.get()){
-                   currentGame = game;
-               }
-            }
-            //todo same name
-            gameController = new GameController(RepositoryAccess.getRepository().loadGameFromDB(currentGame.id));
+            try {
+                for(GameInDB game : gameIDs){
+                    if(game.name == result.get()){
+                        currentGame = game;
+                    }
+                 }
 
-            roboRally.createBoardView(gameController);
+                 //todo same name
+                gameController = new GameController(RepositoryAccess.getRepository().loadGameFromDB(currentGame.id));
+
+                roboRally.createBoardView(gameController);
+
+            } catch (Exception e) {
+                ;
+            }
 
         }
     }

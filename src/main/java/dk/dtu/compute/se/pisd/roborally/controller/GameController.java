@@ -374,33 +374,52 @@ public class GameController {
     public void endRegister(Player player) throws ImpossibleMoveException {
 
 
-            Space space = player.getSpace();
+        Space space = player.getSpace();
+        for (FieldAction action : space.getActions()) {
+            if (action instanceof ConveyorBelt)
+                for (int i = 0; i < ((ConveyorBelt) action).getSpeed(); i++) {
+                    Heading heading = ((ConveyorBelt) action).getHeading();
+                    Space target = board.getNeighbour(player.getSpace(), heading);
+                    if(target != null)
+                    {
+                        try
+                        {
+                            moveToSpace(player, target, heading);
+                        } catch (ImpossibleMoveException e){
 
-            if(space instanceof ConveyorBelt){
-                for(int i=0; i< ((ConveyorBelt) space).getSpeed(); i++){
-                    if(board.getNeighbour(space,((ConveyorBelt) space).getHeading()).getPlayer() == null){
-                        moveToSpace(player, board.getNeighbour(space,((ConveyorBelt) space).getHeading()),((ConveyorBelt) space).getHeading());
+                        }
+
                     }
+
+
+                    /*if (board.getNeighbour(space, ((ConveyorBelt) action).getHeading()).getPlayer() == null) {
+                        moveToSpace(player, board.getNeighbour(space, ((ConveyorBelt) action).getHeading()), ((ConveyorBelt) action).getHeading());
+                    }
+
+                     */
 
                 }
 
-            }
-            if(space instanceof PushPanel){
-                moveToSpace(player, board.getNeighbour(space,((PushPanel) space).getHeading()),((PushPanel) space).getHeading());
-            }
+        if (space instanceof PushPanel) {
+            moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()), ((PushPanel) space).getHeading());
+        }
 
 
-            if(space instanceof Pit){
+        if (space instanceof Pit) {
 
-            }
+        }
 
-            if(space instanceof Gear) {
-                Heading playerHeading = player.getHeading();
-                player.setHeading(playerHeading.next());
-            }
+        if (space instanceof Gear) {
+            Heading playerHeading = player.getHeading();
+            player.setHeading(playerHeading.next());
+        }
 
-            space = player.getSpace();
-            space.landOnSpace();
+        space = player.getSpace();
+        space.landOnSpace();
+        if (!space.getActions().isEmpty()) {
+            space.getActions().get(0).doAction(this, space);
+        }
+    }
     }
 
     /**

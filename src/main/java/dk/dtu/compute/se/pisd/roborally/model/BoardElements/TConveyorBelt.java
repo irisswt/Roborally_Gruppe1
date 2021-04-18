@@ -4,7 +4,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 
-public class ConveyorBelt extends BoardElement {
+public class TConveyorBelt extends BoardElement {
     /**
      * Constructor for Space.
      *
@@ -15,7 +15,7 @@ public class ConveyorBelt extends BoardElement {
      */
     int speed;
     Heading heading;
-    public ConveyorBelt(Board board, int x, int y, String description,int speed, Heading heading) {
+    public TConveyorBelt(Board board, int x, int y, String description, int speed, Heading heading) {
         super(board, x, y, description);
         this.speed = speed;
         this.heading = heading;

@@ -12,7 +12,6 @@ public class ConveyorBeltView {
     public static void drawConveyorBeltView(SpaceView spaceView, FieldAction fieldAction) {
         //TConveyorBelt tempSpace = (TConveyorBelt) space;
         ConveyorBelt tempcontroler = (ConveyorBelt) fieldAction;
-        spaceView.getChildren().clear();
 
             Polygon arrow = new Polygon(1.0, 1.0,
                     25.0, 50.0,

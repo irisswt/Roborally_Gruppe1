@@ -35,6 +35,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ConveyorBelt extends FieldAction {
 
+
+    private int speed;
+
     private Heading heading;
 
     public Heading getHeading() {
@@ -43,6 +46,15 @@ public class ConveyorBelt extends FieldAction {
 
     public void setHeading(Heading heading) {
         this.heading = heading;
+    }
+
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     @Override

@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import org.jetbrains.annotations.NotNull;
@@ -320,8 +321,9 @@ public class GameController {
     public Boolean isMovePossible(Player player, Heading heading) {
 
         Space target = board.getNeighbour(player.getSpace(), heading);
-        List<Heading> wallHeadings = target.getWalls();
+
         if (target != null) {
+            List<Heading> wallHeadings = target.getWalls();
             if (!wallHeadings.isEmpty()) {
                 for (Heading h : wallHeadings) {
                     if (h == heading.next().next()) {
@@ -333,7 +335,7 @@ public class GameController {
             return false;
         }
 
-        wallHeadings = player.getSpace().getWalls();
+        List<Heading> wallHeadings = player.getSpace().getWalls();
         if (!wallHeadings.isEmpty()) {
             for (Heading h : wallHeadings) {
                 if (h == heading) {
@@ -413,8 +415,8 @@ public class GameController {
 
                 }
 
-        if (space instanceof PushPanel) {
-            moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()), ((PushPanel) space).getHeading());
+        if (space instanceof TCPushPanel) {
+            moveToSpace(player, board.getNeighbour(space, ((TCPushPanel) space).getHeading()), ((TCPushPanel) space).getHeading());
         }
 
 

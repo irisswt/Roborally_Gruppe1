@@ -44,8 +44,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.io.File;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import java.io.File;
+import java.io.FileReader;
 /**
  * The controller for the application itself. Responsible for overall actions of
  * the application such as starting a new game or shutting down the application.
@@ -108,11 +112,7 @@ public class AppController implements Observer {
             if (boardResult.isPresent()) {
 
                 try {
-                    String path = "src/main/resources/boards/" + boardResult.get() + ".json";
-                    JsonElement obj = new JsonParser().parse(new FileReader(path));
-                    int width = obj.getAsJsonObject().get("width").getAsInt();
-                    int height = obj.getAsJsonObject().get("height").getAsInt();
-                    Board board = new Board(width, height, boardResult.get());
+                    Board board = LoadBoard.loadBoard(boardResult.get());
                     gameController = new GameController(board);
                     int no = result.get();
                     for (int i = 0; i < no; i++) {

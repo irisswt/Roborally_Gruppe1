@@ -106,11 +106,11 @@ public class AppController implements Observer {
 
             roboRally.createBoardView(gameController);
         }
+
     }
 
     public void saveGame() {
         // XXX needs to be implemented eventually
-        LoadBoard.saveBoard(gameController.board,"test");
         Boolean isSame = false;
 
         TextInputDialog dialog = new TextInputDialog("walter");

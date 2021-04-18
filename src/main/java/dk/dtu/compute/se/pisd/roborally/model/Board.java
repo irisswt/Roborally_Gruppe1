@@ -20,12 +20,8 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.model;
-import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.Laser;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

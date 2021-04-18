@@ -1,11 +1,12 @@
-package dk.dtu.compute.se.pisd.roborally.controller;
+package dk.dtu.compute.se.pisd.roborally.controller.FieldActions;
 
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
 
-public class CheckpointController extends FieldAction{
+public class CheckpointController extends FieldAction {
 
     private int checkpointnumber;
 
@@ -18,7 +19,7 @@ public class CheckpointController extends FieldAction{
     }
 
     @Override
-    public boolean doAction(@NotNull GameController gameController,@NotNull Space space) {
+    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         if(gameController.board.getCurrentPlayer().getCheckpoint() == 1-1){
             gameController.board.getCurrentPlayer().setCheckpoint(checkpointnumber);
         }

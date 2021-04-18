@@ -1,9 +1,8 @@
 package dk.dtu.compute.se.pisd.roborally.view.BoardElementsView;
 
-import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.model.BoardElements.TConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;

@@ -5,7 +5,7 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 /**
  * Class for the gear board element
  */
-public class Gear extends BoardElement {
+public class TCGear extends BoardElement {
     private Heading heading;
     /**
      * Constructor for Space.
@@ -15,7 +15,7 @@ public class Gear extends BoardElement {
      * @param y           the position on the vertical axis.
      * @param description
      */
-    public Gear(Board board, int x, int y, String description) {
+    public TCGear(Board board, int x, int y, String description) {
         super(board, x, y, description);
         this.canLandOn = true;
     }

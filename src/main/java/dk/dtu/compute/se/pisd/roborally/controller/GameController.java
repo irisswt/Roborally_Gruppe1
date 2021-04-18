@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.BoardElements.*;
 import org.jetbrains.annotations.NotNull;
@@ -409,7 +410,7 @@ public class GameController {
 
         }
 
-        if (space instanceof Gear) {
+        if (space instanceof TCGear) {
             Heading playerHeading = player.getHeading();
             player.setHeading(playerHeading.next());
         }

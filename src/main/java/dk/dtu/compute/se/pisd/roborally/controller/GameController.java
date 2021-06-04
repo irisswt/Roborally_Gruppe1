@@ -177,11 +177,7 @@ public class GameController {
      */
     // TODO: here is end register
     private void executeNextStep() {
-        try {
-            endRegister(board.getCurrentPlayer());
-        } catch (ImpossibleMoveException e) {
 
-        }
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -199,8 +195,15 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
+
+                    try {
+                        endRegister(board.getCurrentPlayer());
+                    } catch (ImpossibleMoveException e) {
+
+                    }                    
                     step++;
                     if (step < Player.NO_REGISTERS) {
+
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));

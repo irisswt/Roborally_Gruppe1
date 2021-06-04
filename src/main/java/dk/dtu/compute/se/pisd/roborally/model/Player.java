@@ -52,6 +52,12 @@ public class Player extends Subject {
 
     private int checkpoint = 0;
 
+    public ArrayList<CommandCard> cardPile = new ArrayList<>();
+    public ArrayList<CommandCard> discardPile = new ArrayList<>();
+
+
+    private double disToPri;
+
 
     public int getDamage() {
         return damage;
@@ -60,6 +66,15 @@ public class Player extends Subject {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+
+    public double getDisToPri() {
+        return disToPri;
+    }
+
+    public void setDisToPri(double disToPri) {
+        this.disToPri = disToPri;
+    }
+
 
     private int damage = 0;
 
@@ -73,6 +88,7 @@ public class Player extends Subject {
         this.board = board;
         this.name = name;
         this.color = color;
+
 
         this.space = null;
 

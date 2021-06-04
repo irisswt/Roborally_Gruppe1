@@ -35,6 +35,105 @@
       "y": 0
     },
     {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Pit",
+          "INSTANCE": {
+            "speed": 1,
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 6,
+      "y": 0
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PriorityAntenna",
+          "INSTANCE": {
+            "speed": 1,
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 7,
+      "y": 0
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.StartGear",
+          "INSTANCE": {
+            "speed": 1,
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 3,
+      "y": 0
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.StartGear",
+          "INSTANCE": {
+            "speed": 1,
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 4,
+      "y": 0
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.StartGear",
+          "INSTANCE": {
+            "speed": 1,
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 5,
+      "y": 0
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.StartGear",
+          "INSTANCE": {
+            "speed": 1,
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 4,
+      "y": 0
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Laser",
+          "INSTANCE": {
+            "laserType":"START",
+            "amountOFLaser": "1",
+            "headin":"WEST"
+          }
+        }
+      ],
+      "x": 3,
+      "y": 2
+    },
+    {
       "walls": [
         "WEST"
       ],

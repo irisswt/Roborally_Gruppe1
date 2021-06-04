@@ -136,6 +136,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             if(action instanceof ConveyorBelt){
                 ConveyorBeltView.drawConveyorBeltView(this,action);
             }
+            if(action instanceof StartGear){
+                startGearView.draw(this,action);
+            }
 
 
             }

@@ -26,11 +26,13 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Checkpoint;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PriorityAntenna;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.StartGear;
 import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -40,6 +42,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -110,17 +113,40 @@ public class AppController implements Observer {
             // file
             // here we just create an empty board with the required number of players.
             if (boardResult.isPresent()) {
+                ArrayList<Space> startfields = new ArrayList<>();
+                
 
                 try {
+                    Command[] commands = Command.values();
                     Board board = LoadBoard.loadBoard(boardResult.get());
                     gameController = new GameController(board);
+                    for(int i = 0; i<board.width;i++){
+                            for(int j = 0; j<board.height;j++){
+                                for(FieldAction action : board.getSpace(i,j).getActions()){
+                                    if(action instanceof StartGear){
+                                        startfields.add(board.getSpace(i,j));
+                                    }else if(action instanceof Checkpoint){
+                                        board.setCheckpoints(board.getCheckpoints()+1);
+                                    }else if(action instanceof PriorityAntenna){
+                                        board.setPriorityAntenna(board.getSpace(i,j));
+                                    }
+                                }
+                            }
+                        
+                    }
                     int no = result.get();
                     for (int i = 0; i < no; i++) {
                         Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
                         board.addPlayer(player);
-                        player.setSpace(board.getSpace(i % board.width, i));
+                        player.setSpace(startfields.get(i%startfields.size()));
+                        for(int j = 0; j<9;j++) {
+                            
+                            board.getPlayer(i).discardPile.add(new CommandCard(commands[j]));
+                            board.getPlayer(i).discardPile.add(new CommandCard(commands[j]));
+                        }
                     }
-
+                   
+                    
                     // XXX: V2
                     // board.setCurrentPlayer(board.getPlayer(0));
                     gameController.startProgrammingPhase();

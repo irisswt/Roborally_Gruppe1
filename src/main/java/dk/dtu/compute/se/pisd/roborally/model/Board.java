@@ -71,6 +71,28 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    private Space priorityAntenna;
+
+    public Space getPriorityAntenna() {
+        return priorityAntenna;
+    }
+
+    public void setPriorityAntenna(Space priorityAntenna) {
+        this.priorityAntenna = priorityAntenna;
+    }
+
+
+
+    public int getCheckpoints() {
+        return checkpoints;
+    }
+
+    public void setCheckpoints(int checkpoints) {
+        this.checkpoints = checkpoints;
+    }
+
+    private int checkpoints = 0;
+
     /**
      * Constructor for Board.
      * If the boardName is included will create a custom board.

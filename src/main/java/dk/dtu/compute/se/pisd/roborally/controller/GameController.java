@@ -29,6 +29,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +41,7 @@ import java.util.List;
 public class GameController {
 
     final public Board board;
+
 
     /**
      * The constructor for GameController
@@ -99,23 +101,33 @@ public class GameController {
      */
     private CommandCard generateRandomCommandCard(Player player) {
         Command[] commands = Command.values();
-        int random = (int) (Math.random() * commands.length);
-        if(player.getDamage() != 0){
+        int random = (int) (Math.random() * (commands.length-4));
+        if(player.getDamage() > 0){
           int damageCardsOnHand = 0;
             for(int i = 0; i<8; i++){
-                if(player.getCardField(i).getCard().command == Command.SPAM){
+                if(player.getCardField(i).getCard()==null){}
+                else if(player.getCardField(i).getCard().command == Command.SPAM){
                     damageCardsOnHand++;
                 }
             }
             if(damageCardsOnHand<player.getDamage()){
-            random = (int) (Math.random() * commands.length-3);
+            random = (int) (Math.random() * (commands.length-3));
             }
+
+        else{
+           random = (int) (Math.random() * (commands.length-4));
         }
-        else{          
-            random = (int) (Math.random() * commands.length-4);
         }
         return new CommandCard(commands[random]);
-    }
+
+
+    }/*
+
+        Command[] commands = Command.values();
+        int random = (int) (Math.random() * (commands.length-4));
+        return new CommandCard(commands[random]);
+    }*/
+
 
     /**
      * A method to declare the programming phase over. Will make the
@@ -300,8 +312,11 @@ public class GameController {
                 case AGAIN:
                     this.again(player);
                     break;
+                case SPAM:
+                    this.spam(player);
+                    break;
                 default:
-                    // DO NOTHING (for now)
+                    // DO NOTHING
             }
         }
     }
@@ -321,9 +336,7 @@ public class GameController {
             } catch (ImpossibleMoveException e) {
 
             }
-
         }
-
     }
 
     /**
@@ -432,21 +445,15 @@ public class GameController {
                     } catch (ImpossibleMoveException e) {
 
                     }
-
                 }
-
             }
-
-
             if (action instanceof Pit) {
 
             }
-
             if (action instanceof Gear) {
                 Heading playerHeading = player.getHeading();
                 player.setHeading(playerHeading.next());
             }
-
             space = player.getSpace();
             space.landOnSpace();
             if (!space.getActions().isEmpty()) {
@@ -543,6 +550,11 @@ public class GameController {
         }
     }
 
+    public void spam(@NotNull Player player){
+        Command[] commands = Command.values();
+        int random = (int) (Math.random() * (commands.length-4));
+        executeCommand(player, commands[random]);
+    }
 
 
     /**

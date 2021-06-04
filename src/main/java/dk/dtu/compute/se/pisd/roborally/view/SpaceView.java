@@ -27,10 +27,17 @@ import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.*;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.view.BoardElementsView.*;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 
 /**
@@ -63,13 +70,12 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMaxHeight(SPACE_HEIGHT);
 
         if ((space.x + space.y) % 2 == 0) {
-            this.setStyle("-fx-background-color: white;");
+           this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: #808080;");
         }
 
         // updatePlayer();
-
         // This space view should listen to changes of the space
         space.attach(this);
         update(space);
@@ -79,7 +85,7 @@ public class SpaceView extends StackPane implements ViewObserver {
      * Method to update GUI for a space if there's a player on that space.
      */
     private void updatePlayer() {
-        this.getChildren().clear();
+
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -102,8 +108,8 @@ public class SpaceView extends StackPane implements ViewObserver {
      * @param subject inherited from Subject attached to an observer.
      */
     @Override
-    public void updateView(Subject subject) {
-        updatePlayer();
+    public void updateView(Subject subject){
+        this.getChildren().clear();
         for (FieldAction action : space.getActions())
         if (subject == this.space) {
             if (action instanceof PushPanel) {
@@ -115,9 +121,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             if(action instanceof Laser){
                 LaserView.drawLaser(this,action);
             }
-                if (action instanceof Checkpoint) {
-                    CheckpointView.drawCheckpoint(this, action);
-                }
+            if (action instanceof Checkpoint) {
+                CheckpointView.drawCheckpoint(this, action);
+            }
             if(action instanceof RebootTokens){
                 RebootTokensView.drawRebootTokens(this,action);
             }
@@ -133,6 +139,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
             }
+        updatePlayer();
 
         }
     }

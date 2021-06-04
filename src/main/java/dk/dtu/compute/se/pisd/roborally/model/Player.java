@@ -50,6 +50,17 @@ public class Player extends Subject {
 
     private int checkpoint = 0;
 
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    private int damage = 0;
+
     /**
      * Constructor for Player.
      * @param board the board the player is playing on.

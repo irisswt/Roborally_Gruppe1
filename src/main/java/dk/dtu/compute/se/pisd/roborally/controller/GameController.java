@@ -36,7 +36,6 @@ import java.util.List;
  * behind taking a turn and the movement of the players robots.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
@@ -85,7 +84,7 @@ public class GameController {
                 }
                 for (int j = 0; j < Player.NO_CARDS; j++) {
                     CommandCardField field = player.getCardField(j);
-                    field.setCard(generateRandomCommandCard());
+                    field.setCard(generateRandomCommandCard(player));
                     field.setVisible(true);
                 }
             }
@@ -98,9 +97,23 @@ public class GameController {
      *
      * @return a random generated CommandCard in-game known as a programming card
      */
-    private CommandCard generateRandomCommandCard() {
+    private CommandCard generateRandomCommandCard(Player player) {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
+        if(player.getDamage() != 0){
+          int damageCardsOnHand = 0;
+            for(int i = 0; i<8; i++){
+                if(player.getCardField(i).getCard().command == Command.SPAM){
+                    damageCardsOnHand++;
+                }
+            }
+            if(damageCardsOnHand<player.getDamage()){
+            random = (int) (Math.random() * commands.length-3);
+            }
+        }
+        else{          
+            random = (int) (Math.random() * commands.length-4);
+        }
         return new CommandCard(commands[random]);
     }
 
@@ -263,32 +276,32 @@ public class GameController {
             // executed).
 
             switch (command) {
-            case FORWARD:
-                this.moveForward(player);
-                break;
-            case RIGHT:
-                this.turnRight(player);
-                break;
-            case LEFT:
-                this.turnLeft(player);
-                break;
-            case FAST_FORWARD:
-                this.fastForward(player);
-                break;
-            case MOVE_THREE_FORWARD:
-                this.moveThreeForward(player);
-                break;
-            case U_TURN:
-                this.uTurn(player);
-                break;
-            case BACKWARD:
-                this.moveBackward(player);
-                break;
-            case AGAIN:
-                this.again(player);
-                break;
-            default:
-                // DO NOTHING (for now)
+                case FORWARD:
+                    this.moveForward(player);
+                    break;
+                case RIGHT:
+                    this.turnRight(player);
+                    break;
+                case LEFT:
+                    this.turnLeft(player);
+                    break;
+                case FAST_FORWARD:
+                    this.fastForward(player);
+                    break;
+                case MOVE_THREE_FORWARD:
+                    this.moveThreeForward(player);
+                    break;
+                case U_TURN:
+                    this.uTurn(player);
+                    break;
+                case BACKWARD:
+                    this.moveBackward(player);
+                    break;
+                case AGAIN:
+                    this.again(player);
+                    break;
+                default:
+                    // DO NOTHING (for now)
             }
         }
     }
@@ -314,11 +327,9 @@ public class GameController {
     }
 
     /**
-     *
      * @param player
      * @param heading
      * @return Boolean Checks if a move is possible in regard to tokens
-     *
      */
     public Boolean isMovePossible(Player player, Heading heading) {
 
@@ -349,7 +360,6 @@ public class GameController {
     }
 
     /**
-     *
      * @param player
      * @param space
      * @param heading
@@ -370,11 +380,9 @@ public class GameController {
                 moveToSpace(other, target, heading);
             }
             player.setSpace(space);
-        }else{
-            throw new ImpossibleMoveException(player,space,heading);
+        } else {
+            throw new ImpossibleMoveException(player, space, heading);
         }
-
-
 
 
     }
@@ -397,12 +405,10 @@ public class GameController {
                 for (int i = 0; i < ((ConveyorBelt) action).getSpeed(); i++) {
                     Heading heading = ((ConveyorBelt) action).getHeading();
                     Space target = board.getNeighbour(player.getSpace(), heading);
-                    if(target != null)
-                    {
-                        try
-                        {
+                    if (target != null) {
+                        try {
                             moveToSpace(player, target, heading);
-                        } catch (ImpossibleMoveException e){
+                        } catch (ImpossibleMoveException e) {
 
                         }
 
@@ -417,42 +423,41 @@ public class GameController {
 
                 }
 
-        if (action instanceof PushPanel) {
-            Heading heading = ((PushPanel) action).getHeading();
-            Space target = board.getNeighbour(player.getSpace(), heading);
-            if(target != null)
-            {
-                try
-                {
-                    moveToSpace(player, target, heading);
-                } catch (ImpossibleMoveException e){
+            if (action instanceof PushPanel) {
+                Heading heading = ((PushPanel) action).getHeading();
+                Space target = board.getNeighbour(player.getSpace(), heading);
+                if (target != null) {
+                    try {
+                        moveToSpace(player, target, heading);
+                    } catch (ImpossibleMoveException e) {
+
+                    }
 
                 }
 
             }
 
+
+            if (action instanceof Pit) {
+
+            }
+
+            if (action instanceof Gear) {
+                Heading playerHeading = player.getHeading();
+                player.setHeading(playerHeading.next());
+            }
+
+            space = player.getSpace();
+            space.landOnSpace();
+            if (!space.getActions().isEmpty()) {
+                space.getActions().get(0).doAction(this, space);
+            }
         }
-
-
-        if (action instanceof Pit) {
-
-        }
-
-        if (action instanceof Gear) {
-            Heading playerHeading = player.getHeading();
-            player.setHeading(playerHeading.next());
-        }
-
-        space = player.getSpace();
-        space.landOnSpace();
-        if (!space.getActions().isEmpty()) {
-            space.getActions().get(0).doAction(this, space);
-        }
-    }
     }
 
     /**
      * Moves the player forward twice.
+     *
      * @param player the player that needs to move
      */
     public void fastForward(@NotNull Player player) {
@@ -462,6 +467,7 @@ public class GameController {
 
     /**
      * Moves the player three fields forward
+     *
      * @param player the player that needs to move
      */
     public void moveThreeForward(@NotNull Player player) {
@@ -471,6 +477,7 @@ public class GameController {
 
     /**
      * Turns the player right without moving them.
+     *
      * @param player the player that needs to move
      */
     public void turnRight(@NotNull Player player) {
@@ -479,6 +486,7 @@ public class GameController {
 
     /**
      * Turns the player left without moving them.
+     *
      * @param player the player that needs to move
      */
     public void turnLeft(@NotNull Player player) {
@@ -487,18 +495,17 @@ public class GameController {
 
     /**
      * Moves the player one field backwards without turning around.
+     *
      * @param player the player that needs to move
      */
     public void moveBackward(@NotNull Player player) {
         Heading heading = player.getHeading().next().next();
         Space target = board.getNeighbour(player.getSpace(), heading);
 
-        if(target!=null)
-        {
-            try
-            {
+        if (target != null) {
+            try {
                 moveToSpace(player, target, heading);
-            } catch (ImpossibleMoveException e){
+            } catch (ImpossibleMoveException e) {
 
             }
         }
@@ -506,6 +513,7 @@ public class GameController {
 
     /**
      * Turns the player around to face the opposite direction without moving.
+     *
      * @param player the player that gets turned around
      */
     public void uTurn(@NotNull Player player) {
@@ -514,20 +522,21 @@ public class GameController {
 
     /**
      * Currently not working with interactive cards
+     *
      * @param player
      */
-    public void again(@NotNull Player player){
-        if(board.getStep()!=0){
+
+    public void again(@NotNull Player player) {
+        if (board.getStep() != 0) {
             int i = board.getStep();
             int j = 0;
-            while(player.getProgramField(i).getCard().command == Command.AGAIN && board.getStep() != 0){
+            while (player.getProgramField(i).getCard().command == Command.AGAIN && board.getStep() != 0) {
                 i--;
                 j++;
             }
-            if(player.getProgramField(board.getStep()-j).getCard().command.isInteractive()){
-                executeCommandOptionAndContinue(player.getProgramField(board.getStep()-j).getCard().command);
-            }
-            else{
+            if (player.getProgramField(board.getStep() - j).getCard().command.isInteractive()) {
+                executeCommandOptionAndContinue(player.getProgramField(board.getStep() - j).getCard().command);
+            } else {
                 executeCommand(player, player.getProgramField(board.getStep()-j).getCard().command);
             }
 
@@ -539,6 +548,7 @@ public class GameController {
     /**
      * A method to move a card from on space to another.
      * Is used in the programming phase to move cards from the players card field to the register and vice versa.
+     *
      * @param source Which field the card is placed on.
      * @param target The field the card is ending on.
      * @return a true if a card has been moved and a false if not.

@@ -8,6 +8,7 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
  */
 public class PushPanel extends BoardElement {
     private Heading heading;
+    private int number;
     /**
      * Constructor for Space.
      *
@@ -26,4 +27,7 @@ public class PushPanel extends BoardElement {
         return heading;
     }
 
+    public int getNumber() {
+        return number;
+    }
 }

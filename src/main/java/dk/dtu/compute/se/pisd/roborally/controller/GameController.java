@@ -403,8 +403,11 @@ public class GameController {
 
         }
         if (space instanceof PushPanel) {
-            moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()),
-                    ((PushPanel) space).getHeading());
+            if (((PushPanel) space).getNumber() == board.getStep()){
+                moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()),
+                        ((PushPanel) space).getHeading());
+            }
+
         }
 
         if (space instanceof Pit) {

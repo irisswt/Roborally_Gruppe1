@@ -3,6 +3,8 @@ package dk.dtu.compute.se.pisd.roborally.model.BoardElements;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
+
+
 /**
  * Class for the push panel board element
  */
@@ -21,6 +23,7 @@ public class PushPanel extends BoardElement {
         super(board, x, y, description);
         this.heading = heading;
         this.canLandOn = true;
+        number =  (int)(Math.random() *  5);
     }
 
     public Heading getHeading(){

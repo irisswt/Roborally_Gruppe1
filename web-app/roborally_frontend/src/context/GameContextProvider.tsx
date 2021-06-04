@@ -3,7 +3,9 @@ import GameContext from "./GameContext"
 import { Player } from "../types/Player";
 import { Board } from "../types/Board";
 import { Space } from "../types/Space";
+import { Game } from "../types/Game";
 import GameApi from "../api/GameApi";
+import GamesComponent from "../components/GamesComponent";
 
 type GameContextProviderPropsType = {
     children: ReactNode
@@ -133,6 +135,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                 //}).catch(() => {
                 //    console.error("Games could not be loaded")
                 //})
+
             }
 
         }, 2000)
@@ -140,12 +143,45 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
         return () => clearInterval(interval)
     }
     )
-    // End copy
+
+
+    // Copied from "Live-møde_Uge 12_-20210503_131255-Meeting Recording.mp4"
+    const selectGame = useCallback(async (game: Game) => {
+        GameApi.getBoard(game.gameId).then(board => {
+            setSpaces(board.spaceDtos)
+            setPlayers(board.playerDtos)
+            setWidth(board.width)
+            setHeight(board.height)
+            setGameId(board.boardId)
+            setGameName(board.boardName)
+            if (board.currentPlayerDto) {
+                setCurrentPlayer(board.currentPlayerDto)
+                board.playerDtos.forEach((player, index) => {
+                    if (player.playerId === board.currentPlayerDto?.playerId) {
+                        setCurrentPlayerIndex(index)
+                    }
+                })
+
+            }
+
+            setLoaded(true)
+        }).catch(() => {
+            console.error("Error while fetching board from backend")
+        })
+    }, [])
+
+    const unselectGame = useCallback(async () => {
+        setLoaded(false);
+    }, [])
+
 
     return (
         <GameContext.Provider
             value={
                 {
+                    games: games,
+                    selectGame: selectGame,
+                    unselectGame: unselectGame,
                     loaded: loaded,
                     board: board,
                     setCurrentPlayerOnSpace: setPlayerOnSpace,

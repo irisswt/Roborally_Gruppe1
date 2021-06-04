@@ -32,3 +32,4 @@ hs_err_pid*
 
 # To avoid pushing react to the repo
 /web-app/roborally_frontend/node_modules/
+web-app/roborally_frontend/.eslintcache

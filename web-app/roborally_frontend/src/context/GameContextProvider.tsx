@@ -1,8 +1,8 @@
-import React, {ReactNode, useCallback, useEffect, useMemo, useState} from "react"
+import React, { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import GameContext from "./GameContext"
-import {Player} from "../types/Player";
-import {Board} from "../types/Board";
-import {Space} from "../types/Space";
+import { Player } from "../types/Player";
+import { Board } from "../types/Board";
+import { Space } from "../types/Space";
 import GameApi from "../api/GameApi";
 
 type GameContextProviderPropsType = {
@@ -10,7 +10,7 @@ type GameContextProviderPropsType = {
 }
 
 
-const GameContextProvider = ({children}: GameContextProviderPropsType) => {
+const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     const [loaded, setLoaded] = useState<boolean>(false)
     useEffect(() => {
         GameApi.getBoard(1).then(board => {
@@ -22,8 +22,8 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
             setGameName(board.boardName)
             if (board.currentPlayerDto) {
                 setCurrentPlayer(board.currentPlayerDto)
-                board.playerDtos.forEach((player,index)=>{
-                    if(player.playerId === board.currentPlayerDto?.playerId){
+                board.playerDtos.forEach((player, index) => {
+                    if (player.playerId === board.currentPlayerDto?.playerId) {
                         setCurrentPlayerIndex(index)
                     }
                 })
@@ -43,7 +43,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     const [players, setPlayers] = useState<Player[]>([])
     const playerCount = useMemo(() => players.length, [players])
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0)
-    const [currentPlayer, setCurrentPlayer] = useState<Player>({playerId : -1,playerColor:"red",boardId : -1,playerName : ""})
+    const [currentPlayer, setCurrentPlayer] = useState<Player>({ playerId: -1, playerColor: "red", boardId: -1, playerName: "" })
     const [spaces, setSpaces] = useState<Space[][]>([])
     const [width, setWidth] = useState<number>(0)
     const [height, setHeight] = useState<number>(0)
@@ -54,7 +54,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     const setPlayerOnSpace = useCallback(async (space: Space) => {
         //Check if space already has a player standing on it
         if (!space.playerId) {
-            await GameApi.moveCurrentPlayer(gameId, {...space, playerId: currentPlayer.playerId}).then(() => {
+            await GameApi.moveCurrentPlayer(gameId, { ...space, playerId: currentPlayer.playerId }).then(() => {
                 let tempSpaces = [...spaces] //Use spread operator to copy spaces array, needed for making immutable changes
                 //See https://bit.ly/2My8Bfz, until the section about Immutable.js
                 tempSpaces[space.x][space.y].playerId = currentPlayer.playerId //Set the player on the new space they clicked on
@@ -67,7 +67,7 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
                 tempPlayers[currentPlayerIndex].x = space.x; //Update the players array to reflect the changes
                 tempPlayers[currentPlayerIndex].y = space.y; //Update the players array to reflect the changes
                 setPlayers(tempPlayers)
-                setCurrentPlayer({...currentPlayer, x: space.x, y: space.y}) //Update current player
+                setCurrentPlayer({ ...currentPlayer, x: space.x, y: space.y }) //Update current player
 
             }).catch(() => {
                 console.error("Error while moving player")
@@ -78,13 +78,13 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
     }, [currentPlayer, currentPlayerIndex, gameId, players, spaces])
 
     const switchToNextPlayer = useCallback(async () => {
-        await GameApi.switchPlayer(gameId).then(()=>{
+        await GameApi.switchPlayer(gameId).then(() => {
             const newPlayerIndex = (currentPlayerIndex + 1) % playerCount
             console.log("old player index", currentPlayerIndex, "new player index", newPlayerIndex)
             setCurrentPlayer(players[newPlayerIndex])
             setCurrentPlayerIndex(newPlayerIndex)
-        }).catch(()=>console.error("Error while switching player"))
-        
+        }).catch(() => console.error("Error while switching player"))
+
     }, [currentPlayerIndex, gameId, playerCount, players])
     const board = useMemo<Board>(() => {
         return ({
@@ -99,6 +99,48 @@ const GameContextProvider = ({children}: GameContextProviderPropsType) => {
         })
     }, [currentPlayer, currentPlayerIndex, gameId, gameName, height, players, spaces, width])
 
+    // Copied from "Live-møde_Uge 13_-20210510_130431-Meeting Recording.mp4"
+    useEffect(() => {
+        const interval = setInterval(async () => {
+            if (loaded && gameId >= 0) {
+                GameApi.getBoard(1).then(board => {
+                    setSpaces(board.spaceDtos)
+                    setPlayers(board.playerDtos)
+                    setWidth(board.width)
+                    setHeight(board.height)
+                    setGameId(board.boardId)
+                    setGameName(board.boardName)
+                    if (board.currentPlayerDto) {
+                        setCurrentPlayer(board.currentPlayerDto)
+                        board.playerDtos.forEach((player, index) => {
+                            if (player.playerId === board.currentPlayerDto?.playerId) {
+                                setCurrentPlayerIndex(index)
+                            }
+                        })
+
+                    } else {
+                        console.error("Load outdated")
+                    }
+
+                    setLoaded(true)
+                }).catch(() => {
+                    console.error("Board could not be loaded")
+                })
+            } else {
+                // TODO: Implement things so this works?
+                //GameApi.getGames().then(games => {
+                //    setGames(games)
+                //}).catch(() => {
+                //    console.error("Games could not be loaded")
+                //})
+            }
+
+        }, 2000)
+
+        return () => clearInterval(interval)
+    }
+    )
+    // End copy
 
     return (
         <GameContext.Provider

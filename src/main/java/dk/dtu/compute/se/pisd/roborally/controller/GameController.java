@@ -22,10 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Gear;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Pit;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PushPanel;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.*;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,6 +38,8 @@ import java.util.List;
 public class GameController {
 
     final public Board board;
+
+    private Player[] playerOrder;
 
 
     /**
@@ -72,25 +71,47 @@ public class GameController {
      * programming field with programming cards.
      */
     public void startProgrammingPhase() {
+
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
-
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
-            Player player = board.getPlayer(i);
+        playerOrder = ((PriorityAntenna)board.getPriorityAntenna().getActions().get(0)).playerOrder(board,board.getPriorityAntenna().x,board.getPriorityAntenna().y);
+        for (Player currentPlayer : playerOrder) {
+            Player player = currentPlayer;
             if (player != null) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     CommandCardField field = player.getProgramField(j);
                     field.setCard(null);
                     field.setVisible(true);
                 }
-                for (int j = 0; j < Player.NO_CARDS; j++) {
-                    CommandCardField field = player.getCardField(j);
-                    field.setCard(generateRandomCommandCard(player));
-                    field.setVisible(true);
+                if(currentPlayer.cardPile.size()<Player.NO_CARDS) {
+
+                    shuffelCards(currentPlayer);
                 }
+                    for (int j = 0; j < Player.NO_CARDS; j++) {
+                        CommandCardField field = player.getCardField(j);
+                        field.setCard(currentPlayer.cardPile.get(j));
+                        field.setVisible(true);
+                    }
+
             }
         }
+        for(int i = 0 ; i < board.getPlayersNumber();i++){
+            if(board.getPlayer(i).getCheckpoint() >= board.getCheckpoints()){
+                this.board.setPhase(Phase.INITIALISATION);
+
+            }
+        }
+    }
+
+    private void shuffelCards( Player currentPlayer){
+        int runs =  currentPlayer.discardPile.size();
+        int random;
+        for(int i = 0; i < runs;i++) {
+            random = (int) (Math.random() * (currentPlayer.discardPile.size()));
+            currentPlayer.cardPile.add(currentPlayer.discardPile.remove(random));
+        }
+
     }
 
     /**
@@ -210,12 +231,16 @@ public class GameController {
         } catch (ImpossibleMoveException e) {
 
         }
-        Player currentPlayer = board.getCurrentPlayer();
+        Player currentPlayer = playerOrder[board.getPlayerNumber(board.getCurrentPlayer())];
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
+                    if(card.command.value<10) {
+                        currentPlayer.discardPile.add(card);
+                    }
+                    currentPlayer.cardPile.remove(card);
                     Command command = card.command;
                     if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
@@ -223,7 +248,7 @@ public class GameController {
                     }
                     executeCommand(currentPlayer, command);
                 }
-                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+                int nextPlayerNumber = board.getPlayerNumber(board.getCurrentPlayer()) + 1;
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
@@ -253,7 +278,7 @@ public class GameController {
      * @param option the option the player has chosen from the interactive card.
      */
     public void executeCommandOptionAndContinue(@NotNull Command option) {
-        Player currentPlayer = board.getCurrentPlayer();
+        Player currentPlayer = playerOrder[board.getPlayerNumber(board.getCurrentPlayer())];
         if (currentPlayer != null && board.getPhase() == Phase.PLAYER_INTERACTION && option != null) {
             board.setPhase(Phase.ACTIVATION);
             executeCommand(currentPlayer, option);
@@ -549,7 +574,7 @@ public class GameController {
 
         }
     }
-
+    //TODO skal ikke være random men det øverste kort
     public void spam(@NotNull Player player){
         Command[] commands = Command.values();
         int random = (int) (Math.random() * (commands.length-4));

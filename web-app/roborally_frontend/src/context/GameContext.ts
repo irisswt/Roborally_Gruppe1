@@ -9,6 +9,7 @@ export type GameContextType = {
     selectGame: (game: Game) => Promise<void>,
     unselectGame: () => Promise<void>
 
+    // Information of game
     loaded: boolean,
     board: Board,
     setCurrentPlayerOnSpace: (space: Space) => Promise<void>,
@@ -32,10 +33,8 @@ const GameContext = createContext<GameContextType>({
         height: 0,
         width: 0
     },
-    setCurrentPlayerOnSpace: async () => {
-    },
-    switchCurrentPlayer: async () => {
-    }
+    setCurrentPlayerOnSpace: async () => { },
+    switchCurrentPlayer: async () => { }
 });
 
 export default GameContext

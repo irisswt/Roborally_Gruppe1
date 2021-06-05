@@ -34,3 +34,5 @@ hs_err_pid*
 /web-app/roborally_frontend/node_modules/
 web-app/roborally_frontend/.eslintcache
 web-app/roborally_frontend/.eslintcache
+/web-app/.idea
+/web-app/roborally_backend/.idea

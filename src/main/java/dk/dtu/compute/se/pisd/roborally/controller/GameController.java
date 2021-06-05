@@ -467,6 +467,9 @@ public class GameController {
             }
 
         }
+        for(int j = 0; j<board.getPlayersNumber(); j++){
+            robotsAttack(board.getPlayer(j));
+        }
 
         /*if (board.getNeighbour(space, ((ConveyorBelt) action).getHeading()).getPlayer() == null) {
                         moveToSpace(player, board.getNeighbour(space, ((ConveyorBelt) action).getHeading()), ((ConveyorBelt) action).getHeading());
@@ -508,6 +511,63 @@ public class GameController {
 
          */
 
+    }
+
+    public void robotsAttack(@NotNull Player player){
+        if(player.getHeading()==Heading.EAST){
+            for(int i = player.getSpace().x; i<board.width; i++){
+                if(board.getSpace(i, player.getSpace().y).getPlayer() != null && board.getSpace(i, player.getSpace().y).getPlayer() != player){
+                    damagePlayersInHorizontalLine(player, i);
+                    break;
+                }
+                if(!player.getSpace().getWalls().isEmpty()){
+                    break;
+                }
+            }
+        }
+        if(player.getHeading()==Heading.WEST){
+            for(int i = player.getSpace().x; i>=0; i--){
+                if(board.getSpace(player.getSpace().x,i).getPlayer() != null && board.getSpace(i, player.getSpace().y).getPlayer() != player){
+                    damagePlayersInHorizontalLine(player, i);
+                    break;
+                }
+                if(!player.getSpace().getWalls().isEmpty()){
+                    break;
+                }
+            }
+        }
+        if(player.getHeading()==Heading.SOUTH){
+            for(int i = player.getSpace().y; i<board.height; i++){
+                if(board.getSpace(player.getSpace().x, i).getPlayer() != null && board.getSpace(player.getSpace().x, i).getPlayer() != player){
+                    damagePlayersInVerticalLine(player, i);
+                    break;
+                }
+                if(!player.getSpace().getWalls().isEmpty()){
+                    break;
+                }
+            }
+        }
+        if(player.getHeading()==Heading.NORTH){
+            for(int i = player.getSpace().y; i>=0; i--){
+                if(board.getSpace(player.getSpace().x,i).getPlayer() != null && board.getSpace(player.getSpace().x, i).getPlayer() != player){
+                    damagePlayersInVerticalLine(player, i);
+                    break;
+                }
+                if(!player.getSpace().getWalls().isEmpty()){
+                    break;
+                }
+            }
+        }
+    }
+
+    public void damagePlayersInVerticalLine(@NotNull Player player, int i){
+            board.getSpace(player.getSpace().x,i).getPlayer().setDamage(board.getSpace(player.getSpace().x, i).getPlayer().getDamage()+1);
+            board.getSpace(player.getSpace().x,i).getPlayer().discardPile.add(new CommandCard(Command.SPAM));
+    }
+
+    public void damagePlayersInHorizontalLine(@NotNull Player player, int i){
+        board.getSpace(i, player.getSpace().y).getPlayer().setDamage(board.getSpace(i, player.getSpace().y).getPlayer().getDamage()+1);
+        board.getSpace(i, player.getSpace().y).getPlayer().discardPile.add(new CommandCard(Command.SPAM));
     }
 
     /**

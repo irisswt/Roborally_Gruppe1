@@ -226,11 +226,7 @@ public class GameController {
      */
     // TODO: here is end register
     private void executeNextStep() {
-        try {
-            endRegister(board.getCurrentPlayer());
-        } catch (ImpossibleMoveException e) {
 
-        }
         Player currentPlayer = playerOrder[board.getPlayerNumber(board.getCurrentPlayer())];
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -462,7 +458,11 @@ public class GameController {
                 }
             }else if(action instanceof PushPanel){
                 if(((PushPanel) action).getNumber() == board.getStep()){
-                    moveToSpace(player,board.getNeighbour(space,((PushPanel) action).getHeading()),((PushPanel) action).getHeading());
+                    try {
+                        moveToSpace(player, board.getNeighbour(space, ((PushPanel) action).getHeading()), ((PushPanel) action).getHeading());
+                    }catch (ImpossibleMoveException e){
+
+                    }
                 }
             }
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GameControllerTest {
+class FieldActionsTest {
 
     private final int TEST_WIDTH = 8;
     private final int TEST_HEIGHT = 8;
@@ -29,6 +29,47 @@ class GameControllerTest {
     @AfterEach
     void tearDown() {
         gameController = null;
+    }
+
+    
+    @Test
+    void Checkpoint () {
+        Assertions.assertEquals(0, 0);
+    }
+
+    @Test
+    void ConveyorBelt () {
+        Assertions.assertEquals(0, 0);
+    }
+
+    @Test
+    void Gear () {
+        Assertions.assertEquals(0, 0);
+    }
+
+    @Test
+    void Laser () {
+        Assertions.assertEquals(0, 0);
+    }
+
+    @Test
+    void Pit () {
+        Assertions.assertEquals(0, 0);
+    }
+
+    @Test
+    void PriorityAntenna () {
+        Assertions.assertEquals(0, 0);
+    }
+
+    @Test
+    void PushPanel () {
+        Assertions.assertEquals(0, 0);
+    }
+
+    @Test
+    void RebootTokens () {
+        Assertions.assertEquals(0, 0);
     }
 
 }

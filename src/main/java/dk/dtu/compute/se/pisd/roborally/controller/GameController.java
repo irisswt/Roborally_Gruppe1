@@ -561,12 +561,12 @@ public class GameController {
     }
 
     public void damagePlayersInVerticalLine(@NotNull Player player, int i){
-            board.getSpace(player.getSpace().x,i).getPlayer().setDamage(board.getSpace(player.getSpace().x, i).getPlayer().getDamage()+1);
+        //board.getSpace(player.getSpace().x,i).getPlayer().setDamage(board.getSpace(player.getSpace().x, i).getPlayer().getDamage()+1);
             board.getSpace(player.getSpace().x,i).getPlayer().discardPile.add(new CommandCard(Command.SPAM));
     }
 
     public void damagePlayersInHorizontalLine(@NotNull Player player, int i){
-        board.getSpace(i, player.getSpace().y).getPlayer().setDamage(board.getSpace(i, player.getSpace().y).getPlayer().getDamage()+1);
+        //board.getSpace(i, player.getSpace().y).getPlayer().setDamage(board.getSpace(i, player.getSpace().y).getPlayer().getDamage()+1);
         board.getSpace(i, player.getSpace().y).getPlayer().discardPile.add(new CommandCard(Command.SPAM));
     }
 

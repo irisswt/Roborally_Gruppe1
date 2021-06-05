@@ -24,7 +24,13 @@ public class DataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws ServiceException, DaoException {
 
+        // TODO: Handle creating new game
+        // Maybe from link on website?
 
+
+
+
+        /*
         Board board = new Board(8, 8, "Board1");
         gameService.saveBoard(board);
         Player player = new Player(board, "blue", "Player1Name");
@@ -34,7 +40,9 @@ public class DataLoader implements ApplicationRunner {
         player = new Player(board, "green", "Player2Name");
         gameService.addPlayer(board.getGameId(), player);
         gameService.movePlayer(board, 4, 4, player.getPlayerId());
+         */
         /*gameService.switchCurrentPlayer(board);*/
+
 
     }
 }

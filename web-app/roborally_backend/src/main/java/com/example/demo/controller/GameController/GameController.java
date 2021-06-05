@@ -4,6 +4,7 @@ import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.MappingException;
 import com.example.demo.exceptions.ServiceException;
 import com.example.demo.model.Board;
+import com.example.demo.model.Game;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
 import com.example.demo.service.interfaces.IGameService;
@@ -113,6 +114,22 @@ public class GameController {
         gameService.switchCurrentPlayer(boardId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * Endpoint for creating a new game
+     *
+     * @param GameDto, a board dto describing the board we want to create
+     * @return id of the newly created board
+     */
+    @PostMapping("/game")
+    public ResponseEntity<Integer> createBoard(@RequestBody GameDto GameDto) throws ServiceException, DaoException {
+        Game game = dtoMapper.convertToEntity(GameDto);
+        int gameId = gameService.saveGame(game);
+        return new ResponseEntity<>(gameId, HttpStatus.CREATED);
+    }
+
+
+
 
 
 }

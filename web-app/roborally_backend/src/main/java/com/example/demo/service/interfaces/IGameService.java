@@ -4,6 +4,7 @@ import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.ServiceException;
 import com.example.demo.model.Board;
 import com.example.demo.model.Player;
+import com.example.demo.model.Game;
 
 
 public interface IGameService {
@@ -22,4 +23,6 @@ public interface IGameService {
     void movePlayer(Board board, int x, int y, int playerId) throws DaoException;
 
     void switchCurrentPlayer(int boardId) throws ServiceException, DaoException;
+
+    int saveGame(Game game) throws ServiceException, DaoException;
 }

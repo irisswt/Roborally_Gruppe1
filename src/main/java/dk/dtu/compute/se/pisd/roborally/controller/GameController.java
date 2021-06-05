@@ -280,41 +280,6 @@ public class GameController {
     }
 
     /**
-     *
-     * @param player
-     * @param heading
-     * @return Boolean Checks if a move is possible in regard to tokens
-     *
-     */
-    public Boolean isMovePossible(Player player, Heading heading) {
-
-        Space target = board.getNeighbour(player.getSpace(), heading);
-
-        if (target != null) {
-            List<Heading> wallHeadings = target.getWalls();
-            if (!wallHeadings.isEmpty()) {
-                for (Heading h : wallHeadings) {
-                    if (h == heading.next().next()) {
-                        return false;
-                    }
-                }
-            }
-        } else {
-            return false;
-        }
-
-        List<Heading> wallHeadings = player.getSpace().getWalls();
-        if (!wallHeadings.isEmpty()) {
-            for (Heading h : wallHeadings) {
-                if (h == heading) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
      * Checks if a player is standing on a board-element, and makes it act
      * corresponding to said board-element
      *

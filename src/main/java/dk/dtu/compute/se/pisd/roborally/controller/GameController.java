@@ -305,6 +305,7 @@ public class GameController {
 
                     }
 
+                    //FIXME: Delete if not used
                     /*
                      * if (board.getNeighbour(space, ((ConveyorBelt)
                      * action).getHeading()).getPlayer() == null) { moveToSpace(player,

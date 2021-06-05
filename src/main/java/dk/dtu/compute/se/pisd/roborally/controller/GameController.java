@@ -237,9 +237,7 @@ public class GameController {
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
-                    if(card.command.value<10) {
-                        currentPlayer.discardPile.add(card);
-                    }
+                    currentPlayer.discardPile.add(card);
                     currentPlayer.cardPile.remove(card);
                     Command command = card.command;
                     if (command.isInteractive()) {
@@ -574,11 +572,12 @@ public class GameController {
 
         }
     }
-    //TODO skal ikke være random men det øverste kort
+
     public void spam(@NotNull Player player){
-        Command[] commands = Command.values();
-        int random = (int) (Math.random() * (commands.length-4));
-        executeCommand(player, commands[random]);
+        player.discardPile.remove(player.discardPile.size());
+        CommandCard card = player.cardPile.remove(9);
+        player.discardPile.add(card);
+        executeCommand(player, card.command );
     }
 
 

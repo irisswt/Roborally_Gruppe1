@@ -425,7 +425,7 @@ public class GameController {
         } else {
             throw new ImpossibleMoveException(player, space, heading);
         }
-
+        checkForPit(player);
 
     }
 
@@ -509,7 +509,22 @@ public class GameController {
          */
 
     }
+    /**
+     * Checks if a player is standing on a pit, and punishes player if this is true
+     *
+     * @param player that needs to be checked
+     *
+     *
+     */
+    public void checkForPit(Player player){
+        Space space = player.getSpace();
+        for (FieldAction action : space.getActions()) {
+            if (action instanceof Pit){
+                player.resetCards();
+            }
+        }
 
+    }
     /**
      * Moves the player forward twice.
      *

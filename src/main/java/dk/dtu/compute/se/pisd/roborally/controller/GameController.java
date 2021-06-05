@@ -40,7 +40,7 @@ public class GameController {
     final public Board board;
 
     private Player[] playerOrder;
-
+    Phase lastPhase;
 
     /**
      * The constructor for GameController
@@ -58,11 +58,13 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
-        if (space.getPlayer() == null) {
-            board.getCurrentPlayer().setSpace(space);
+        if (space.getPlayer() == null && playerOrder[board.getPlayerNumber(board.getCurrentPlayer())].getInPit()) {
+            playerOrder[board.getPlayerNumber(board.getCurrentPlayer())].setSpace(space);
             board.setStep(board.getStep() + 1);
             board.setCurrentPlayer(
                     board.getPlayer((board.getPlayerNumber(board.getCurrentPlayer()) + 1) % board.getPlayersNumber()));
+            board.setPhase(lastPhase);
+            board.getCurrentPlayer().setInPit(false);
         }
     }
 
@@ -521,6 +523,9 @@ public class GameController {
         for (FieldAction action : space.getActions()) {
             if (action instanceof Pit){
                 player.resetCards();
+                lastPhase = board.getPhase();
+                board.setPhase(Phase.PLAYER_INTERACTION);
+
             }
         }
 

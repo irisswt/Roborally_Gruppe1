@@ -222,6 +222,7 @@ public class Player extends Subject {
     }
 
     public void resetCards(){
+        isInPit = true;
         for(CommandCardField cardField : cards){
             if (cardField.getCard() != null){
                 discardPile.add(cardField.getCard());

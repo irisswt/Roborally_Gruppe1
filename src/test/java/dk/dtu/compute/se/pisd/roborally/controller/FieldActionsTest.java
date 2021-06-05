@@ -1,5 +1,8 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Checkpoint;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Gear;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -31,44 +34,56 @@ class FieldActionsTest {
         gameController = null;
     }
 
-    
     @Test
-    void Checkpoint () {
+    void Checkpoint() {
+        Checkpoint checkpoint = new Checkpoint();
+        checkpoint.setCheckpointnumber(2);
+        checkpoint.doAction(gameController, gameController.board.getSpace(2, 2));
+        Assertions.assertEquals(2, gameController.board.getCurrentPlayer().getCheckpoint());
+    }
+
+    @Test
+    void ConveyorBelt() {
         Assertions.assertEquals(0, 0);
     }
 
     @Test
-    void ConveyorBelt () {
+    void Gear() {
+        FieldAction fieldAction;
+        fieldAction = new Gear();
+        Space space = gameController.board.getSpace(2, 2);
+        Player player = new Player(gameController.board, "green", "P");
+        space.setPlayer(player);
+        player.setHeading(Heading.SOUTH);
+        fieldAction.doAction(gameController, space);
+        Player playerOnSpace = space.getPlayer();
+        Assertions.assertEquals(Heading.WEST, playerOnSpace.getHeading());
+    }
+
+    @Test
+    void Laser() {
         Assertions.assertEquals(0, 0);
     }
 
     @Test
-    void Gear () {
+    void Pit() {
         Assertions.assertEquals(0, 0);
     }
 
     @Test
-    void Laser () {
+    void PriorityAntenna() {
         Assertions.assertEquals(0, 0);
     }
 
     @Test
-    void Pit () {
-        Assertions.assertEquals(0, 0);
+    void PushPanel() {
+        PushPanel pushPanel = new PushPanel();
+        pushPanel.setHeading(Heading.SOUTH);
+        Assertions.assertEquals(Heading.SOUTH, pushPanel.getHeading());
     }
 
     @Test
-    void PriorityAntenna () {
-        Assertions.assertEquals(0, 0);
-    }
-
-    @Test
-    void PushPanel () {
-        Assertions.assertEquals(0, 0);
-    }
-
-    @Test
-    void RebootTokens () {
+    void RebootTokens() {
         Assertions.assertEquals(0, 0);
     }
 

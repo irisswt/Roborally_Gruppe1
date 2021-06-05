@@ -10,11 +10,17 @@ public class PushPanel extends FieldAction {
         return heading;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     public void setHeading(Heading heading) {
         this.heading = heading;
     }
+    public void setNumber(int number){this.number = number;}
 
     private Heading heading;
+    private int number;
     @Override
     public boolean doAction(GameController gameController, Space space) {
         return false;

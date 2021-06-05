@@ -447,7 +447,7 @@ public class GameController {
 
         Space space = player.getSpace();
         for (FieldAction action : space.getActions()) {
-            if (action instanceof ConveyorBelt)
+            if (action instanceof ConveyorBelt){
                 for (int i = 0; i < ((ConveyorBelt) action).getSpeed(); i++) {
                     Heading heading = ((ConveyorBelt) action).getHeading();
                     Space target = board.getNeighbour(player.getSpace(), heading);
@@ -459,16 +459,20 @@ public class GameController {
                         }
 
                     }
+                }
+            }else if(action instanceof PushPanel){
+                if(((PushPanel) action).getNumber() == board.getStep()){
+                    moveToSpace(player,board.getNeighbour(space,((PushPanel) action).getHeading()),((PushPanel) action).getHeading());
+                }
+            }
 
+        }
 
-                    /*if (board.getNeighbour(space, ((ConveyorBelt) action).getHeading()).getPlayer() == null) {
+        /*if (board.getNeighbour(space, ((ConveyorBelt) action).getHeading()).getPlayer() == null) {
                         moveToSpace(player, board.getNeighbour(space, ((ConveyorBelt) action).getHeading()), ((ConveyorBelt) action).getHeading());
                     }
 
                      */
-
-                }
-        }
         /*if (space instanceof PushPanel) {
             if (((PushPanel) space).getNumber() == board.getStep()){
                 moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()),

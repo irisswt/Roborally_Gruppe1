@@ -345,7 +345,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PushPanel",
           "INSTANCE": {
-            "heading": "WEST"
+            "heading": "WEST",
+            "number": "2"
           }
         }
       ],

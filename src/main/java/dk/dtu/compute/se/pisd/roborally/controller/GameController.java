@@ -250,8 +250,18 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
+                    try {
+                        for (int i = 0; i < board.getPlayersNumber();i++){
+                            endRegister(board.getPlayer(i));
+                        }
+
+                    } catch (ImpossibleMoveException e) {
+
+                    }
+
                     step++;
                     if (step < Player.NO_REGISTERS) {
+
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
@@ -458,6 +468,12 @@ public class GameController {
                      */
 
                 }
+        }
+        if (space instanceof PushPanel) {
+            if (((PushPanel) space).getNumber() == board.getStep()){
+                moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()),
+                        ((PushPanel) space).getHeading());
+            }
 
             if (action instanceof PushPanel) {
                 Heading heading = ((PushPanel) action).getHeading();
@@ -466,6 +482,9 @@ public class GameController {
                     try {
                         moveToSpace(player, target, heading);
                     } catch (ImpossibleMoveException e) {
+        }
+
+        if (space instanceof Pit) {
 
                     }
                 }
@@ -507,7 +526,7 @@ public class GameController {
 
     /**
      * Turns the player right without moving them.
-     *
+     * 
      * @param player the player that needs to move
      */
     public void turnRight(@NotNull Player player) {
@@ -543,7 +562,7 @@ public class GameController {
 
     /**
      * Turns the player around to face the opposite direction without moving.
-     *
+     * 
      * @param player the player that gets turned around
      */
     public void uTurn(@NotNull Player player) {

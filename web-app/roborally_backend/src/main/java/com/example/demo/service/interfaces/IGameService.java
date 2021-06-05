@@ -25,4 +25,6 @@ public interface IGameService {
     void switchCurrentPlayer(int boardId) throws ServiceException, DaoException;
 
     int saveGame(Game game) throws ServiceException, DaoException;
+
+    Game getGame(int gameId) throws ServiceException, DaoException;
 }

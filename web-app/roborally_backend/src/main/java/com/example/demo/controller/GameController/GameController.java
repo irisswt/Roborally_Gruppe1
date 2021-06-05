@@ -118,14 +118,25 @@ public class GameController {
     /**
      * Endpoint for creating a new game
      *
-     * @param GameDto, a board dto describing the board we want to create
-     * @return id of the newly created board
+     * @param GameDto, a game dto describing the board we want to create
+     * @return id of the newly created game
      */
     @PostMapping("/game")
     public ResponseEntity<Integer> createBoard(@RequestBody GameDto GameDto) throws ServiceException, DaoException {
         Game game = dtoMapper.convertToEntity(GameDto);
         int gameId = gameService.saveGame(game);
         return new ResponseEntity<>(gameId, HttpStatus.CREATED);
+    }
+
+    /**
+     * Endpoint for getting game information
+     * @param gameId the id of the board we want to get
+     * @return the game with the associated gameId we provided
+     */
+    @GetMapping("/game/{gameId}")
+    public ResponseEntity<GameDto>  getGame(@PathVariable("gameId") int gameId) throws ServiceException, MappingException, DaoException {
+        Game game = gameService.getGame(gameId);
+        return new ResponseEntity<>(dtoMapper.convertToDto(game), HttpStatus.OK);
     }
 
 

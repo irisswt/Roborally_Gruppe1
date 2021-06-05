@@ -1,6 +1,9 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
 public class RobotController {
@@ -51,7 +54,7 @@ public class RobotController {
      */
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Boolean canMove;
-        canMove = gameController.isMovePossible(player, heading);
+        canMove = isMovePossible(player, heading);
 
         if (space != null && canMove) {
             Player other = space.getPlayer();
@@ -162,6 +165,41 @@ public class RobotController {
             board.setCurrentPlayer(
                     board.getPlayer((board.getPlayerNumber(board.getCurrentPlayer()) + 1) % board.getPlayersNumber()));
         }
+    }
+
+    /**
+     *
+     * @param player
+     * @param heading
+     * @return Boolean Checks if a move is possible in regard to tokens
+     *
+     */
+    public Boolean isMovePossible(Player player, Heading heading) {
+
+        Space target = board.getNeighbour(player.getSpace(), heading);
+
+        if (target != null) {
+            List<Heading> wallHeadings = target.getWalls();
+            if (!wallHeadings.isEmpty()) {
+                for (Heading h : wallHeadings) {
+                    if (h == heading.next().next()) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+
+        List<Heading> wallHeadings = player.getSpace().getWalls();
+        if (!wallHeadings.isEmpty()) {
+            for (Heading h : wallHeadings) {
+                if (h == heading) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }

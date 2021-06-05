@@ -469,7 +469,7 @@ public class GameController {
 
                 }
         }
-        if (space instanceof PushPanel) {
+        /*if (space instanceof PushPanel) {
             if (((PushPanel) space).getNumber() == board.getStep()){
                 moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()),
                         ((PushPanel) space).getHeading());
@@ -501,7 +501,9 @@ public class GameController {
             if (!space.getActions().isEmpty()) {
                 space.getActions().get(0).doAction(this, space);
             }
-        }
+
+         */
+
     }
 
     /**

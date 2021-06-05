@@ -7,7 +7,7 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 
 /**
  * Class for the push panel board element
- */
+
 public class PushPanel extends BoardElement {
     private Heading heading;
     private int number;
@@ -18,7 +18,7 @@ public class PushPanel extends BoardElement {
      * @param x           the position on the horizontal axis.
      * @param y           the position on the vertical axis.
      * @param description
-     */
+
     public PushPanel(Board board, int x, int y, String description, Heading heading) {
         super(board, x, y, description);
         this.heading = heading;
@@ -34,3 +34,5 @@ public class PushPanel extends BoardElement {
         return number;
     }
 }
+ */
+

@@ -39,6 +39,8 @@ public class GameController {
 
     final public Board board;
 
+    private int CurrentPlayerIndex;
+
     private Player[] playerOrder;
 
 
@@ -61,8 +63,8 @@ public class GameController {
         if (space.getPlayer() == null) {
             board.getCurrentPlayer().setSpace(space);
             board.setStep(board.getStep() + 1);
-            board.setCurrentPlayer(
-                    board.getPlayer((board.getPlayerNumber(board.getCurrentPlayer()) + 1) % board.getPlayersNumber()));
+            board.setCurrentPlayer(playerOrder[((CurrentPlayerIndex+1)%board.getPlayersNumber())]);
+            CurrentPlayerIndex++;
         }
     }
 
@@ -73,24 +75,25 @@ public class GameController {
     public void startProgrammingPhase() {
 
         board.setPhase(Phase.PROGRAMMING);
-        board.setCurrentPlayer(board.getPlayer(0));
-        board.setStep(0);
+        CurrentPlayerIndex = 0;
         playerOrder = ((PriorityAntenna)board.getPriorityAntenna().getActions().get(0)).playerOrder(board,board.getPriorityAntenna().x,board.getPriorityAntenna().y);
-        for (Player currentPlayer : playerOrder) {
-            Player player = currentPlayer;
+        board.setCurrentPlayer(playerOrder[CurrentPlayerIndex]);
+        board.setStep(0);
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
             if (player != null) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     CommandCardField field = player.getProgramField(j);
                     field.setCard(null);
                     field.setVisible(true);
                 }
-                if(currentPlayer.cardPile.size()<Player.NO_CARDS) {
+                if(board.getPlayer(i).cardPile.size()<Player.NO_CARDS) {
 
-                    shuffelCards(currentPlayer);
+                    shuffelCards(board.getPlayer(i));
                 }
                     for (int j = 0; j < Player.NO_CARDS; j++) {
                         CommandCardField field = player.getCardField(j);
-                        field.setCard(currentPlayer.cardPile.get(j));
+                        field.setCard(board.getPlayer(i).cardPile.get(j));
                         field.setVisible(true);
                     }
 
@@ -160,7 +163,8 @@ public class GameController {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
-        board.setCurrentPlayer(board.getPlayer(0));
+        CurrentPlayerIndex = 0;
+        board.setCurrentPlayer(playerOrder[CurrentPlayerIndex]);
         board.setStep(0);
     }
 
@@ -231,7 +235,7 @@ public class GameController {
         } catch (ImpossibleMoveException e) {
 
         }
-        Player currentPlayer = playerOrder[board.getPlayerNumber(board.getCurrentPlayer())];
+        Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
@@ -246,15 +250,16 @@ public class GameController {
                     }
                     executeCommand(currentPlayer, command);
                 }
-                int nextPlayerNumber = board.getPlayerNumber(board.getCurrentPlayer()) + 1;
-                if (nextPlayerNumber < board.getPlayersNumber()) {
-                    board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+                CurrentPlayerIndex++;
+                if (CurrentPlayerIndex < board.getPlayersNumber()) {
+                    board.setCurrentPlayer(playerOrder[CurrentPlayerIndex]);
                 } else {
                     step++;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
-                        board.setCurrentPlayer(board.getPlayer(0));
+                        CurrentPlayerIndex = 0;
+                        board.setCurrentPlayer(playerOrder[CurrentPlayerIndex]);
                     } else {
                         startProgrammingPhase();
                     }
@@ -276,19 +281,20 @@ public class GameController {
      * @param option the option the player has chosen from the interactive card.
      */
     public void executeCommandOptionAndContinue(@NotNull Command option) {
-        Player currentPlayer = playerOrder[board.getPlayerNumber(board.getCurrentPlayer())];
+        Player currentPlayer = board.getCurrentPlayer();
         if (currentPlayer != null && board.getPhase() == Phase.PLAYER_INTERACTION && option != null) {
             board.setPhase(Phase.ACTIVATION);
             executeCommand(currentPlayer, option);
-            int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-            if (nextPlayerNumber < board.getPlayersNumber()) {
-                board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+            CurrentPlayerIndex++;
+            if (CurrentPlayerIndex < board.getPlayersNumber()) {
+                board.setCurrentPlayer(playerOrder[CurrentPlayerIndex]);
             } else {
                 int step = board.getStep() + 1;
                 if (step < Player.NO_REGISTERS) {
                     makeProgramFieldsVisible(step);
                     board.setStep(step);
-                    board.setCurrentPlayer(board.getPlayer(0));
+                    CurrentPlayerIndex = 0;
+                    board.setCurrentPlayer(playerOrder[CurrentPlayerIndex]);
                 } else {
                     startProgrammingPhase();
                 }

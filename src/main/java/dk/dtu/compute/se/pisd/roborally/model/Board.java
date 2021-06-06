@@ -61,6 +61,9 @@ public class Board extends Subject {
 
     private final Space[][] spaces;
 
+
+    private Player[] playerList;
+
     private final List<Player> players = new ArrayList<>();
 
     private Player current;
@@ -81,7 +84,13 @@ public class Board extends Subject {
         this.priorityAntenna = priorityAntenna;
     }
 
+    public Player[] getPlayerList() {
+        return playerList;
+    }
 
+    public void setPlayerList(Player[] playerList) {
+        this.playerList = playerList;
+    }
 
     public int getCheckpoints() {
         return checkpoints;

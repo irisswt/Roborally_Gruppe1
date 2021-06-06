@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/*
+ * @author Niklas, s205454
+*/
+
 class RobotControllerTest {
 
     private final int TEST_WIDTH = 8;
@@ -14,6 +18,9 @@ class RobotControllerTest {
     private GameController gameController;
     private RobotController robotController;
 
+    /*
+    * Setting up test environment
+    */
     @BeforeEach
     void setUp() {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
@@ -27,13 +34,20 @@ class RobotControllerTest {
         }
         board.setCurrentPlayer(board.getPlayer(0));
     }
-
+    /*
+     * Restart test environment
+     */
     @AfterEach
     void tearDown() {
         gameController = null;
         robotController = null;
     }
 
+    /*
+     * Testing function moveCurrentPlayerToSpace()
+     * Moves player to specific space
+     * Checks if the player is placed on the new space
+     */
     @Test
     void moveCurrentPlayerToSpace() {
         Board board = gameController.board;
@@ -49,6 +63,11 @@ class RobotControllerTest {
                 "Current player should be " + player2.getName() + "!");
     }
 
+    /*
+     * Testing function moveBackward()
+     * Moves player backwards to new space
+     * Checks if the player is placed on the new space
+     */
     @Test
     void moveBackward() {
         Board board = gameController.board;
@@ -65,6 +84,11 @@ class RobotControllerTest {
         Assertions.assertNull(board.getSpace(0, 2).getPlayer(), "Space (0,2) should be empty!");
     }
 
+    /*
+     * Testing function moveForward()
+     * Moves player forward to new space
+     * Checks if the player is placed on the new space
+     */
     @Test
     void moveForward() throws ImpossibleMoveException {
         Board board = gameController.board;
@@ -82,6 +106,11 @@ class RobotControllerTest {
 
     }
 
+    /*
+     * Testing function fastForward()
+     * Moves player 2 times forward to new space
+     * Checks if the player is placed on the new space
+     */
     @Test
     void fastForward() {
         Board board = gameController.board;
@@ -95,6 +124,11 @@ class RobotControllerTest {
         Assertions.assertNull(board.getSpace(0, 0).getPlayer(), "Space (0,0) should be empty!");
     }
 
+    /*
+     * Testing function moveThreeForward()
+     * Moves player 3 times forward to new space
+     * Checks if the player is placed on the new space
+     */
     @Test
     void moveThreeForward() {
         Board board = gameController.board;
@@ -110,6 +144,11 @@ class RobotControllerTest {
         Assertions.assertNull(board.getSpace(0, 2).getPlayer(), "Space (0,2) should be empty!");
     }
 
+    /*
+     * Testing function turnRight()
+     * Changes players heading to the right
+     * Checks if the player heading is WEST
+     */
     @Test
     void turnRight() {
         Board board = gameController.board;
@@ -120,6 +159,11 @@ class RobotControllerTest {
 
     }
 
+    /*
+     * Testing function turnLeft()
+     * Changes players heading to the left
+     * Checks if the player heading is EAST
+     */
     @Test
     void turnLeft() {
         Board board = gameController.board;
@@ -130,6 +174,11 @@ class RobotControllerTest {
 
     }
 
+    /*
+     * Testing function uTurn()
+     * Changes players heading 180 degrees
+     * West should be East, North should be South, East should be West, South should be North
+     */
     @Test
     void uTurn() {
         Board board = gameController.board;

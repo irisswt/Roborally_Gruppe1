@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/*
+ * @author Niklas, s205454
+*/
+
 class GameControllerTest {
 
     private final int TEST_WIDTH = 8;
@@ -14,6 +18,9 @@ class GameControllerTest {
     private GameController gameController;
     private Board board;
 
+    /*
+     * Setting up test environment
+     */
     @BeforeEach
     void setUp() {
         board = new Board(TEST_WIDTH, TEST_HEIGHT);
@@ -27,11 +34,18 @@ class GameControllerTest {
         board.setCurrentPlayer(board.getPlayer(0));
     }
 
+    /*
+     * Restart test environment
+     */
     @AfterEach
     void tearDown() {
         gameController = null;
     }
 
+    /*
+     * Start programming phase
+     * Check if phase == PROGRAMMING and step == 0
+     */
     @Test
     void startProgrammingPhase() {
         gameController.startProgrammingPhase();
@@ -40,6 +54,10 @@ class GameControllerTest {
         Assertions.assertEquals(0, board.getStep());
     }
 
+    /*
+     * Finish programming phase
+     * Check if phase == ACTIVATION and step == 0
+     */
     @Test
     void finishProgrammingPhase() {
 

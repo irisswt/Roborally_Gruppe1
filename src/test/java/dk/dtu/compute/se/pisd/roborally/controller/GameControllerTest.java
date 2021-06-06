@@ -43,7 +43,7 @@ class GameControllerTest {
     @Test
     void finishProgrammingPhase() {
 
-        gameController.startProgrammingPhase();
+        gameController.finishProgrammingPhase();
 
         Assertions.assertEquals(Phase.ACTIVATION, board.getPhase());
         Assertions.assertEquals(0, board.getStep());

@@ -58,13 +58,23 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
-        if (space.getPlayer() == null && playerOrder[board.getPlayerNumber(board.getCurrentPlayer())].getInPit()) {
+        Player current = playerOrder[board.getPlayerNumber(board.getCurrentPlayer())];
+        if (space.getPlayer() == null && current != null && current.getInPit()) {
             playerOrder[board.getPlayerNumber(board.getCurrentPlayer())].setSpace(space);
             board.setStep(board.getStep() + 1);
             board.setCurrentPlayer(
                     board.getPlayer((board.getPlayerNumber(board.getCurrentPlayer()) + 1) % board.getPlayersNumber()));
-            board.setPhase(lastPhase);
             board.getCurrentPlayer().setInPit(false);
+        }
+
+        int step = board.getStep() + 1;
+        if (step < Player.NO_REGISTERS) {
+            board.setPhase(Phase.ACTIVATION);
+            makeProgramFieldsVisible(step);
+            board.setStep(step);
+            board.setCurrentPlayer(board.getPlayer(0));
+        } else {
+            startProgrammingPhase();
         }
     }
 

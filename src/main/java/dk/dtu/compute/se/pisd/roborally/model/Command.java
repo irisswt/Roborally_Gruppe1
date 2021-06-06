@@ -44,7 +44,12 @@ public enum Command {
     BACKWARD("Move 1 backwards",7),
     AGAIN("Repeat programming of last register",8),
     // XXX Assignment V3
-    OPTION_LEFT_RIGHT("Left OR Right",9, LEFT, RIGHT);
+    OPTION_LEFT_RIGHT("Left OR Right",9, LEFT, RIGHT),
+    SPAM("Play the top card of your programming deck this register", 10),
+    WORM("Immediately reboot your robot", 11),
+    TROJANHORSE("Immediately take 2 SPAM. Play the top card of your programming deck this register", 12),
+    VIRUS("Robots within a 6 space radius of your robot immediately take 1 SPAM. Play the top card of your programming deck this register", 13);
+
 
     final public String displayName;
     final public int value;

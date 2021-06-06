@@ -25,6 +25,8 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import javafx.application.Platform;
 
+import java.io.FileNotFoundException;
+
 /**
  * Observer which relays the View classes whenever there's an update.
  *

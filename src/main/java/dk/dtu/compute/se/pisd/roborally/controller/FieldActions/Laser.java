@@ -3,6 +3,8 @@ package dk.dtu.compute.se.pisd.roborally.controller.FieldActions;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
+import dk.dtu.compute.se.pisd.roborally.model.Command;
+import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
@@ -36,7 +38,7 @@ public class Laser extends FieldAction {
     @Override
     public boolean doAction(GameController gameController, Space space) {
         for(int i = 0;i<amountOFLaser;i++){
-            //draw damage card
+            space.getPlayer().discardPile.add(new CommandCard(Command.SPAM));
         }
         return false;
     }

@@ -24,6 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
@@ -50,6 +52,32 @@ public class Player extends Subject {
 
     private int checkpoint = 0;
 
+    public ArrayList<CommandCard> cardPile = new ArrayList<>();
+    public ArrayList<CommandCard> discardPile = new ArrayList<>();
+
+
+    private double disToPri;
+
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public double getDisToPri() {
+        return disToPri;
+    }
+
+    public void setDisToPri(double disToPri) {
+        this.disToPri = disToPri;
+    }
+
+
+    private int damage = 0;
+
     /**
      * Constructor for Player.
      * @param board the board the player is playing on.
@@ -60,6 +88,7 @@ public class Player extends Subject {
         this.board = board;
         this.name = name;
         this.color = color;
+
 
         this.space = null;
 

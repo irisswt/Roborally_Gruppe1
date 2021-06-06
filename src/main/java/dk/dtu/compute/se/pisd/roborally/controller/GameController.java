@@ -426,18 +426,22 @@ public class GameController {
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Boolean canMove;
         canMove = isMovePossible(player, heading);
-
-        if (space != null && canMove) {
-            Player other = space.getPlayer();
-            Space target = board.getNeighbour(space, heading);
-            if (other != null) {
-                moveToSpace(other, target, heading);
+        if (!player.getInPit()){
+            if (space != null && canMove) {
+                Player other = space.getPlayer();
+                Space target = board.getNeighbour(space, heading);
+                if (other != null) {
+                    moveToSpace(other, target, heading);
+                }
+                player.setSpace(space);
+            } else {
+                throw new ImpossibleMoveException(player, space, heading);
             }
-            player.setSpace(space);
-        } else {
-            throw new ImpossibleMoveException(player, space, heading);
+            checkForPit(player);
+        }else {
+            throw new ImpossibleMoveException(player,space,heading);
         }
-        checkForPit(player);
+
 
     }
 

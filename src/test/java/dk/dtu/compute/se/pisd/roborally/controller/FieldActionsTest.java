@@ -47,11 +47,23 @@ class FieldActionsTest {
      * Tesing doAction for Checkpoint
      */
     @Test
-    void Checkpoint() {
-        Checkpoint checkpoint = new Checkpoint();
-        checkpoint.setCheckpointnumber(2);
-        checkpoint.doAction(gameController, gameController.board.getSpace(2, 2));
-        Assertions.assertEquals(2, gameController.board.getCurrentPlayer().getCheckpoint());
+    void CheckPoint() {
+        Board board  = gameController.board;
+        board.getPlayer(0).setCheckpoint(0);
+        board.getPlayer(1).setCheckpoint(1);
+
+        board.getSpace(0,0).getActions().add(new Checkpoint());
+        ((Checkpoint)board.getSpace(0,0).getActions().get(0)).setCheckpointnumber(2);
+        board.getSpace(0,0).setPlayer(board.getPlayer(0));
+        board.getSpace(0,0).getActions().get(0).doAction(gameController,board.getSpace(0,0));
+        board.getSpace(0,0).setPlayer(null);
+        board.getSpace(0,0).setPlayer(board.getPlayer(1));
+        board.getSpace(0,0).getActions().get(0).doAction(gameController,board.getSpace(0,0));
+
+        Assertions.assertEquals(0, board.getPlayer(0).getCheckpoint());
+        Assertions.assertEquals(2, board.getPlayer(1).getCheckpoint());
+
+
     }
 
     @Test
@@ -77,7 +89,11 @@ class FieldActionsTest {
 
     @Test
     void Laser() {
-        Assertions.assertEquals(0, 0);
+        gameController.board.getSpace(0,1).setPlayer(gameController.board.getPlayer(0));
+        gameController.board.getSpace(0,1).getActions().add(new Laser());
+        gameController.board.getSpace(0,1).getActions().get(0).doAction(gameController,gameController.board.getSpace(0,1));
+
+        Assertions.assertEquals(10, gameController.board.getPlayer(0).discardPile.get(0).command.value);
     }
 
     @Test
@@ -85,9 +101,20 @@ class FieldActionsTest {
         Assertions.assertEquals(0, 0);
     }
 
+    /*
+     * Testing PriorityAntenna().playerOrder
+     */
     @Test
     void PriorityAntenna() {
-        Assertions.assertEquals(0, 0);
+        gameController.board.getSpace(4,4).getActions().add(new PriorityAntenna());
+        gameController.board.setPriorityAntenna(gameController.board.getSpace(4,4));
+
+        gameController.board.getPlayer(0).setSpace(gameController.board.getSpace(0,8));
+        gameController.board.getPlayer(1).setSpace(gameController.board.getSpace(0,0));
+        gameController.board.getPlayer(2).setSpace(gameController.board.getSpace(4,3));
+        Player[] playerList = ((PriorityAntenna) gameController.board.getPriorityAntenna().getActions().get(0)).playerOrder(gameController.board,gameController.board.getPriorityAntenna().x,gameController.board.getPriorityAntenna().y);
+        Assertions.assertEquals(playerList[0],gameController.board.getPlayer(2));
+        gameController.board.getPlayer(1);
     }
 
     /*

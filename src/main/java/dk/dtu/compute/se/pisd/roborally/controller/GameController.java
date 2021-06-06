@@ -65,17 +65,20 @@ public class GameController {
             board.setCurrentPlayer(
                     board.getPlayer((board.getPlayerNumber(board.getCurrentPlayer()) + 1) % board.getPlayersNumber()));
             board.getCurrentPlayer().setInPit(false);
+
+            int step = board.getStep() + 1;
+            if (step < Player.NO_REGISTERS) {
+                board.setPhase(Phase.ACTIVATION);
+                makeProgramFieldsVisible(step);
+                board.setStep(step);
+                board.setCurrentPlayer(board.getPlayer(0));
+            } else {
+                startProgrammingPhase();
+            }
+
         }
 
-        int step = board.getStep() + 1;
-        if (step < Player.NO_REGISTERS) {
-            board.setPhase(Phase.ACTIVATION);
-            makeProgramFieldsVisible(step);
-            board.setStep(step);
-            board.setCurrentPlayer(board.getPlayer(0));
-        } else {
-            startProgrammingPhase();
-        }
+
     }
 
     /**

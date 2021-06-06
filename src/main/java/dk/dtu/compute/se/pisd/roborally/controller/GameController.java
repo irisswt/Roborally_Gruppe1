@@ -571,7 +571,8 @@ public class GameController {
                 j++;
             }
             if (player.getProgramField(board.getStep() - j).getCard().command.isInteractive()) {
-                executeCommandOptionAndContinue(player.getProgramField(board.getStep() - j).getCard().command);
+                board.setPhase(Phase.PLAYER_INTERACTION);
+                return;
             } else {
                 executeCommand(player, player.getProgramField(board.getStep()-j).getCard().command);
             }

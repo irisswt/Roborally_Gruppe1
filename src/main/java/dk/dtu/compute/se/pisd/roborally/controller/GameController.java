@@ -72,6 +72,8 @@ public class GameController {
             board.setStep(board.getStep() + 1);
             board.setCurrentPlayer(playerOrder[((CurrentPlayerIndex+1)%board.getPlayersNumber())]);
             CurrentPlayerIndex++;
+            executeNextStep();
+
         }
     }
 

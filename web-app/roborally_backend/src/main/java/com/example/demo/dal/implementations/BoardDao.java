@@ -4,6 +4,7 @@ import com.example.demo.dal.interfaces.IBoardDao;
 import com.example.demo.model.Board;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -14,6 +15,12 @@ public class BoardDao implements IBoardDao {
     //BoardId, Board
     static final HashMap<Integer, Board> boards = new HashMap<>();
     static private int boardIdCounter = 0;
+
+    // TODO: Maybe make seperate DAO for games
+    @Override
+    public Collection<Board> getBoards() {
+        return boards.values();
+    }
 
     @Override
     public Board getBoard(int boardId) {

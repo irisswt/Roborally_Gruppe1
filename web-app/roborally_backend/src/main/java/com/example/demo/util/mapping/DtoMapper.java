@@ -1,12 +1,10 @@
 package com.example.demo.util.mapping;
 
 import com.example.demo.controller.GameController.BoardDto;
-import com.example.demo.controller.GameController.GameDto;
 import com.example.demo.controller.GameController.PlayerDto;
 import com.example.demo.controller.GameController.SpaceDto;
 import com.example.demo.exceptions.MappingException;
 import com.example.demo.model.Board;
-import com.example.demo.model.Game;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
 import org.springframework.stereotype.Service;
@@ -100,11 +98,6 @@ public class DtoMapper implements IDtoMapper {
         if (playerDto.getPlayerId() == null) { //If we have not provided a player id, we are creating a new player
             return new Player(board, playerDto.getPlayerColor(), playerDto.getPlayerName());
         }
-        return null;
-    }
-
-    @Override
-    public Game convertToEntity(GameDto GameDto) {
         return null;
     }
 }

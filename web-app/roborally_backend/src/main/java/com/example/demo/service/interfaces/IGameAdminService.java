@@ -4,9 +4,16 @@ import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.ServiceException;
 import com.example.demo.model.Board;
 import com.example.demo.model.Player;
+import com.example.demo.model.admin.Game;
+
+import java.util.List;
 
 
-public interface IGameService {
+public interface IGameAdminService {
+
+    public List<Game> getGames() throws ServiceException, DaoException;
+
+    /*
     Board getBoard(int boardId) throws ServiceException, DaoException;
 
     int saveBoard(Board board) throws ServiceException, DaoException;
@@ -22,4 +29,5 @@ public interface IGameService {
     void movePlayer(Board board, int x, int y, int playerId) throws DaoException;
 
     void switchCurrentPlayer(int boardId) throws ServiceException, DaoException;
+     */
 }

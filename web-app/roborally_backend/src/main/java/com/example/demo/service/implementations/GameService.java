@@ -1,13 +1,11 @@
 package com.example.demo.service.implementations;
 
 import com.example.demo.dal.interfaces.IBoardDao;
-import com.example.demo.dal.interfaces.IGameDao;
 import com.example.demo.dal.interfaces.IPlayerDao;
 import com.example.demo.dal.interfaces.ISpaceDao;
 import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.ServiceException;
 import com.example.demo.model.Board;
-import com.example.demo.model.Game;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
 import com.example.demo.service.interfaces.IGameService;
@@ -17,15 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameService implements IGameService {
     private final IBoardDao boardDao;
-    private final IGameDao gameDao;
     private final ISpaceDao spaceDao;
     private final IPlayerDao playerDao;
 
-    public GameService(IBoardDao boardDao, ISpaceDao spaceDao, IPlayerDao playerDao, IGameDao gameDao) {
+    public GameService(IBoardDao boardDao, ISpaceDao spaceDao, IPlayerDao playerDao) {
         this.boardDao = boardDao;
         this.spaceDao = spaceDao;
         this.playerDao = playerDao;
-        this.gameDao = gameDao;
     }
 
     @Override
@@ -140,13 +136,5 @@ public class GameService implements IGameService {
         boardDao.updateBoard(board, board.getGameId());
     }
 
-    @Override
-    public int saveGame(Game game) throws ServiceException, DaoException {
-        int savedGameId = gameDao.createGame(game);
-        if (savedGameId < 0) {
-            throw new ServiceException("gameDao generated invalid gameId " + savedGameId, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return savedGameId;
-    }
 
 }

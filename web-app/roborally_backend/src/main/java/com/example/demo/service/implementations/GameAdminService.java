@@ -1,52 +1,56 @@
 package com.example.demo.service.implementations;
 
-import com.example.demo.dal.interfaces.IBoardDao;
+import com.example.demo.dal.interfaces.IGameDao;
 import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.ServiceException;
-import com.example.demo.model.Board;
-import com.example.demo.model.Player;
 import com.example.demo.model.admin.Game;
-import com.example.demo.model.admin.User;
 import com.example.demo.service.interfaces.IGameAdminService;
-import com.example.demo.service.interfaces.IGameService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
 public class GameAdminService implements IGameAdminService {
-    private final IBoardDao boardDao;
+    /**
+     * Utility class for interaction with games
+     * @Author: Jonathan Zørn
+     */
+    private final IGameDao gameDao;
 
-    public GameAdminService(IBoardDao boardDao) {
-        this.boardDao = boardDao;
+    public GameAdminService(IGameDao gameDao) {
+        this.gameDao = gameDao;
     }
 
     @Override
     public List<Game> getGames() throws ServiceException, DaoException {
-        // TODO: Change so games are not found from exisiting boards but
-        // from a game object
-
-        List<Game> result = new ArrayList<>();
-        for (Board board: boardDao.getBoards()) {
-            Game game = new Game();
-            game.name = board.boardName;
-            game.gameId = board.getGameId();
-            game.started = false;
-            result.add(game);
-
-
-            for (int i = 0; i < board.getPlayersNumber(); i++) {
-                Player player = board.getPlayer(i);
-                User user = new User();
-                user.playerId = player.getPlayerId();
-                user.playerName = player.getName();
-                game.users.add(user);
-
-            }
-        }
-        return result;
+        Collection<Game> gamesMap = gameDao.getGames();
+        return new ArrayList<>(gamesMap);
     }
 
+    @Override
+    public Game getGame(int gameId) throws DaoException {
+        return gameDao.getGame(gameId);
+    }
 
+    @Override
+    public void startGame(int gameId) throws ServiceException, DaoException {
+        gameDao.getGame(gameId).setGameStarted(true);
+    }
+
+    @Override
+    public void endGame(int gameId) throws ServiceException, DaoException {
+        gameDao.getGame(gameId).setGameStarted(false);
+    }
+
+    @Override
+    public int saveGame(Game game) throws ServiceException, DaoException {
+        int savedGameId = gameDao.createGame(game);
+        if (savedGameId < 0) {
+            throw new ServiceException("GameDao generated invalid gameId " + savedGameId, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return savedGameId;
+    }
 }

@@ -1,12 +1,15 @@
 package com.example.demo.util.mapping;
 
 import com.example.demo.controller.GameController.BoardDto;
+import com.example.demo.controller.GameController.GameDto;
 import com.example.demo.controller.GameController.PlayerDto;
 import com.example.demo.controller.GameController.SpaceDto;
 import com.example.demo.exceptions.MappingException;
 import com.example.demo.model.Board;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
+import com.example.demo.model.admin.Game;
+import com.example.demo.model.admin.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -76,6 +79,26 @@ public class DtoMapper implements IDtoMapper {
         return spaceDto;
     }
 
+    /**
+     * Converting a game object for transfer
+     * @Author: Jonathan Zørn
+     * @param game
+     * @return GameDto
+     * @throws MappingException
+     */
+    @Override
+    public GameDto convertToDto(Game game) throws MappingException {
+        if(game == null){
+            throw new MappingException("Game was null");
+        }
+        GameDto gameDto = new GameDto();
+        gameDto.setGameName(game.name);
+        gameDto.setUsers(game.users);
+        gameDto.setGameId(game.gameId);
+        gameDto.setGameStarted(game.started);
+        return gameDto;
+    }
+
     public Board convertToEntity(BoardDto boardDto) {
         Board board = new Board(boardDto.getWidth(), boardDto.getHeight(), boardDto.getBoardName());
         if (boardDto.getBoardId() != -1) {
@@ -99,5 +122,16 @@ public class DtoMapper implements IDtoMapper {
             return new Player(board, playerDto.getPlayerColor(), playerDto.getPlayerName());
         }
         return null;
+    }
+
+    /**
+     * Converts to game entity
+     * @Author: Jonathan Zørn
+     * @param gameDto
+     * @return
+     */
+    public Game convertToEntity(GameDto gameDto) {
+        Game game = new Game(gameDto.getGameName(), gameDto.getGameId(), gameDto.getGameStarted(), gameDto.getUsers());
+        return game;
     }
 }

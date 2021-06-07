@@ -16,7 +16,7 @@ public class BoardDao implements IBoardDao {
     static final HashMap<Integer, Board> boards = new HashMap<>();
     static private int boardIdCounter = 0;
 
-    // TODO: Maybe make seperate DAO for games
+
     @Override
     public Collection<Board> getBoards() {
         return boards.values();

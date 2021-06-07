@@ -60,7 +60,7 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
-        Player current = playerOrder[board.getPlayerNumber(board.getCurrentPlayer())];
+        Player current = board.getCurrentPlayer();
         Boolean isOnGear = false;
         for (FieldAction action : space.getActions()){
             if (action instanceof Gear){

@@ -113,6 +113,4 @@ public class GameController {
         gameService.switchCurrentPlayer(boardId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }

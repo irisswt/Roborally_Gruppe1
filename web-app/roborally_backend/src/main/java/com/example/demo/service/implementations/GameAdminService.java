@@ -31,11 +31,10 @@ public class GameAdminService implements IGameAdminService {
         for (Board board: boardDao.getBoards()) {
             Game game = new Game();
             game.name = board.boardName;
-            game.id = board.getGameId();
+            game.gameId = board.getGameId();
+            game.started = false;
             result.add(game);
 
-            // TODO: Change so it can be started on button press
-            game.started = board.getPlayersNumber() > 1;
 
             for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);

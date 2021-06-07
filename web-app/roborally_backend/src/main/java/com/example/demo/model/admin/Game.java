@@ -6,7 +6,7 @@ import java.util.List;
 public class Game {
     public String name;
 
-    public int id;
+    public int gameId;
 
     public boolean started;
 

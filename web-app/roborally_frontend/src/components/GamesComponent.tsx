@@ -10,15 +10,14 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
     return (
         !loaded ?
             <div>
-                {games.map((game, index) =>
+            { games.map((game, index) =>
                     <GameComponent key={"game" + index} game={game} />
                 )
-                }
+            }
             </div>
             :
             <div />
     )
-
 }
 
 export default GamesComponent

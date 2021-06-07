@@ -1,6 +1,5 @@
 import { FunctionComponent, useContext } from "react";
 import { Game } from "../types/Game";
-import { User } from "../types/User";
 import GameContext from "../context/GameContext";
 
 

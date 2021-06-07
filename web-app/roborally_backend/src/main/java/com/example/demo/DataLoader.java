@@ -28,7 +28,7 @@ public class DataLoader implements ApplicationRunner {
 
     public void createGame(String Name) throws ServiceException, DaoException {
         Board board = new Board(8, 8, Name);
-        gameService.saveBoard(board);
+        int boardId = gameService.saveBoard(board);
         Player player = new Player(board, "blue", "Player1Name");
         gameService.addPlayer(board.getGameId(), player);
         gameService.setCurrentPlayer(board.getGameId(), player.getPlayerId());
@@ -36,6 +36,7 @@ public class DataLoader implements ApplicationRunner {
         player = new Player(board, "green", "Player2Name");
         gameService.addPlayer(board.getGameId(), player);
         gameService.movePlayer(board, 4, 4, player.getPlayerId());
+
     }
 
     @Override
@@ -43,6 +44,8 @@ public class DataLoader implements ApplicationRunner {
         createGame("Hallo");
         createGame("Hej");
         createGame("Hola");
+
+
 
 
     }

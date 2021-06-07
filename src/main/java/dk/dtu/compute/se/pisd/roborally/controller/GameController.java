@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.*;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,13 @@ public class GameController {
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
         Player current = playerOrder[board.getPlayerNumber(board.getCurrentPlayer())];
-        if (space.getPlayer() == null && current != null && current.getInPit()) {
+        Boolean isOnGear = false;
+        for (FieldAction action : space.getActions()){
+            if (action instanceof Gear){
+                isOnGear = true;
+            }
+        }
+        if (space.getPlayer() == null && current != null && current.getInPit() && isOnGear) {
             playerOrder[board.getPlayerNumber(board.getCurrentPlayer())].setSpace(space);
             board.setStep(board.getStep() + 1);
             board.setCurrentPlayer(

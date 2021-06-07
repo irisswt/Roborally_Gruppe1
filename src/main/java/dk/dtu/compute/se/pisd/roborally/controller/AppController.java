@@ -28,6 +28,7 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PriorityAntenna;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.RebootTokens;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.StartGear;
 import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
@@ -129,6 +130,8 @@ public class AppController implements Observer {
                                         board.setCheckpoints(board.getCheckpoints()+1);
                                     }else if(action instanceof PriorityAntenna){
                                         board.setPriorityAntenna(board.getSpace(i,j));
+                                    }else if(action instanceof RebootTokens){
+                                        board.getRebootTokens().add(board.getSpace(i,j));
                                     }
                                 }
                             }

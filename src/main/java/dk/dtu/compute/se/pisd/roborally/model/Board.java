@@ -66,6 +66,12 @@ public class Board extends Subject {
 
     private final List<Player> players = new ArrayList<>();
 
+    public List<Space> getRebootTokens() {
+        return rebootTokens;
+    }
+
+    private final List<Space> rebootTokens = new ArrayList<>();
+
     private Player current;
 
     private Phase phase = INITIALISATION;

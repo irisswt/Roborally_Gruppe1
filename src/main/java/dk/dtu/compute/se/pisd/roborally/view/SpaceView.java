@@ -168,7 +168,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             if(action instanceof StartGear){
                 startGearView.draw(this,action);
             }
-
+            if(action instanceof RebootTokens){
+                RebootTokenView.drawRebootToken(this,action);
+            }
 
             }
         updatePlayer();

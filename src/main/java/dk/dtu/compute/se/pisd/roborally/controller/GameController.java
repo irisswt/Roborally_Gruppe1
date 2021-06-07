@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.*;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class GameController {
     private int CurrentPlayerIndex;
 
     private Player[] playerOrder;
-    Phase lastPhase;
+
 
     /**
      * The constructor for GameController
@@ -62,16 +63,14 @@ public class GameController {
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
         Player current = board.getCurrentPlayer();
         Boolean isOnGear = false;
-        for (FieldAction action : space.getActions()){
+        /*for (FieldAction action : space.getActions()){
             if (action instanceof Gear){
                 isOnGear = true;
             }
-        }
+        }*/
         if (space.getPlayer() == null && current != null && current.getInPit() && isOnGear) {
-            playerOrder[board.getPlayerNumber(board.getCurrentPlayer())].setSpace(space);
-            board.setStep(board.getStep() + 1);
-            board.setCurrentPlayer(playerOrder[((CurrentPlayerIndex+1)%board.getPlayersNumber())]);
-            CurrentPlayerIndex++;
+            current.setSpace(space);
+            board.setPhase(Phase.ACTIVATION);
             executeNextStep();
 
         }
@@ -373,12 +372,14 @@ public class GameController {
      */
     public void moveForward(@NotNull Player player) {
         Heading heading = player.getHeading();
-        Space target = board.getNeighbour(player.getSpace(), player.getHeading());
-        if (target != null) {
-            try {
-                moveToSpace(player, target, heading);
-            } catch (ImpossibleMoveException e) {
+        if (player.getSpace() != null){
+            Space target = board.getNeighbour(player.getSpace(), player.getHeading());
+            if (target != null) {
+                try {
+                    moveToSpace(player, target, heading);
+                } catch (ImpossibleMoveException e) {
 
+                }
             }
         }
     }
@@ -461,29 +462,32 @@ public class GameController {
 
 
         Space space = player.getSpace();
-        for (FieldAction action : space.getActions()) {
-            if (action instanceof ConveyorBelt){
-                for (int i = 0; i < ((ConveyorBelt) action).getSpeed(); i++) {
-                    Heading heading = ((ConveyorBelt) action).getHeading();
-                    Space target = board.getNeighbour(player.getSpace(), heading);
-                    if (target != null) {
-                        try {
-                            moveToSpace(player, target, heading);
-                        } catch (ImpossibleMoveException e) {
+        if (space != null && space.getActions() != null){
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof ConveyorBelt){
+                    for (int i = 0; i < ((ConveyorBelt) action).getSpeed(); i++) {
+                        Heading heading = ((ConveyorBelt) action).getHeading();
+                        Space target = board.getNeighbour(player.getSpace(), heading);
+                        if (target != null) {
+                            try {
+                                moveToSpace(player, target, heading);
+                            } catch (ImpossibleMoveException e) {
+
+                            }
 
                         }
+                    }
+                }else if(action instanceof PushPanel){
+                    if(((PushPanel) action).getNumber() == board.getStep()){
+                        try {
+                            moveToSpace(player, board.getNeighbour(space, ((PushPanel) action).getHeading()), ((PushPanel) action).getHeading());
+                        }catch (ImpossibleMoveException e){
 
+                        }
                     }
                 }
-            }else if(action instanceof PushPanel){
-                if(((PushPanel) action).getNumber() == board.getStep()){
-                    try {
-                        moveToSpace(player, board.getNeighbour(space, ((PushPanel) action).getHeading()), ((PushPanel) action).getHeading());
-                    }catch (ImpossibleMoveException e){
+        }
 
-                    }
-                }
-            }
 
         }
 
@@ -540,12 +544,42 @@ public class GameController {
         for (FieldAction action : space.getActions()) {
             if (action instanceof Pit){
                 player.resetCards();
-                lastPhase = board.getPhase();
-                board.setPhase(Phase.PLAYER_INTERACTION);
+                reboot(player);
+
 
             }
         }
 
+    }
+    public void reboot(Player player){
+        List<Space> tokens = board.getRebootTokens();
+        Space tempSpace = getClosestRebootToken(tokens,player);
+        Heading heading = ((RebootTokens) tempSpace.getActions().get(0)).getHeading();
+        while(tempSpace.getPlayer() != null){
+            tempSpace = board.getNeighbour(tempSpace,heading);
+        }
+        player.setSpace(tempSpace);
+        player.discardPile.add(new CommandCard(Command.SPAM));
+        player.discardPile.add(new CommandCard(Command.SPAM));
+
+    }
+
+    public Space getClosestRebootToken(List<Space> spaces, Player player) {
+        Space retSpace = null;
+        int length = Integer.MAX_VALUE;
+        int x = player.getSpace().x;
+        int y = player.getSpace().y;
+
+        for (Space tempSpace :spaces){
+            int calc = (int) Math.sqrt((tempSpace.x - x) * (tempSpace.x - x) + (tempSpace.y - y) * (tempSpace.y - y));
+
+            if(calc < length){
+                length = calc;
+                retSpace = tempSpace;
+            }
+        }
+
+        return retSpace;
     }
     /**
      * Moves the player forward twice.

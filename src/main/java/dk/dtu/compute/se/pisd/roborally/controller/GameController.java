@@ -380,6 +380,8 @@ public class GameController {
                 } catch (ImpossibleMoveException e) {
 
                 }
+            }else{
+                reboot(player);
             }
         }
     }
@@ -430,18 +432,19 @@ public class GameController {
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Boolean canMove;
         canMove = isMovePossible(player, heading);
-        if (!player.getInPit()){
-            if (space != null && canMove) {
+        if (!player.getInPit() && canMove){
+            if (space != null) {
                 Player other = space.getPlayer();
                 Space target = board.getNeighbour(space, heading);
                 if (other != null) {
                     moveToSpace(other, target, heading);
                 }
                 player.setSpace(space);
+                checkForPit(player);
             } else {
-                throw new ImpossibleMoveException(player, space, heading);
+                reboot(player);
             }
-            checkForPit(player);
+
         }else {
             throw new ImpossibleMoveException(player,space,heading);
         }
@@ -543,7 +546,7 @@ public class GameController {
         Space space = player.getSpace();
         for (FieldAction action : space.getActions()) {
             if (action instanceof Pit){
-                player.resetCards();
+
                 reboot(player);
 
 
@@ -552,6 +555,7 @@ public class GameController {
 
     }
     public void reboot(Player player){
+        player.resetCards();
         List<Space> tokens = board.getRebootTokens();
         Space tempSpace = getClosestRebootToken(tokens,player);
         Heading heading = ((RebootTokens) tempSpace.getActions().get(0)).getHeading();
@@ -634,6 +638,8 @@ public class GameController {
             } catch (ImpossibleMoveException e) {
 
             }
+        }else{
+            reboot(player);
         }
     }
 

@@ -10,31 +10,13 @@ see the space component for an example.
 type BoardComponentProps = {}
 const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
     //{...} context is known as object destructuring
-    const {board, loaded} = useContext(GameContext) //Hook form of Context.Consumer, used to access the context
+    const {board, loaded, unselectGame} = useContext(GameContext) //Hook form of Context.Consumer, used to access the context
 
     return (
-        /*Apply css on div below*/
+        loaded ?
         <div className={styles.container}>
-            {/*
-                The {...} notation is JSX allowing us to blend HTML and JS/TS together
-                The first map call returns an array of "divs" which are rendered.
-                Keys helps react identify where a change has happend and thus which component to rerender upon changes
-                The last map returns an array of space components, note that a prop/argument is passed ("space")
-                The result of the code segment below will be something like:
-                    <div key="spaceArray0">
-                        <SpaceComponent key="space0" space={SOME_SPACE_OBJECT}/>
-                        ...
-                        <SpaceComponent key="space7" space={SOME_SPACE_OBJECT}/>
-                    </div>
-                    ....
-                    <div key="spaceArray7">
-                        <SpaceComponent key="space0" space={SOME_SPACE_OBJECT}/>
-                        ...
-                        <SpaceComponent key="space7" space={SOME_SPACE_OBJECT}/>
-                    </div>
-
-            */}
-            {loaded ? (
+            <h1 onClick={unselectGame}>{board.boardName} (click to unselect)</h1>
+            { 
 
                 board.spaceDtos.map((spaceArray, index) =>
                     <div key={"spaceArray" + index}>
@@ -43,11 +25,12 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
                         }
                     </div>
                 )
-
-            ) : <h1>loading...</h1>}
+                }
 
 
         </div>
+        :
+        <div/>
     )
 }
 

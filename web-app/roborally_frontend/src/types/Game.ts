@@ -1,7 +1,8 @@
-import { Player } from "./Player";
+import { User } from "./User";
 
 export type Game = {
     gameId: number,
-    boardName: string,
-    users: Player[]
+    name: string,
+    started: boolean,
+    users: User[]
 }

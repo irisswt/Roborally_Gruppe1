@@ -12,6 +12,8 @@ type GameContextProviderPropsType = {
 
 
 const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
+    const [games, setGames] = useState<Game[]>([])
+
     const [loaded, setLoaded] = useState<boolean>(false)
     useEffect(() => {
         GameApi.getBoard(1).then(board => {
@@ -126,6 +128,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     }, [])
 
     const unselectGame = useCallback(async () => {
+        setGameId(-1);
         setLoaded(false);
     }, [])
 
@@ -157,12 +160,11 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                     console.error("Board could not be loaded")
                 })
             } else {
-                // TODO: Implement things so this works?
-                //GameApi.getGames().then(games => {
-                //    setGames(games)
-                //}).catch(() => {
-                //    console.error("Games could not be loaded")
-                //})
+                GameApi.getGames().then(games => {
+                    setGames(games)
+                }).catch(() => {
+                    console.error("Games could not be loaded")
+                })
 
             }
 
@@ -173,12 +175,6 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     )
 
 
-
-    // TODO: Fix games, where is it supposed to be?
-    let games: { gameId: number, boardName: string, users: Player[] }[] = [
-        { "gameId": 0, "boardName": "ASd", "users": players },
-        { "gameId": 2, "boardName": "AAAAAAA", "users": players },
-    ];
 
     return (
         <GameContext.Provider

@@ -26,9 +26,16 @@ class GameApi {
     public switchPlayer(boardId: number) {
         return axios.put(`${this.BACKEND_URL}/board/${boardId}/switchplayer`)
     }
-    public getGames(gameId: number) {
+    public getGames() {
+        return axios.get<Game[]>(`${this.BACKEND_URL}/game/`).then(value => value.data)
+    }
+
+    public getGame(gameId: number) {
         return axios.get<Game>(`${this.BACKEND_URL}/game/${gameId}`).then(value => value.data)
     }
+    //TODO:
+    // Start game
+    // Create game
 }
 
 export default GameApi.getInstance()

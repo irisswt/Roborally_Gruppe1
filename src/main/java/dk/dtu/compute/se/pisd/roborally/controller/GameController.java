@@ -42,7 +42,7 @@ public class GameController {
     private int CurrentPlayerIndex;
 
     private Player[] playerOrder;
-
+    Phase lastPhase;
 
     /**
      * The constructor for GameController
@@ -60,8 +60,15 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
-        if (space.getPlayer() == null) {
-            board.getCurrentPlayer().setSpace(space);
+        Player current = playerOrder[board.getPlayerNumber(board.getCurrentPlayer())];
+        Boolean isOnGear = false;
+        for (FieldAction action : space.getActions()){
+            if (action instanceof Gear){
+                isOnGear = true;
+            }
+        }
+        if (space.getPlayer() == null && current != null && current.getInPit() && isOnGear) {
+            playerOrder[board.getPlayerNumber(board.getCurrentPlayer())].setSpace(space);
             board.setStep(board.getStep() + 1);
             board.setCurrentPlayer(playerOrder[((CurrentPlayerIndex+1)%board.getPlayersNumber())]);
             CurrentPlayerIndex++;
@@ -230,11 +237,8 @@ public class GameController {
      */
     // TODO: here is end register
     private void executeNextStep() {
-        try {
-            endRegister(board.getCurrentPlayer());
-        } catch (ImpossibleMoveException e) {
 
-        }
+
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -254,6 +258,15 @@ public class GameController {
                 if (CurrentPlayerIndex < board.getPlayersNumber()) {
                     board.setCurrentPlayer(playerOrder[CurrentPlayerIndex]);
                 } else {
+                    try {
+                        for (int i = 0; i < board.getPlayersNumber();i++){
+                            endRegister(board.getPlayer(i));
+                        }
+
+                    } catch (ImpossibleMoveException e) {
+
+                    }
+
                     step++;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
@@ -414,16 +427,20 @@ public class GameController {
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Boolean canMove;
         canMove = isMovePossible(player, heading);
-
-        if (space != null && canMove) {
-            Player other = space.getPlayer();
-            Space target = board.getNeighbour(space, heading);
-            if (other != null) {
-                moveToSpace(other, target, heading);
+        if (!player.getInPit()){
+            if (space != null && canMove) {
+                Player other = space.getPlayer();
+                Space target = board.getNeighbour(space, heading);
+                if (other != null) {
+                    moveToSpace(other, target, heading);
+                }
+                player.setSpace(space);
+            } else {
+                throw new ImpossibleMoveException(player, space, heading);
             }
-            player.setSpace(space);
-        } else {
-            throw new ImpossibleMoveException(player, space, heading);
+            checkForPit(player);
+        }else {
+            throw new ImpossibleMoveException(player,space,heading);
         }
 
 
@@ -443,7 +460,7 @@ public class GameController {
 
         Space space = player.getSpace();
         for (FieldAction action : space.getActions()) {
-            if (action instanceof ConveyorBelt)
+            if (action instanceof ConveyorBelt){
                 for (int i = 0; i < ((ConveyorBelt) action).getSpeed(); i++) {
                     Heading heading = ((ConveyorBelt) action).getHeading();
                     Space target = board.getNeighbour(player.getSpace(), heading);
@@ -455,15 +472,29 @@ public class GameController {
                         }
 
                     }
+                }
+            }else if(action instanceof PushPanel){
+                if(((PushPanel) action).getNumber() == board.getStep()){
+                    try {
+                        moveToSpace(player, board.getNeighbour(space, ((PushPanel) action).getHeading()), ((PushPanel) action).getHeading());
+                    }catch (ImpossibleMoveException e){
 
+                    }
+                }
+            }
 
-                    /*if (board.getNeighbour(space, ((ConveyorBelt) action).getHeading()).getPlayer() == null) {
+        }
+
+        /*if (board.getNeighbour(space, ((ConveyorBelt) action).getHeading()).getPlayer() == null) {
                         moveToSpace(player, board.getNeighbour(space, ((ConveyorBelt) action).getHeading()), ((ConveyorBelt) action).getHeading());
                     }
 
                      */
-
-                }
+        /*if (space instanceof PushPanel) {
+            if (((PushPanel) space).getNumber() == board.getStep()){
+                moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()),
+                        ((PushPanel) space).getHeading());
+            }
 
             if (action instanceof PushPanel) {
                 Heading heading = ((PushPanel) action).getHeading();
@@ -472,6 +503,9 @@ public class GameController {
                     try {
                         moveToSpace(player, target, heading);
                     } catch (ImpossibleMoveException e) {
+        }
+
+        if (space instanceof Pit) {
 
                     }
                 }
@@ -488,9 +522,29 @@ public class GameController {
             if (!space.getActions().isEmpty()) {
                 space.getActions().get(0).doAction(this, space);
             }
-        }
-    }
 
+         */
+
+    }
+    /**
+     * Checks if a player is standing on a pit, and punishes player if this is true
+     *
+     * @param player that needs to be checked
+     *
+     *
+     */
+    public void checkForPit(Player player){
+        Space space = player.getSpace();
+        for (FieldAction action : space.getActions()) {
+            if (action instanceof Pit){
+                player.resetCards();
+                lastPhase = board.getPhase();
+                board.setPhase(Phase.PLAYER_INTERACTION);
+
+            }
+        }
+
+    }
     /**
      * Moves the player forward twice.
      *

@@ -62,7 +62,6 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
     };
 
     return (
-
         <div className={styles.container} >
             <Box m={2}>
                 <Card>
@@ -76,14 +75,14 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
 
                                     </form>
                                 </Typography>}
-                            {game.gameUsers.map((user, index) => <ListItem>
+                            {game.gameUsers.map((user, index) => <ListItem key={index}>
                                 <ListItemAvatar>
                                     <Avatar className={classes.orange}>
                                         <PlayerIcon />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    key={index}
+
                                     primary={user.playerName + " (no function yet)"}
                                 />
                             </ListItem>)}

@@ -68,7 +68,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
                     <CardContent>
                         <Box>
                             {!edit ? <Typography variant="h5" align="center">{name} - {game.gameId}</Typography> :
-                                <Typography align="center">
+                                <Typography component={'span'} variant={'body2'} align="center">
                                     <form onSubmit={onSubmit}>
 
                                         <TextField variant="outlined" label="Edit name" onChange={onChange} />

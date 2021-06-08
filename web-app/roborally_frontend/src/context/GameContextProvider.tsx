@@ -185,10 +185,36 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
         GameApi.deleteGame(game.gameId).then(() => {
             console.log("Deleting game: " + game.gameId)
         }).catch(() => {
-            console.error("Error while fetching deleting board from backend")
+            console.error("Error while deleting board from backend")
         })
 
     }, [])
+
+    /**
+     * Function that starts a game if its valid
+     * @author: Jonathan Zørn
+     */
+    const startGame = useCallback(async (game: Game) => {
+        if (game.gameUsers.length >= 2) {
+            if (!game.gameStarted) {
+                GameApi.startGame(game.gameId).then(() => {
+                    // TODO: Change API to start
+                    console.log("Starting game: " + game.gameId)
+                }).catch(() => {
+                    console.error("Error while starting game from backend")
+                })
+            } else {
+                console.log("Game already started: " + game.gameId + " id")
+            }
+
+        } else {
+            // Logic if games do not have enough players
+            console.log("Not enough players to start game: " + game.gameId + " id")
+            console.log("Players in game:" + game.gameUsers.length)
+        }
+    }, [])
+
+
 
     return (
         <GameContext.Provider
@@ -198,6 +224,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                     selectGame: selectGame,
                     unselectGame: unselectGame,
                     deleteGame: deleteGame,
+                    startGame: startGame,
                     loaded: loaded,
                     board: board,
                     setCurrentPlayerOnSpace: setPlayerOnSpace,

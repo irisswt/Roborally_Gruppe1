@@ -16,7 +16,6 @@ import Avatar from '@material-ui/core/Avatar';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"></link>
 
 
 
@@ -67,7 +66,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
 
 
     return (
-        
+
         <div className={styles.container} >
             <Box m={2}>
                 <Card>

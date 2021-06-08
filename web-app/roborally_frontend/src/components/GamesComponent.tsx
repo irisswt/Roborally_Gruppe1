@@ -16,39 +16,42 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
     let inputName = "N/A";
 
     let handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [inputName]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
         newGame();
     }
 
 
     return (
-        <div>
-            <div className={styles.centerHori}>
-                <Typography variant="h2">RoboRally</Typography>
-                <br />
-                <Typography variant="h6">Enter game name:</Typography>
-                <br />
-                <FormControl>
-                    <InputLabel htmlFor="my-input">Game name</InputLabel>
-                    <Input type="input" id="nameInput" aria-describedby="my-helper-text" onChange={handleChange} />
-                    <Button size="medium" variant="outlined" color="primary" onClick={newGame}>
-                        New Game
-                    </Button>
-                </FormControl>
-                <br />
-                <br />
-                <br />
-                <br />
-            </div>
-            <Typography variant="h5">Games</Typography>
+        <div id="everything">
             {
                 !loaded ?
-                    <div className={styles.container} >
-                        {games.map((game, index) =>
-                            <GameComponent key={"game" + index} game={game} />
-                        )
-                        }
-                    </div>
+                    <div>
+                        <div className={styles.centerHori}>
+                            <Typography variant="h2">RoboRally</Typography>
+                            <br />
+                            <Typography variant="h6">Create a new game:</Typography>
+                            <FormControl>
+                                <InputLabel htmlFor="my-input">enter game</InputLabel>
+                                <Input type="input" id="nameInput" aria-describedby="my-helper-text" onChange={handleChange} />
+                                <Button size="medium" variant="outlined" color="primary" onClick={newGame}>
+                                    New Game
+                                </Button>
+                            </FormControl>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                        </div>
+                        <Typography variant="h5">Games</Typography>
+
+                        <div className={styles.container} >
+                            {games.map((game, index) =>
+                                <GameComponent key={"game" + index} game={game} />
+                            )
+                            }
+                        </div>
+
+                    </div >
                     :
                     <div />
             }

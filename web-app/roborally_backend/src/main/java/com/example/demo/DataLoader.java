@@ -57,9 +57,5 @@ public class DataLoader implements ApplicationRunner {
         createGame("Hallo");
         createGame("Hej");
         createGame("Hola");
-
-
-
-
     }
 }

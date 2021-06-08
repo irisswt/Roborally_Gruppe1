@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) => {
     const { selectGame } = useContext(GameContext)
     let [edit, setEdit] = useState(false);
-    let [name, setName] = useState(game.name);
+    let [name, setName] = useState(game.gameName);
 
     const onClickGame = async () => {
         selectGame(game)
@@ -77,7 +77,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
 
                                     </form>
                                 </Typography>}
-                            {game.users.map((user, index) => <ListItem>
+                            {game.gameUsers.map((user, index) => <ListItem>
                                 <ListItemAvatar>
                                     <Avatar className={classes.orange}>
                                         <PlayerIcon />

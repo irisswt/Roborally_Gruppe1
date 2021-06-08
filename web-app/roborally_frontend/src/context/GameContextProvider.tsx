@@ -106,7 +106,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
 
     // Copied from "Live-møde_Uge 12_-20210503_131255-Meeting Recording.mp4"
     const selectGame = useCallback(async (game: Game) => {
-        if (game.started) {
+        if (game.gameStarted) {
             GameApi.getBoard(game.gameId).then(board => {
                 setSpaces(board.spaceDtos)
                 setPlayers(board.playerDtos)
@@ -121,17 +121,17 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                             setCurrentPlayerIndex(index)
                         }
                     })
-    
+
                 }
-    
+
                 setLoaded(true)
             }).catch(() => {
                 console.error("Error while fetching board from backend")
             })
         } else {
-            console.error("Selected Game '"+game.name+"' is not started yet!")
+            console.error("Selected Game '" + game.gameName + "' is not started yet!")
         }
-        
+
     }, [])
 
     const unselectGame = useCallback(async () => {

@@ -405,6 +405,8 @@ public class GameController {
      * @param heading
      * @return Boolean Checks if a move is possible in regard to tokens
      * @author Jens Will Iversen
+     * @author Jonathan Zørn
+     * @author Louis Monty-Krohn
      */
     public Boolean isMovePossible(Player player, Heading heading) {
 
@@ -445,7 +447,7 @@ public class GameController {
      *                                 impossible move exception is thrown
      * @author Ekkart Kindler, ekki@dtu.dk
      * @author Jens Will Iversen
-     * @author Jonathan Zørn
+     *
      */
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Boolean canMove;
@@ -478,6 +480,7 @@ public class GameController {
      * @throws ImpossibleMoveException if the player is going to make an illegal
      *                                 move
      * @author Jens Will Iversen
+     * @author Louis Monty-Krohn
      */
 
     public void endRegister(Player player) throws ImpossibleMoveException {
@@ -626,9 +629,10 @@ public class GameController {
      * Moves the player one field backwards without turning around.
      *
      * @param player the player that needs to move
-     * @author Isak Risager
-     * @author Niklas Jessen
      * @author Jens Will Iversen
+     * @author Louis Monty-Krohn
+     * @author Niklas Jessen
+     * @author Isak Risager
      */
     public void moveBackward(@NotNull Player player) {
         Heading heading = player.getHeading().next().next();

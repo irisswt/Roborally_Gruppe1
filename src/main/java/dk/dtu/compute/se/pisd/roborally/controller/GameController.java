@@ -243,6 +243,9 @@ public class GameController {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
+            for(Player all : board.getPlayerList()){
+                all.setInPit(false);
+            }
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
@@ -262,6 +265,7 @@ public class GameController {
                     try {
                         for (int i = 0; i < board.getPlayersNumber();i++){
                             endRegister(board.getPlayer(i));
+
                         }
 
                     } catch (ImpossibleMoveException e) {
@@ -554,7 +558,7 @@ public class GameController {
         }
 
     }
-    public void reboot(Player player){
+    public void reboot(Player player) {
         player.resetCards();
         List<Space> tokens = board.getRebootTokens();
         Space tempSpace = getClosestRebootToken(tokens,player);
@@ -566,6 +570,9 @@ public class GameController {
         player.discardPile.add(new CommandCard(Command.SPAM));
         player.discardPile.add(new CommandCard(Command.SPAM));
 
+        if (board.getCurrentPlayer() != player){
+            player.setInPit(false);
+        }
     }
 
     public Space getClosestRebootToken(List<Space> spaces, Player player) {

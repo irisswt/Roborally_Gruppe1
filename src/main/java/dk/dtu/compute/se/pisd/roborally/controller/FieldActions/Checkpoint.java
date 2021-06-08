@@ -18,6 +18,15 @@ public class Checkpoint extends FieldAction {
         this.checkpointnumber =  checkpointnumber;
     }
 
+    /**
+     * If player lands on a checkpoint gives the player the checkpoint
+     *
+     * @param gameController the gameController of the respective game
+     * @param space the space this action should be executed for
+     * @return
+     *
+     * @author Louis Monty-Krohn
+     */
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         if(space.getPlayer().getCheckpoint() == checkpointnumber-1){

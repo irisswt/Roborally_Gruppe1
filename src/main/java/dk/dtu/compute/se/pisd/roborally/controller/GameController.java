@@ -117,6 +117,12 @@ public class GameController {
         }
     }
 
+    /**
+     *Shuffles the cards from the discardPile into the CardPile
+     * @param currentPlayer
+     *
+     * @auther Louis Monty-Krohn
+     */
     private void shuffelCards( Player currentPlayer){
         int runs =  currentPlayer.discardPile.size();
         int random;
@@ -168,6 +174,9 @@ public class GameController {
      * command/programming cards invisible in the GUI and set the phase to
      * ACTIVATION instead of PROGRAMMING. Sets the first register visible and the
      * rest invisible
+     *
+     * @auther  Ekkart Kindler, ekki@dtu.dk
+     * @auther Louis Monty-Krohn
      */
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();

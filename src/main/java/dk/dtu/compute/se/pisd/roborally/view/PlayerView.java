@@ -142,6 +142,12 @@ public class PlayerView extends Tab implements ViewObserver {
      * Method to update a player's part of the GUI.
      * Responsible for card fields, programming fields and buttons.
      * @param subject Object inherited from Subject that's attached to an observer.
+     *
+     * Changed to find first card from again card
+     *
+     * @auther Ekkart Kindler, ekki@dtu.dk
+     * @auther Louis Monty-Krohn
+     * @auther Jens Will Iversen
      */
     @Override
     public void updateView(Subject subject) {

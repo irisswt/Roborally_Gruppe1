@@ -13,6 +13,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class PriorityAntennaView {
+    /**
+     * Draws the image in the path "src/main/resources/Img/PriorityAntenna.PNG"
+     * @param spaceView
+     * @param space
+     *
+     * @auther Louis Monty-Krohn
+     */
     public static void drawPriorityAntenna(SpaceView spaceView, Space space){
         FileInputStream inputstream = null;
         try {

@@ -197,6 +197,11 @@ public class AppController implements Observer {
 
     }
 
+    /**
+     * gives the ability select a game from the database
+     *
+     * @auther Louis Monty-Krohn
+     */
     public void loadGame() {
 
         // XXX needs to be implememted eventually
@@ -211,7 +216,7 @@ public class AppController implements Observer {
             ChoiceDialog<String> dialog = new ChoiceDialog<>(gameName.get(0), gameName);
 
             dialog.setTitle("Player number");
-            dialog.setHeaderText("Select number of players");
+            dialog.setHeaderText("Chose a game");
             Optional<String> result = dialog.showAndWait();
             try {
                 for (GameInDB game : gameIDs) {

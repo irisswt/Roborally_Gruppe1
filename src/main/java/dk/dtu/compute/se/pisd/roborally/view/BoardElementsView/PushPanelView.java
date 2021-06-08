@@ -11,12 +11,13 @@ import javafx.scene.shape.StrokeLineCap;
 
 public class PushPanelView {
     /**
-     * Riped from drawWall
-     * Pls make smarter
-     * kh jonathan
-     * Is drawn so the push panel will push in the direction of the heading
+     * Draws the a push panel like a wall but green
+     * @param spaceView
+     * @param fieldAction
+     *
+     * @auther Louis Monty-Krohn
+     * @auther Jens
      */
-    // TODO: Fix headings (reverse)
     public static void drawPushPanel(SpaceView spaceView, FieldAction fieldAction) {
         PushPanel tempSpace = (PushPanel) fieldAction;
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);

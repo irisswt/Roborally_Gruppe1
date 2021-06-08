@@ -106,32 +106,28 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
 
     // Copied from "Live-møde_Uge 12_-20210503_131255-Meeting Recording.mp4"
     const selectGame = useCallback(async (game: Game) => {
-        if (game.started) {
-            GameApi.getBoard(game.gameId).then(board => {
-                setSpaces(board.spaceDtos)
-                setPlayers(board.playerDtos)
-                setWidth(board.width)
-                setHeight(board.height)
-                setGameId(board.boardId)
-                setGameName(board.boardName)
-                if (board.currentPlayerDto) {
-                    setCurrentPlayer(board.currentPlayerDto)
-                    board.playerDtos.forEach((player, index) => {
-                        if (player.playerId === board.currentPlayerDto?.playerId) {
-                            setCurrentPlayerIndex(index)
-                        }
-                    })
-    
-                }
-    
-                setLoaded(true)
-            }).catch(() => {
-                console.error("Error while fetching board from backend")
-            })
-        } else {
-            console.error("Selected Game '"+game.name+"' is not started yet!")
-        }
-        
+        GameApi.getBoard(game.gameId).then(board => {
+            setSpaces(board.spaceDtos)
+            setPlayers(board.playerDtos)
+            setWidth(board.width)
+            setHeight(board.height)
+            setGameId(board.boardId)
+            setGameName(board.boardName)
+            if (board.currentPlayerDto) {
+                setCurrentPlayer(board.currentPlayerDto)
+                board.playerDtos.forEach((player, index) => {
+                    if (player.playerId === board.currentPlayerDto?.playerId) {
+                        setCurrentPlayerIndex(index)
+                    }
+                })
+
+            }
+
+            setLoaded(true)
+        }).catch(() => {
+            console.error("Error while fetching board from backend")
+        })
+
     }, [])
 
     const unselectGame = useCallback(async () => {

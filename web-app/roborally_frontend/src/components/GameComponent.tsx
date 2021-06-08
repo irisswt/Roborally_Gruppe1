@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) => {
     const { selectGame } = useContext(GameContext)
     let [edit, setEdit] = useState(false);
-    let [name, setName] = useState(game.name);
+    let [name, setName] = useState(game.gameName);
 
     const onClickGame = async () => {
         selectGame(game)
@@ -62,36 +62,34 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
     };
 
     return (
-        // TODO: Make divs with stylesheets instead
-
-        <div className={styles.container} onClick={onClickGame}>
+        <div className={styles.container} >
             <Box m={2}>
                 <Card>
                     <CardContent>
                         <Box>
                             {!edit ? <Typography variant="h5" align="center">{name} - {game.gameId}</Typography> :
-                                <Typography align="center">
+                                <Typography component={'span'} variant={'body2'} align="center">
                                     <form onSubmit={onSubmit}>
 
                                         <TextField variant="outlined" label="Edit name" onChange={onChange} />
 
                                     </form>
                                 </Typography>}
-                            {game.users.map((user, index) => <ListItem>
+                            {game.gameUsers.map((user, index) => <ListItem key={index}>
                                 <ListItemAvatar>
                                     <Avatar className={classes.orange}>
                                         <PlayerIcon />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    key={index}
+
                                     primary={user.playerName + " (no function yet)"}
                                 />
                             </ListItem>)}
                         </Box>
 
                         <CardActions>
-                            {!edit ? <Button className={classes.orange} size="small" color="primary">Join game</Button> : <Button className={classes.orange} size="small" color="primary" type="submit" onClick={onSubmit}>Save game</Button>}
+                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={onClickGame}>Join game</Button> : <Button className={classes.orange} size="small" color="primary" type="submit" onClick={onSubmit}>Save game</Button>}
                             {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(true)}>Edit game</Button> : <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(false)}>Cancel</Button>}
                             {edit ? <Button className={classes.orange} size="small" color="primary">Delete game</Button> : <div />}
                         </CardActions>

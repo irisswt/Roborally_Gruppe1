@@ -26,8 +26,6 @@ public class GameDto {
 
     public List<User> getUsers() {return users;}
 
-
-
     public void setGameName(String name) {this.name = name;}
 
     public void setGameId(int gameId) {this.gameId = gameId;}

@@ -9,7 +9,6 @@ import com.example.demo.model.Board;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
 import com.example.demo.model.admin.Game;
-import com.example.demo.model.admin.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -92,10 +91,10 @@ public class DtoMapper implements IDtoMapper {
             throw new MappingException("Game was null");
         }
         GameDto gameDto = new GameDto();
-        gameDto.setGameName(game.name);
-        gameDto.setUsers(game.users);
+        gameDto.setGameName(game.gameName);
+        gameDto.setUsers(game.gameUsers);
         gameDto.setGameId(game.gameId);
-        gameDto.setGameStarted(game.started);
+        gameDto.setGameStarted(game.gameStarted);
         return gameDto;
     }
 

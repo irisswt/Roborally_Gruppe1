@@ -5,6 +5,8 @@ import { Board } from "../types/Board";
 import { Space } from "../types/Space";
 import { Game } from "../types/Game";
 import GameApi from "../api/GameApi";
+import { useToasts } from 'react-toast-notifications';
+
 
 type GameContextProviderPropsType = {
     children: ReactNode
@@ -15,6 +17,10 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     const [games, setGames] = useState<Game[]>([])
 
     const [loaded, setLoaded] = useState<boolean>(false)
+
+    // For notifications
+    const { addToast } = useToasts();
+
     /*
     useEffect(() => {
         GameApi.getBoard(gameId).then(board => {
@@ -198,23 +204,48 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
         if (game.gameUsers.length >= 2) {
             if (!game.gameStarted) {
                 GameApi.startGame(game.gameId).then(() => {
-                    // TODO: Change API to start
+                    game.gameStarted = true;
                     console.log("Starting game: " + game.gameId)
+                    addToast('Starting game!', { appearance: 'success' });
                 }).catch(() => {
                     console.error("Error while starting game from backend")
+                    addToast('Error while starting game from backend!', { appearance: 'error' });
                 })
             } else {
                 console.log("Game already started: " + game.gameId + " id")
+                addToast('Game is already started!', { appearance: 'warning' });
+
             }
 
         } else {
             // Logic if games do not have enough players
             console.log("Not enough players to start game: " + game.gameId + " id")
             console.log("Players in game:" + game.gameUsers.length)
+            addToast('Not enough players to start game!', { appearance: 'warning' });
         }
     }, [])
 
+    /**
+     * Function that ends a game if its valid
+     * @author: Jonathan Zørn
+     */
+    const endGame = useCallback(async (game: Game) => {
+        if (game.gameStarted) {
+            GameApi.endGame(game.gameId).then(() => {
+                game.gameStarted = false;
+                console.log("Ending game: " + game.gameId);
+                addToast('Game ended!', { appearance: 'success' });
+            }).catch(() => {
+                console.error("Error while ending game from backend")
+                addToast('Error while ending game from backend!', { appearance: 'error' });
+            })
+        } else {
+            console.log("Game already stopped: " + game.gameId + " id")
+            addToast('Game is already stopped!', { appearance: 'warning' });
+        }
+    }, [])
 
+    // TODO: Lav warnings
 
     return (
         <GameContext.Provider
@@ -225,6 +256,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                     unselectGame: unselectGame,
                     deleteGame: deleteGame,
                     startGame: startGame,
+                    endGame: endGame,
                     loaded: loaded,
                     board: board,
                     setCurrentPlayerOnSpace: setPlayerOnSpace,

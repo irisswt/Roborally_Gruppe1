@@ -42,12 +42,14 @@ class GameApi {
         return axios.put<Game>(`${this.BACKEND_URL}/game/${gameId}/start`).then(value => value.data)
     }
 
+    public endGame(gameId: number) {
+        return axios.put<Game>(`${this.BACKEND_URL}/game/${gameId}/end`).then(value => value.data)
+    }
+
 
 
     //TODO:
-    // Start game
     // Create game
-    // End game
 }
 
 export default GameApi.getInstance()

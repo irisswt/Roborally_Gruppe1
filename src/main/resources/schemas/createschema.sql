@@ -51,6 +51,25 @@ CREATE TABLE IF NOT EXISTS CardInPlayersRegister (
   FOREIGN KEY(gameID, playerID) REFERENCES Player(gameID, playerID)
 );;
 
+CREATE TABLE IF NOT EXISTS CardInPlayersCardPile (
+  GameID INT NOT NULL,
+  PlayerID TINYINT NOT NULL,
+  CardPileNo INT,
+  CardValue INT,
+
+  PRIMARY KEY(PlayerID, GameID, CardPileNo),
+  FOREIGN KEY(gameID, playerID) REFERENCES Player(gameID, playerID)
+);;
+
+CREATE TABLE IF NOT EXISTS CardInPlayersDiscardPile (
+  GameID INT NOT NULL,
+  PlayerID TINYINT NOT NULL,
+  DiscardPileNo INT,
+  CardValue INT,
+
+  PRIMARY KEY(PlayerID, GameID, DiscardPileNo),
+  FOREIGN KEY(gameID, playerID) REFERENCES Player(gameID, playerID)
+);;
 
 SET FOREIGN_KEY_CHECKS = 1;;
 

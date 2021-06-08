@@ -8,30 +8,30 @@ import java.util.List;
  * @Author: Jonathan Zørn
  */
 public class Game {
-    public String name;
+    public String gameName;
 
     public int gameId;
+    
+    public boolean gameStarted;
 
-    public boolean started;
-
-    public List<User> users = new ArrayList<>();
+    public List<User> gameUsers = new ArrayList<>();
 
 
     public Game(String name, int gameId, boolean started, List<User> users) {
-        this.name = name;
+        this.gameName = name;
         this.gameId = gameId;
-        this.started = started;
-        this.users = users;
+        this.gameStarted = started;
+        this.gameUsers = users;
     }
 
     public int getGameId() {return gameId;}
     public void setGameId(int gameId) {this.gameId = gameId;}
 
-    public String getGameName() {return name;}
-    public void setGameName(String name) {this.name = name;}
+    public String getGameName() {return gameName;}
+    public void setGameName(String name) {this.gameName = name;}
 
-    public boolean getGameStarted() {return started;}
-    public void setGameStarted(boolean bool) {this.started = bool;}
+    public boolean getGameStarted() {return gameStarted;}
+    public void setGameStarted(boolean bool) {this.gameStarted = bool;}
 
-    public List<User> getGameUsers() {return users;}
+    public List<User> getGameUsers() {return gameUsers;}
 }

@@ -72,6 +72,7 @@ public class GameController {
         Board board = dtoMapper.convertToEntity(boardDTO);
         int boardId = gameService.saveBoard(board);
         return new ResponseEntity<>(boardId, HttpStatus.CREATED);
+        // http://localhost:8080/board
     }
 
     /**

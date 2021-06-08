@@ -233,7 +233,31 @@ public class AppController implements Observer {
             } catch (Exception e) {
                 ;
             }
+            try {
+                ArrayList<Space> startfields = new ArrayList<>();
 
+                Board board = gameController.board;
+                for (int i = 0; i < board.width; i++) {
+                    for (int j = 0; j < board.height; j++) {
+                        for (FieldAction action : board.getSpace(i, j).getActions()) {
+                            if (action instanceof StartGear) {
+                                startfields.add(board.getSpace(i, j));
+                            } else if (action instanceof Checkpoint) {
+                                board.setCheckpoints(board.getCheckpoints() + 1);
+                            } else if (action instanceof PriorityAntenna) {
+                                board.setPriorityAntenna(board.getSpace(i, j));
+                            } else if (action instanceof RebootTokens) {
+                                board.getRebootTokens().add(board.getSpace(i, j));
+                            }
+                        }
+                    }
+
+                }
+
+            } catch (Exception e) {
+
+            }
+            gameController.startProgrammingPhase();
         }
     }
 

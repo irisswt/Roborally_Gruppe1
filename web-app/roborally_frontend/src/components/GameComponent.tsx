@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useState } from "react";
+import React, { FunctionComponent, useContext, useState } from "react";
 import { Game } from "../types/Game";
 import GameContext from "../context/GameContext";
 import styles from "../styling/BoardComponent.module.scss" //Import css module
@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) => {
     const { selectGame } = useContext(GameContext)
     let [edit, setEdit] = useState(false);
+    let [name, setName] = useState(game.name);
 
     const onClickGame = async () => {
         selectGame(game)
@@ -53,8 +54,12 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
 
     const classes = useStyles();
 
-    const onSubmit = () => { };
-    const onChange = () => { };
+    const onSubmit = () => {
+        setEdit(false);
+    };
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
+    };
 
     return (
         // TODO: Make divs with stylesheets instead
@@ -64,7 +69,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
                 <Card>
                     <CardContent>
                         <Box>
-                            {!edit ? <Typography variant="h5" align="center">{game.name} - {game.gameId}</Typography> :
+                            {!edit ? <Typography variant="h5" align="center">{name} - {game.gameId}</Typography> :
                                 <Typography align="center">
                                     <form onSubmit={onSubmit}>
 
@@ -86,10 +91,9 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
                         </Box>
 
                         <CardActions>
-                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(edit ? edit = false : edit = true)}>Edit game</Button> : <div />}
-                            {!edit ? <Button className={classes.orange} size="small" color="primary">Join game</Button> : <div />}
-                            {edit ? <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(edit ? edit = false : edit = true)}>Cancel</Button> : <div />}
-                            {edit ? <Button className={classes.orange} size="small" color="primary" type="submit">Save game</Button> : <div />}
+                            {!edit ? <Button className={classes.orange} size="small" color="primary">Join game</Button> : <Button className={classes.orange} size="small" color="primary" type="submit" onClick={onSubmit}>Save game</Button>}
+                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(true)}>Edit game</Button> : <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(false)}>Cancel</Button>}
+                            {edit ? <Button className={classes.orange} size="small" color="primary">Delete game</Button> : <div />}
                         </CardActions>
                     </CardContent>
                 </Card>

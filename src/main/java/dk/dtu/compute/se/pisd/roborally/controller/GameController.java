@@ -501,10 +501,92 @@ public class GameController {
 
 
         }
-
+        for(int j = 0; j<board.getPlayersNumber(); j++){
+            robotsAttack(board.getPlayer(j));
+        }
 
 
     }
+    
+    /**
+     * Checks in a line from the player in the direction of their heading if there's another player.
+     * If so, they will be "attacked" and there will be added a SPAM damage card to their discard pile.
+     * @Author Isak
+     * @param player the player that deals the damage to another.
+     */
+    public void robotsAttack(@NotNull Player player){
+        if(player.getHeading()==Heading.EAST){
+            for(int i = player.getSpace().x; i<board.width; i++){
+                if(board.getSpace(i, player.getSpace().y).getPlayer() != null && board.getSpace(i, player.getSpace().y).getPlayer() != player){
+                    damagePlayersInHorizontalLine(player, i);
+                    break;
+                }
+                if(!player.getSpace().getWalls().isEmpty()){
+                    break;
+                }
+            }
+        }
+        if(player.getHeading()==Heading.WEST){
+            for(int i = player.getSpace().x; i>=0; i--){
+                if(board.getSpace(player.getSpace().x,i).getPlayer() != null && board.getSpace(i, player.getSpace().y).getPlayer() != player){
+                    damagePlayersInHorizontalLine(player, i);
+                    break;
+                }
+                if(!player.getSpace().getWalls().isEmpty()){
+                    break;
+                }
+            }
+        }
+        if(player.getHeading()==Heading.SOUTH){
+            for(int i = player.getSpace().y; i<board.height; i++){
+                if(board.getSpace(player.getSpace().x, i).getPlayer() != null && board.getSpace(player.getSpace().x, i).getPlayer() != player){
+                    damagePlayersInVerticalLine(player, i);
+                    break;
+                }
+                if(!player.getSpace().getWalls().isEmpty()){
+                    break;
+                }
+            }
+        }
+        if(player.getHeading()==Heading.NORTH){
+            for(int i = player.getSpace().y; i>=0; i--){
+                if(board.getSpace(player.getSpace().x,i).getPlayer() != null && board.getSpace(player.getSpace().x, i).getPlayer() != player){
+                    damagePlayersInVerticalLine(player, i);
+                    break;
+                }
+                if(!player.getSpace().getWalls().isEmpty()){
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Assist method to robotsAttack method.
+     * Currently just adding a SPAM damage card to the discard pile.
+     * Outcommented can be restored to add damage, though it might need fixing for dealing 2 instead of 1 damage.
+     * @Author Isak
+     * @param player the player that deals damage to another
+     * @param i the y position of the player
+     */
+    public void damagePlayersInVerticalLine(@NotNull Player player, int i){
+        //board.getSpace(player.getSpace().x,i).getPlayer().setDamage(board.getSpace(player.getSpace().x, i).getPlayer().getDamage()+1);
+        board.getSpace(player.getSpace().x,i).getPlayer().discardPile.add(new CommandCard(Command.SPAM));
+    }
+
+    /**
+     * Assist method to robotsAttack method.
+     * Currently just adding a SPAM damage card to the discard pile.
+     * Outcommented can be restored to add damage, though it might need fixing for dealing 2 instead of 1 damage.
+     * @Author Isak
+     * @param player the player that deals damage to another
+     * @param i the x position of the player
+     */
+    public void damagePlayersInHorizontalLine(@NotNull Player player, int i){
+        //board.getSpace(i, player.getSpace().y).getPlayer().setDamage(board.getSpace(i, player.getSpace().y).getPlayer().getDamage()+1);
+        board.getSpace(i, player.getSpace().y).getPlayer().discardPile.add(new CommandCard(Command.SPAM));
+    }
+
     /**
      * Checks if a player is standing on a pit, and punishes player if this is true
      *

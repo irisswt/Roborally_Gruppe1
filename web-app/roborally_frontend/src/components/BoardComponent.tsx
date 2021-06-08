@@ -3,7 +3,6 @@ import { SpaceComponent } from "./SpaceComponent";
 import styles from "../styling/BoardComponent.module.scss" //Import css module
 import GameContext from "../context/GameContext";
 import { Typography, Button } from "@material-ui/core";
-import ListItem from '@material-ui/core/ListItem';
 import { Game } from "../types/Game";
 import { deepPurple } from '@material-ui/core/colors';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -116,14 +115,11 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
                 </Button>
                 <br />
                 <br />
-                <Typography variant="h4">Game info</Typography>
+                <Typography variant="h5">Game info</Typography>
                 <Typography variant="subtitle1">{"Board id: " + board.boardId}</Typography>
                 <Typography variant="subtitle1">{"Board name: " + board.boardName}</Typography>
                 <Typography variant="subtitle1">Players:</Typography>
-                <ul>
-                    {board.playerDtos.map((user, index) => <ListItem key={index}> {user.playerName}</ListItem>)}
-                </ul>
-
+                {board.playerDtos.map((user, index) => <Typography variant="subtitle1" key={index}>- {user.playerName}</Typography>)}
 
 
 

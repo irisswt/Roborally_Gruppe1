@@ -11,15 +11,14 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
 
     const newGame = () => { console.log("new game name: " + inputName) }
 
-    const [formData, setFormData] = useState({ email: "", password: "" })
+    const [formData, setFormData] = useState({ inputName: String })
 
     let inputName = "N/A";
 
-    let handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    let handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [inputName]: e.target.value });
         newGame();
     }
-
 
     return (
         <div id="everything">
@@ -32,7 +31,7 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
                             <Typography variant="h6">Create a new game:</Typography>
                             <FormControl>
                                 <InputLabel htmlFor="my-input">enter game</InputLabel>
-                                <Input type="input" id="nameInput" aria-describedby="my-helper-text" onChange={handleChange} />
+                                <Input type="input" id="nameInput" aria-describedby="my-helper-text" onChange={handleInputChange} />
                                 <Button size="medium" variant="outlined" color="primary" onClick={newGame}>
                                     New Game
                                 </Button>

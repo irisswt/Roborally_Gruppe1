@@ -8,6 +8,7 @@ export type GameContextType = {
     games: Game[],
     selectGame: (game: Game) => Promise<void>,
     deleteGame: (game: Game) => Promise<void>,
+    startGame: (game: Game) => Promise<void>,
     unselectGame: () => Promise<void>
 
     // Information of game
@@ -24,6 +25,7 @@ const GameContext = createContext<GameContextType>({
     selectGame: async () => { },
     deleteGame: async () => { },
     unselectGame: async () => { },
+    startGame: async () => { },
 
     loaded: false,
     board: {

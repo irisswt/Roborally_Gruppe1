@@ -38,6 +38,10 @@ class GameApi {
         return axios.delete<Game>(`${this.BACKEND_URL}/game/${gameId}/delete`).then(value => value.data)
     }
 
+    public startGame(gameId: number) {
+        return axios.put<Game>(`${this.BACKEND_URL}/game/${gameId}/start`).then(value => value.data)
+    }
+
 
 
     //TODO:

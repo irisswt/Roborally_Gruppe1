@@ -65,10 +65,6 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
         deleteGame(game)
     }
 
-    const onCancel = () => {
-        setName(game.gameName)
-        setEdit(false)
-    }
 
     return (
         

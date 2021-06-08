@@ -62,9 +62,8 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
     };
 
     return (
-        // TODO: Make divs with stylesheets instead
 
-        <div className={styles.container} onClick={onClickGame}>
+        <div className={styles.container} >
             <Box m={2}>
                 <Card>
                     <CardContent>
@@ -91,7 +90,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
                         </Box>
 
                         <CardActions>
-                            {!edit ? <Button className={classes.orange} size="small" color="primary">Join game</Button> : <Button className={classes.orange} size="small" color="primary" type="submit" onClick={onSubmit}>Save game</Button>}
+                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={onClickGame}>Join game</Button> : <Button className={classes.orange} size="small" color="primary" type="submit" onClick={onSubmit}>Save game</Button>}
                             {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(true)}>Edit game</Button> : <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(false)}>Cancel</Button>}
                             {edit ? <Button className={classes.orange} size="small" color="primary">Delete game</Button> : <div />}
                         </CardActions>

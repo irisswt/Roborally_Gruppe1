@@ -1,26 +1,46 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent, useContext, useState } from 'react';
 import GameContext from "../context/GameContext";
 import { GameComponent } from "./GameComponent";
 import styles from "../styling/BoardComponent.module.scss" //Import css module
-import { CardContent, Box, Card, Typography, Button } from "@material-ui/core";
-//https://material-ui.com
+import { Typography, Button, TextField, FormControl, InputLabel, Input, FormHelperText } from "@material-ui/core";
 
 type GamesComponentProps = {}
 const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
 
-    const { games, loaded, board } = useContext(GameContext)
+    const { games, loaded } = useContext(GameContext)
 
-    const newGame = () => { console.log("new game") }
+    const newGame = () => { console.log("new game name: " + inputName) }
+
+    const [formData, setFormData] = useState({ email: "", password: "" })
+
+    let inputName = "N/A";
+
+    let handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [inputName]: e.target.value });
+        newGame();
+    }
+
 
     return (
         <div>
-            {board.boardId == null ? <div>
-                <Typography variant="h3">RoboRally</Typography>
-                <Button size="large" variant="outlined" color="primary" onClick={newGame}>
-                    New Game
-                </Button>
-                <Typography variant="h5">Games</Typography>
-            </div> : <div />}
+            <div className={styles.centerHori}>
+                <Typography variant="h2">RoboRally</Typography>
+                <br />
+                <Typography variant="h6">Enter game name:</Typography>
+                <br />
+                <FormControl>
+                    <InputLabel htmlFor="my-input">Game name</InputLabel>
+                    <Input type="input" id="nameInput" aria-describedby="my-helper-text" onChange={handleChange} />
+                    <Button size="medium" variant="outlined" color="primary" onClick={newGame}>
+                        New Game
+                    </Button>
+                </FormControl>
+                <br />
+                <br />
+                <br />
+                <br />
+            </div>
+            <Typography variant="h5">Games</Typography>
             {
                 !loaded ?
                     <div className={styles.container} >

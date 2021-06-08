@@ -53,4 +53,9 @@ public class GameAdminService implements IGameAdminService {
         }
         return savedGameId;
     }
+
+    @Override
+    public void deleteGame(Game game) throws ServiceException, DaoException {
+        gameDao.deleteGame(game.getGameId());
+    }
 }

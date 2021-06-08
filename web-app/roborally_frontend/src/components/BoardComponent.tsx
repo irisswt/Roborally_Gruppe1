@@ -33,35 +33,9 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
         loaded ?
             <div>
 
-                {!join ?
-                    <Button variant="contained" color="primary" onClick={onSetJoin}  >
-                        Join
-                </Button>
-
-                    :
-
-                    < Button variant="contained" color="primary" onClick={onSetLeave}  >
-                        Leave
-                </Button>
 
 
-                }
-
-                {!start && join ? <Button variant="contained" color="primary" onClick={onSetStart}  >
-                    Start Game
-                </Button> : join ? <Button variant="contained" color="primary" onClick={onSetEnd}  >
-                    End Game
-                </Button> : <div />}
-
-
-                <Button variant="contained" color="secondary">
-                    Back to Games
-                </Button>
-
-
-
-
-                <Typography variant="h3"> {board.boardName} </Typography>
+                <Typography variant="h3">{board.boardName}</Typography>
                 <div className={styles.container}>
                     {board.spaceDtos.map((spaceArray, index) =>
                         <div key={"spaceArray" + index}>
@@ -72,6 +46,30 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
                     )
                     }
                 </div>
+
+                {!join ?
+                    <Button variant="text" color="primary" onClick={onSetJoin}  >
+                        Join
+                </Button>
+
+                    :
+
+                    < Button variant="text" color="primary" onClick={onSetLeave}  >
+                        Leave
+                </Button>
+                }
+
+
+                <Button variant="text" color="primary">
+                    Back to Games
+                </Button>
+
+
+                {!start && join ? <Button variant="text" color="primary" onClick={onSetStart}  >
+                    Start Game
+                </Button> : join ? <Button variant="text" color="primary" onClick={onSetEnd}  >
+                    End Game
+                </Button> : <div />}
 
 
 

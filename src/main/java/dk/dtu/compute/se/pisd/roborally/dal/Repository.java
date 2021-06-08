@@ -66,6 +66,15 @@ class Repository implements IRepository {
 		this.connector = connector;
 	}
 
+	/**
+	 * This method creates the game by making a connection to the database and inserting all relevant information into the different tables.
+	 * When it's done it closes the connection again.
+	 * @Author Ekkart Kindler
+	 * @Author Isak Risager
+	 * @param game
+	 * @return
+	 * Modified: this method now calls all the create methods relevant.
+	 */
 	@Override
 	public boolean createGameInDB(Board game) {
 		if (game.getGameId() == null) {
@@ -136,6 +145,15 @@ class Repository implements IRepository {
 		return false;
 	}
 
+	/**
+	 * This method updates the game by making a connection to the database and updating all relevant information in the different tables.
+	 * When it's done it closes the connection again.
+	 * @Author Ekkart Kindler
+	 * @Author Isak Risager
+	 * @param game
+	 * @return
+	 * Modified: this method now calls all the update methods relevant.
+	 */
 	@Override
 	public boolean updateGameInDB(Board game) {
 		assert game.getGameId() != null;
@@ -177,6 +195,15 @@ class Repository implements IRepository {
 		return false;
 	}
 
+	/**
+	 * This method loads the game by making a connection to the database and selecting all relevant information in the different tables.
+	 * When it's done it closes the connection again.
+	 * @Author Ekkart Kindler
+	 * @Author Isak Risager
+	 * @param id
+	 * @return
+	 * Modified: this method now calls all the load methods relevant.
+	 */
 	@Override
 	public Board loadGameFromDB(int id) {
 		Board game;
@@ -225,6 +252,11 @@ class Repository implements IRepository {
 		return null;
 	}
 
+	/**
+	 * Gets all the games saved in the database
+	 * @Author Ekkart Kindler
+	 * @return a list of all the games
+	 */
 	@Override
 	public List<GameInDB> getGames() {
 		// TODO when there many games in the DB, fetching all available games
@@ -247,6 +279,14 @@ class Repository implements IRepository {
 		return result;
 	}
 
+	/**
+	 * Insert information regarding the players in a game into the database table "Player".
+	 * @Author Ekkart Kindler
+	 * @Author Jonathan Zørn
+	 * @param game
+	 * @throws SQLException
+	 * Modified: Updated the method to also add checkpoints
+	 */
 	private void createPlayersInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersStatementU();
 		ps.setInt(1, game.getGameId());
@@ -267,6 +307,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Inserts the cards on each players hand in a game into the database.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void createPlayersHandCardsInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersHandStatementU();
 		ps.setInt(1, game.getGameId());
@@ -290,6 +336,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Inserts the card in each players registers in the database.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void createPlayersRegisterCardsInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersRegisterStatementU();
 		ps.setInt(1, game.getGameId());
@@ -313,6 +365,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Inserts each players deck/card pile in the database.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void createPlayersCardPileInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersCardPileStatementU();
 		ps.setInt(1, game.getGameId());
@@ -336,6 +394,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Inserts each players discard pile in the database.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void createPlayersDiscardPileInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersDiscardPileStatementU();
 		ps.setInt(1, game.getGameId());
@@ -359,6 +423,14 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Load information regarding the players in a game from the database.
+	 * @Author Ekkart Kindler
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 * Modified: Added checkpoints
+	 */
 	private void loadPlayersFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersASCStatement();
 		ps.setInt(1, game.getGameId());
@@ -376,6 +448,7 @@ class Repository implements IRepository {
 				player.setSpace(game.getSpace(x,y));
 				int heading = rs.getInt(PLAYER_HEADING);
 				player.setHeading(Heading.values()[heading]);
+				player.setCheckpoint(rs.getInt(PLAYER_CHECKPOINT));
 			} else {
 				System.err.println("Game in DB does not have a player with id " + i +"!");
 			}
@@ -383,6 +456,14 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Load each players cards into their hand from a saved game in the database.
+	 * @Author Isak Risager
+	 * @Author Jonathan Zørn
+	 * @param game
+	 * @throws SQLException
+	 * Modified: Fixed functionality
+	 */
 	private void loadCardsInPlayersHandFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersHandStatementU();
 		ps.setInt(1, game.getGameId());
@@ -400,6 +481,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Load each players cards into their registers from a saved game in the database.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void loadCardsInPlayersRegisterFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersRegisterStatementU();
 		ps.setInt(1, game.getGameId());
@@ -417,6 +504,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Load each players deck/card piles from a saved game in the database.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void loadCardsInPlayersCardPileFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersCardPileStatementU();
 		ps.setInt(1, game.getGameId());
@@ -433,6 +526,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Load each players discard piles from a saved game in the database.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void loadCardsInPlayersDiscardPileFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersDiscardPileStatementU();
 		ps.setInt(1, game.getGameId());
@@ -449,6 +548,14 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Updates the information about each player in the database for the specific game.
+	 * @Author Ekkart Kindler
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 * Modified: Added checkpoints
+	 */
 	private void updatePlayersInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersStatementU();
 		ps.setInt(1, game.getGameId());
@@ -460,11 +567,18 @@ class Repository implements IRepository {
 			rs.updateInt(PLAYER_POSITION_X, player.getSpace().x);
 			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
 			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
+			rs.updateInt(PLAYER_CHECKPOINT, player.getCheckpoint());
 			rs.updateRow();
 		}
 		rs.close();
 	}
 
+	/**
+	 * Updates the information about each player cards in their hand, in the database for the specific game.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void updatePlayersHandCardsInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersHandStatementU();
 		ps.setInt(1, game.getGameId());
@@ -489,6 +603,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Updates the information about each player cards in their registers, in the database for the specific game.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void updatePlayersRegisterCardsInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersRegisterStatementU();
 		ps.setInt(1, game.getGameId());
@@ -513,6 +633,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Updates the information about each players card pile in the database for the specific game.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void updatePlayersCardPileInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersCardPileStatementU();
 		ps.setInt(1, game.getGameId());
@@ -537,6 +663,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * Updates the information about each players discard pile in the database for the specific game.
+	 * @Author Isak Risager
+	 * @param game
+	 * @throws SQLException
+	 */
 	private void updatePlayersDiscardPileInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectCardInPlayersDiscardPileStatementU();
 		ps.setInt(1, game.getGameId());
@@ -561,9 +693,12 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	/**
+	 * The prepared statement to send to the database in SQL to insert into the Game table
+	 * @Author Ekkart Kindler
+	 */
 	private static final String SQL_INSERT_GAME =
 			"INSERT INTO Game(name, currentPlayer, phase, step) VALUES (?, ?, ?, ?)";
-
 	private PreparedStatement insert_game_stmt = null;
 
 	private PreparedStatement getInsertGameStatementRGK() {
@@ -581,6 +716,10 @@ class Repository implements IRepository {
 		return insert_game_stmt;
 	}
 
+	/**
+	 * The prepared statement to send to the database in SQL that selects everything in the Game table that matches the gameID
+	 * @Author Ekkart Kindler
+	 */
 	private static final String SQL_SELECT_GAME =
 			"SELECT * FROM Game WHERE gameID = ?";
 
@@ -602,6 +741,10 @@ class Repository implements IRepository {
 		return select_game_stmt;
 	}
 
+	/**
+	 * The prepared statement to send to the database in SQL that selects everything in the Player table that matches the gameID
+	 * @Author Ekkart Kindler
+	 */
 	private static final String SQL_SELECT_PLAYERS =
 			"SELECT * FROM Player WHERE gameID = ?";
 
@@ -622,6 +765,10 @@ class Repository implements IRepository {
 		}
 		return select_players_stmt;
 	}
+	/**
+	 * The prepared statement to send to the database in SQL that selects everything in the CardInPlayersHand table that matches the gameID
+	 * @Author Isak Risager
+	 */
 	private static final String SQL_SELECT_CARDINPLAYERSHAND =
 			"SELECT * FROM CardInPlayersHand WHERE gameID = ?";
 
@@ -643,6 +790,10 @@ class Repository implements IRepository {
 		return select_cardInPlayersHand_stmt;
 	}
 
+	/**
+	 * The prepared statement to send to the database in SQL that selects everything in the CardInPlayersRegister table that matches the gameID
+	 * @Author Isak Risager
+	 */
 	private static final String SQL_SELECT_CARDINPLAYERSREGISTER =
 			"SELECT * FROM CardInPlayersRegister WHERE gameID = ?";
 
@@ -664,6 +815,10 @@ class Repository implements IRepository {
 		return select_cardInPlayersRegister_stmt;
 	}
 
+	/**
+	 * The prepared statement to send to the database in SQL that selects everything in the CardInPlayersCardPile that matches the gameID
+	 * @Author Isak Risager
+	 */
 	private static final String SQL_SELECT_CARDINPLAYERSCARDPILE =
 			"SELECT * FROM CardInPlayersCardPile WHERE gameID = ?";
 
@@ -685,6 +840,10 @@ class Repository implements IRepository {
 		return select_cardInPlayersCardPile_stmt;
 	}
 
+	/**
+	 * The prepared statement to send to the database in SQL that selects everything in the CardInPlayersDiscardPile that matches the gameID
+	 * @Author Isak Risager
+	 */
 	private static final String SQL_SELECT_CARDINPLAYERSDISCARDPILE =
 			"SELECT * FROM CardInPlayersDiscardPile WHERE gameID = ?";
 
@@ -706,6 +865,10 @@ class Repository implements IRepository {
 		return select_cardInPlayersDiscardPile_stmt;
 	}
 
+	/**
+	 * The prepared statement to send to the database in SQL that selects everything in the Players table that matches the gameID and sort it in ascending order
+	 * @Author Ekkart Kindler
+	 */
 	private static final String SQL_SELECT_PLAYERS_ASC =
 			"SELECT * FROM Player WHERE gameID = ? ORDER BY playerID ASC";
 
@@ -726,7 +889,10 @@ class Repository implements IRepository {
 		return select_players_asc_stmt;
 	}
 
-
+	/**
+	 * The prepared statement to send to the database in SQL that selects the gameIDs and names from the Game table
+	 * @Author Ekkart Kindler
+	 */
 	private static final String SQL_SELECT_GAMES =
 			"SELECT gameID, name FROM Game";
 

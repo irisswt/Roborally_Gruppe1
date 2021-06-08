@@ -64,9 +64,9 @@ public class GameAdminController {
     }
 
     @DeleteMapping("/game/{gameId}/delete")
-    public ResponseEntity<Integer> deleteGame(@RequestBody GameDto gameDto) throws ServiceException, MappingException, DaoException {
-        Game game = dtoMapper.convertToEntity(gameDto);
-        gameAdminService.saveGame(game);
+    public ResponseEntity<Integer> deleteGame(@PathVariable("gameId") int gameId) throws ServiceException, MappingException, DaoException {
+        Game game = gameAdminService.getGame(gameId);
+        gameAdminService.deleteGame(game);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

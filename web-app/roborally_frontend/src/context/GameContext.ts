@@ -7,6 +7,7 @@ import { Game } from "../types/Game";
 export type GameContextType = {
     games: Game[],
     selectGame: (game: Game) => Promise<void>,
+    deleteGame: (game: Game) => Promise<void>,
     unselectGame: () => Promise<void>
 
     // Information of game
@@ -21,6 +22,7 @@ export type GameContextType = {
 const GameContext = createContext<GameContextType>({
     games: [],
     selectGame: async () => { },
+    deleteGame: async () => { },
     unselectGame: async () => { },
 
     loaded: false,

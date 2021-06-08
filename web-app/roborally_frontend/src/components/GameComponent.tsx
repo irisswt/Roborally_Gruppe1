@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) => {
     const { selectGame } = useContext(GameContext)
+    const { deleteGame } = useContext(GameContext)
     let [edit, setEdit] = useState(false);
     let [name, setName] = useState(game.gameName);
 
@@ -60,6 +61,9 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
     };
+    const onClickDelete = async () => {
+        deleteGame(game)
+    }
 
     return (
         <div className={styles.container} >
@@ -89,9 +93,9 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
                         </Box>
 
                         <CardActions>
-                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={onClickGame}>Join game</Button> : <Button className={classes.orange} size="small" color="primary" type="submit" onClick={onSubmit}>Save game</Button>}
+                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={onClickGame}>See game</Button> : <Button className={classes.orange} size="small" color="primary" type="submit" onClick={onSubmit}>Save game</Button>}
                             {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(true)}>Edit game</Button> : <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(false)}>Cancel</Button>}
-                            {edit ? <Button className={classes.orange} size="small" color="primary">Delete game</Button> : <div />}
+                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={onClickDelete}>Delete game</Button> : <div />}
                         </CardActions>
                     </CardContent>
                 </Card>

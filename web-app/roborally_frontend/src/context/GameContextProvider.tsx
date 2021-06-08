@@ -65,6 +65,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                 tempSpaces[space.x][space.y].playerId = currentPlayer.playerId //Set the player on the new space they clicked on
 
                 if (currentPlayer.x !== undefined && currentPlayer.y !== undefined) { //If the player was standing on a space previously, remove them from that space
+                    // FIXME: Theres a warning here. It is from the original backend. I dont think it affects anything tho.
                     tempSpaces[currentPlayer.x][currentPlayer.y].playerId = undefined
                 }
                 setSpaces(tempSpaces)
@@ -176,6 +177,18 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     }, [loaded, gameId])
 
 
+    /**
+     * Function that removes a certain game from id
+     * @author: Jonathan Zørn
+     */
+    const deleteGame = useCallback(async (game: Game) => {
+        GameApi.deleteGame(game.gameId).then(() => {
+            console.log("Deleting game: " + game.gameId)
+        }).catch(() => {
+            console.error("Error while fetching deleting board from backend")
+        })
+
+    }, [])
 
     return (
         <GameContext.Provider
@@ -184,6 +197,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                     games: games,
                     selectGame: selectGame,
                     unselectGame: unselectGame,
+                    deleteGame: deleteGame,
                     loaded: loaded,
                     board: board,
                     setCurrentPlayerOnSpace: setPlayerOnSpace,

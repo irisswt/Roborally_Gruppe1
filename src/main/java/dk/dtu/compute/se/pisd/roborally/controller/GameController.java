@@ -293,10 +293,13 @@ public class GameController {
     }
 
     /**
+     *
      * Will execute the option chosen by a player and continue the game. Needs to be
      * adjusted later to remove duplicated code.
      *
      * @param option the option the player has chosen from the interactive card.
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Louis Monty-Krohn s205424
      */
     public void executeCommandOptionAndContinue(@NotNull Command option) {
         Player currentPlayer = board.getCurrentPlayer();
@@ -326,6 +329,7 @@ public class GameController {
      * @param player  the player that needs to move
      * @param command command depending on the card chosen. Will dictate how the
      *                player will move.
+     *
      */
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
@@ -373,6 +377,9 @@ public class GameController {
      * space.
      *
      * @param player the player that needs to move
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Jens Iversen, s205411
+     * @author Jonathan Zørn, s194134
      */
     public void moveForward(@NotNull Player player) {
         Heading heading = player.getHeading();
@@ -394,6 +401,7 @@ public class GameController {
      * @param player
      * @param heading
      * @return Boolean Checks if a move is possible in regard to tokens
+     * @author Jens Iversen, s205411
      */
     public Boolean isMovePossible(Player player, Heading heading) {
 
@@ -432,6 +440,9 @@ public class GameController {
      *                                 tries to move the second player before the
      *                                 first one. If a player cannot move, the
      *                                 impossible move exception is thrown
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Jens Iversen, s205424
+     * @author Jonathan Zørn, s194034
      */
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Boolean canMove;
@@ -463,6 +474,7 @@ public class GameController {
      * @param player that needs to be checked
      * @throws ImpossibleMoveException if the player is going to make an illegal
      *                                 move
+     * @author Jens Iversen, s205411
      */
 
     public void endRegister(Player player) throws ImpossibleMoveException {
@@ -506,7 +518,7 @@ public class GameController {
      *
      * @param player that needs to be checked
      *
-     *
+     * @auther Jens Iversen, s205411
      */
     public void checkForPit(Player player){
         Space space = player.getSpace();
@@ -520,6 +532,13 @@ public class GameController {
         }
 
     }
+
+    /**
+     * Reboots a players robot
+     * @param player which robot is being rebooted
+     * @author Jens Iversen, s205411
+     * @author Louis Monty-Krohn, s205424
+     */
     public void reboot(Player player) {
         player.resetCards();
         List<Space> tokens = board.getRebootTokens();
@@ -537,6 +556,14 @@ public class GameController {
         }
     }
 
+    /**
+     * Finds the closest space to a player, which has a reboot token
+     * @param spaces all spaces which has a reboot token
+     * @param player Player which is being rebooted
+     * @return The closest space with a reboot token
+     * @author Jens Iversen, s205411
+     * @author Louis Monty-Krohn, s205424
+     */
     public Space getClosestRebootToken(List<Space> spaces, Player player) {
         Space retSpace = null;
         int length = Integer.MAX_VALUE;

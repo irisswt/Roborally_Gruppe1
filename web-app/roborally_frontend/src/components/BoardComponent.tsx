@@ -65,11 +65,11 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
                 </Button>
 
 
-                {!start && join ? <Button size="large" variant="text" color="primary" onClick={onSetStart}  >
+                <Button size="large" variant="text" color="primary" onClick={onSetStart}  >
                     Start Game
-                </Button> : join ? <Button size="large" variant="text" color="primary" onClick={onSetEnd}  >
+                </Button>  <Button size="large" variant="text" color="primary" onClick={onSetEnd}  >
                     End Game
-                </Button> : <div />}
+                </Button>
 
 
 

@@ -9,6 +9,16 @@ import org.jetbrains.annotations.NotNull;
 
 public class Gear extends FieldAction {
 
+
+    /**
+     * Turns player
+     *
+     * @param gameController the gameController of the respective game
+     * @param space the space this action should be executed for
+     * @return
+     *
+     * @author Jonas zørnsen
+     */
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         Player player = space.getPlayer();

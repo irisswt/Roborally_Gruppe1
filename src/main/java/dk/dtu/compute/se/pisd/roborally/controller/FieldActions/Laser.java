@@ -34,6 +34,8 @@ public class Laser extends FieldAction {
 
     /**
      * makes the player draw damage cards, decided by the amount of lasers
+     *
+     * @auther Louis Monty-Krohn
      */
     @Override
     public boolean doAction(GameController gameController, Space space) {

@@ -61,7 +61,16 @@ public class Board extends Subject {
 
     private final Space[][] spaces;
 
+
+    private Player[] playerList;
+
     private final List<Player> players = new ArrayList<>();
+
+    public List<Space> getRebootTokens() {
+        return rebootTokens;
+    }
+
+    private final List<Space> rebootTokens = new ArrayList<>();
 
     private Player current;
 
@@ -81,7 +90,13 @@ public class Board extends Subject {
         this.priorityAntenna = priorityAntenna;
     }
 
+    public Player[] getPlayerList() {
+        return playerList;
+    }
 
+    public void setPlayerList(Player[] playerList) {
+        this.playerList = playerList;
+    }
 
     public int getCheckpoints() {
         return checkpoints;
@@ -293,6 +308,10 @@ public class Board extends Subject {
      * @param space the space for which the neighbour should be computed
      * @param heading the heading of the neighbour
      * @return the space in the given direction; null if there is no (reachable) neighbour
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Jens Will Iversen
+     * @author Jonathan Zørn
+     *
      */
     public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
         int x = space.x;

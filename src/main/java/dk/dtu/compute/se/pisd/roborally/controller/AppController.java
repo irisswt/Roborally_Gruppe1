@@ -28,6 +28,7 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PriorityAntenna;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.RebootTokens;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.StartGear;
 import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
@@ -82,6 +83,7 @@ public class AppController implements Observer {
      * Method to start a new game. Will present a dropdown menu with number of
      * players and create the chosen amount of players along with other elements
      * required for the game to start such as a board and the GUI.
+     * @author Niklas Jessen
      */
     public void newGame() {
         File boardFolder = new File("src/main/resources/boards");
@@ -129,6 +131,8 @@ public class AppController implements Observer {
                                         board.setCheckpoints(board.getCheckpoints()+1);
                                     }else if(action instanceof PriorityAntenna){
                                         board.setPriorityAntenna(board.getSpace(i,j));
+                                    }else if(action instanceof RebootTokens){
+                                        board.getRebootTokens().add(board.getSpace(i,j));
                                     }
                                 }
                             }
@@ -160,6 +164,9 @@ public class AppController implements Observer {
         }
     }
 
+    /*
+    * @author Niklas Jessen
+    */
     public void saveGame() {
         // XXX needs to be implemented eventually
 
@@ -194,6 +201,12 @@ public class AppController implements Observer {
 
     }
 
+    /**
+     * gives the ability select a game from the database
+     *
+     * @auther Louis Monty-Krohn
+     * @author Niklas Jessen
+     */
     public void loadGame() {
 
         // XXX needs to be implememted eventually
@@ -208,7 +221,7 @@ public class AppController implements Observer {
             ChoiceDialog<String> dialog = new ChoiceDialog<>(gameName.get(0), gameName);
 
             dialog.setTitle("Player number");
-            dialog.setHeaderText("Select number of players");
+            dialog.setHeaderText("Chose a game");
             Optional<String> result = dialog.showAndWait();
             try {
                 for (GameInDB game : gameIDs) {
@@ -225,7 +238,31 @@ public class AppController implements Observer {
             } catch (Exception e) {
                 ;
             }
+            try {
+                ArrayList<Space> startfields = new ArrayList<>();
 
+                Board board = gameController.board;
+                for (int i = 0; i < board.width; i++) {
+                    for (int j = 0; j < board.height; j++) {
+                        for (FieldAction action : board.getSpace(i, j).getActions()) {
+                            if (action instanceof StartGear) {
+                                startfields.add(board.getSpace(i, j));
+                            } else if (action instanceof Checkpoint) {
+                                board.setCheckpoints(board.getCheckpoints() + 1);
+                            } else if (action instanceof PriorityAntenna) {
+                                board.setPriorityAntenna(board.getSpace(i, j));
+                            } else if (action instanceof RebootTokens) {
+                                board.getRebootTokens().add(board.getSpace(i, j));
+                            }
+                        }
+                    }
+
+                }
+
+            } catch (Exception e) {
+
+            }
+            gameController.startProgrammingPhase();
         }
     }
 

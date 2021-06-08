@@ -11,6 +11,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 
 public class LaserView {
+    /**
+     *Draws the amount of lasers by the integer saved in the field element Laser
+     * @param spaceView
+     * @param fieldAction
+     *
+     * @auther Louis Monty-Krohn
+     */
         public  static void drawLaser(SpaceView spaceView, FieldAction fieldAction) {
         Laser tempSpace = (Laser) fieldAction;
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);

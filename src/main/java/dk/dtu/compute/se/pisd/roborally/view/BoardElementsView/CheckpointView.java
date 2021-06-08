@@ -15,11 +15,19 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class CheckpointView {
+    /**
+     *Draws a image of a Checkpoint
+     * And draws the number of the checkpoint
+     * @param spaceView
+     * @param fieldAction
+     *
+     * @auther Louis Monty-Krohn
+     */
     public static void drawCheckpoint(SpaceView spaceView, FieldAction fieldAction) {
         Checkpoint checpoint = (Checkpoint) fieldAction;
         FileInputStream inputstream = null;
         try {
-            inputstream = new FileInputStream("src/main/resources/Img/startGear.PNG");
+            inputstream = new FileInputStream("src/main/resources/Img/Checkpoint.PNG");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

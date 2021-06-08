@@ -75,7 +75,7 @@ public class Player extends Subject {
         this.disToPri = disToPri;
     }
 
-
+    private Boolean isInPit = false;
     private int damage = 0;
 
     /**
@@ -216,9 +216,46 @@ public class Player extends Subject {
      * Get method for a players Card field.
      * @param i the number of the specific field.
      * @return the specific Card field.
+     *
      */
     public CommandCardField getCardField(int i) {
         return cards[i];
     }
 
+    /**
+     * Discards all cards player has in registers and on hand
+     * Also sets isInPit to true
+     * @author Jens Will Iversen
+     * @author Louis Monty-Krohn
+     */
+    public void resetCards(){
+        isInPit = true;
+        for(CommandCardField cardField : cards){
+            if (cardField.getCard() != null){
+                discardPile.add(cardField.getCard());
+                cardPile.remove(cardField.getCard());
+                cardField.setCard(null);
+            }
+
+        }
+        for(int i = board.getStep()+1; i < 5; i++){
+            CommandCardField current = program[i];
+            if (current.getCard() != null){
+                discardPile.add(current.getCard());
+                cardPile.remove(current.getCard());
+                current.setCard(null);
+            }
+
+        }
+
+        notifyChange();
+    }
+
+    public void setInPit(Boolean inPit) {
+        isInPit = inPit;
+    }
+
+    public Boolean getInPit() {
+        return isInPit;
+    }
 }

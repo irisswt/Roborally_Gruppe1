@@ -498,45 +498,7 @@ public class GameController {
 
         }
 
-        /*if (board.getNeighbour(space, ((ConveyorBelt) action).getHeading()).getPlayer() == null) {
-                        moveToSpace(player, board.getNeighbour(space, ((ConveyorBelt) action).getHeading()), ((ConveyorBelt) action).getHeading());
-                    }
 
-                     */
-        /*if (space instanceof PushPanel) {
-            if (((PushPanel) space).getNumber() == board.getStep()){
-                moveToSpace(player, board.getNeighbour(space, ((PushPanel) space).getHeading()),
-                        ((PushPanel) space).getHeading());
-            }
-
-            if (action instanceof PushPanel) {
-                Heading heading = ((PushPanel) action).getHeading();
-                Space target = board.getNeighbour(player.getSpace(), heading);
-                if (target != null) {
-                    try {
-                        moveToSpace(player, target, heading);
-                    } catch (ImpossibleMoveException e) {
-        }
-
-        if (space instanceof Pit) {
-
-                    }
-                }
-            }
-            if (action instanceof Pit) {
-
-            }
-            if (action instanceof Gear) {
-                Heading playerHeading = player.getHeading();
-                player.setHeading(playerHeading.next());
-            }
-            space = player.getSpace();
-            space.landOnSpace();
-            if (!space.getActions().isEmpty()) {
-                space.getActions().get(0).doAction(this, space);
-            }
-
-         */
 
     }
     /**

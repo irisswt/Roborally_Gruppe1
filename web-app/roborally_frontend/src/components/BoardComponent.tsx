@@ -48,26 +48,26 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
                 </div>
 
                 {!join ?
-                    <Button variant="text" color="primary" onClick={onSetJoin}  >
+                    <Button size="large" variant="text" color="primary" onClick={onSetJoin}  >
                         Join
                 </Button>
 
                     :
 
-                    < Button variant="text" color="primary" onClick={onSetLeave}  >
+                    < Button size="large" variant="text" color="primary" onClick={onSetLeave}  >
                         Leave
                 </Button>
                 }
 
 
-                <Button variant="text" color="primary">
+                <Button size="large" variant="text" color="primary">
                     Back to Games
                 </Button>
 
 
-                {!start && join ? <Button variant="text" color="primary" onClick={onSetStart}  >
+                {!start && join ? <Button size="large" variant="text" color="primary" onClick={onSetStart}  >
                     Start Game
-                </Button> : join ? <Button variant="text" color="primary" onClick={onSetEnd}  >
+                </Button> : join ? <Button size="large" variant="text" color="primary" onClick={onSetEnd}  >
                     End Game
                 </Button> : <div />}
 

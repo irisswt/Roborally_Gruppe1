@@ -73,6 +73,14 @@ class Repository implements IRepository {
 
 	private static final String CARDINPLAYERSREGISTER_CARDVALUE = "CardValue";
 
+	private static final String CARDINPLAYERSCARDPILE_CARDPILENO = "CardPileNo";
+
+	private static final String CARDINPLAYERSCARDPILE_CARDVALUE = "CardValue";
+
+	private static final String CARDINPLAYERSDISCARDPILE_DISCARDPILENO = "DiscardPileNo";
+
+	private static final String CARDINPLAYERSDISCARDPILE_CARDVALUE = "CardValue";
+
 	private Connector connector;
 
 	Repository(Connector connector){
@@ -118,6 +126,8 @@ class Repository implements IRepository {
 				createPlayersInDB(game);
 				createPlayersHandCardsInDB(game);
 				createPlayersRegisterCardsInDB(game);
+				createPlayersCardPileInDB(game);
+				createPlayersDiscardPileInDB(game);
 
 				// since current player is a foreign key, it can oly be
 				// inserted after the players are created, since MySQL does
@@ -162,14 +172,11 @@ class Repository implements IRepository {
 	@Override
 	public boolean updateGameInDB(Board game) {
 		assert game.getGameId() != null;
-
 		Connection connection = connector.getConnection();
 		try {
 			connection.setAutoCommit(false);
-
 			PreparedStatement ps = getSelectGameStatementU();
 			ps.setInt(1, game.getGameId());
-
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
@@ -178,14 +185,14 @@ class Repository implements IRepository {
 				rs.updateString(GAME_BOARD_NAME, game.boardName);
 				rs.updateRow();
 			} else {
-				// TODO error handling
+				System.out.println("Error occurred during game update in database.");
 			}
 			rs.close();
-
 			updatePlayersInDB(game);
 			updatePlayersHandCardsInDB(game);
 			updatePlayersRegisterCardsInDB(game);
-
+			updatePlayersCardPileInDB(game);
+			updatePlayersDiscardPileInDB(game);
 			connection.commit();
 			connection.setAutoCommit(true);
 			return true;
@@ -193,7 +200,6 @@ class Repository implements IRepository {
 			// TODO error handling
 			e.printStackTrace();
 			System.err.println("Some DB error");
-
 			try {
 				connection.rollback();
 				connection.setAutoCommit(true);
@@ -243,6 +249,8 @@ class Repository implements IRepository {
 			loadPlayersFromDB(game);
 			loadCardsInPlayersHandFromDB(game);
 			loadCardsInPlayersRegisterFromDB(game);
+			loadCardsInPlayersCardPileFromDB(game);
+			loadCardsInPlayersDiscardPileFromDB(game);
 
 			if (playerNo >= 0 && playerNo < game.getPlayersNumber()) {
 				game.setCurrentPlayer(game.getPlayer(playerNo));
@@ -358,6 +366,52 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	private void createPlayersCardPileInDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardInPlayersCardPileStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		for (int i = 0; i < game.getPlayersNumber(); i++) {
+			Player player = game.getPlayer(i);
+			for(int j=0; j<game.getPlayer(i).cardPile.size(); j++) {
+				rs.moveToInsertRow();
+				rs.updateInt(PLAYER_GAMEID, game.getGameId());
+				rs.updateInt(PLAYER_PLAYERID, i);
+				rs.updateInt(CARDINPLAYERSCARDPILE_CARDPILENO, j);
+				if(game.getPlayer(i).cardPile.get(j) != null) {
+					rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, game.getPlayer(i).cardPile.get(j).command.value);
+				}
+				else{
+					rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, -1);
+				}
+				rs.insertRow();
+			}
+		}
+		rs.close();
+	}
+
+	private void createPlayersDiscardPileInDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardInPlayersDiscardPileStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		for (int i = 0; i < game.getPlayersNumber(); i++) {
+			Player player = game.getPlayer(i);
+			for(int j=0; j<game.getPlayer(i).discardPile.size(); j++) {
+				rs.moveToInsertRow();
+				rs.updateInt(PLAYER_GAMEID, game.getGameId());
+				rs.updateInt(PLAYER_PLAYERID, i);
+				rs.updateInt(CARDINPLAYERSDISCARDPILE_DISCARDPILENO, j);
+				if(game.getPlayer(i).discardPile.get(j) != null) {
+					rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, game.getPlayer(i).discardPile.get(j).command.value);
+				}
+				else{
+					rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, -1);
+				}
+				rs.insertRow();
+			}
+		}
+		rs.close();
+	}
+
 	private void loadPlayersFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersASCStatement();
 		ps.setInt(1, game.getGameId());
@@ -422,6 +476,39 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	private void loadCardsInPlayersCardPileFromDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardInPlayersCardPileStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		Command[] commands = Command.values();
+		while (rs.next()) {
+			int playerId = rs.getInt(PLAYER_PLAYERID);
+			int cardValue = rs.getInt(CARDINPLAYERSCARDPILE_CARDVALUE)-1;
+			if(cardValue < 0){}
+			else {
+				game.getPlayer(playerId).cardPile.add(new CommandCard(commands[cardValue]));
+			}
+		}
+		rs.close();
+	}
+
+	private void loadCardsInPlayersDiscardPileFromDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardInPlayersDiscardPileStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		Command[] commands = Command.values();
+		while (rs.next()) {
+			int playerId = rs.getInt(PLAYER_PLAYERID);
+			int cardValue = rs.getInt(CARDINPLAYERSDISCARDPILE_CARDVALUE)-1;
+			if(cardValue < 0){}
+			else {
+				game.getPlayer(playerId).discardPile.add(new CommandCard(commands[cardValue]));
+			}
+		}
+		rs.close();
+	}
+
+
 	private void updatePlayersInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersStatementU();
 		ps.setInt(1, game.getGameId());
@@ -455,7 +542,7 @@ class Repository implements IRepository {
 				int playerId = rs.getInt(PLAYER_PLAYERID);
 				// TODO should be more defensive
 				player = game.getPlayer(playerId);
-				for (int j = 0; j < 8; i++) {
+				for (int j = 0; j < 8; j++) {
 					rs.updateInt(CARDINPLAYERSHAND_CARDNO, j);
 					if(player.getCardField(j).getCard() != null) {
 						rs.updateInt(CARDINPLAYERSHAND_CARDVALUE, player.getCardField(j).getCard().command.value);
@@ -483,7 +570,7 @@ class Repository implements IRepository {
 				int playerId = rs.getInt(PLAYER_PLAYERID);
 				// TODO should be more defensive
 				player = game.getPlayer(playerId);
-				for (int j = 0; j < 5; i++) {
+				for (int j = 0; j < 5; j++) {
 					rs.updateInt(CARDINPLAYERSREGISTER_REGISTERNO, j);
 					if(player.getCardField(j).getCard() != null) {
 						rs.updateInt(CARDINPLAYERSREGISTER_CARDVALUE, player.getCardField(j).getCard().command.value);
@@ -498,6 +585,54 @@ class Repository implements IRepository {
 		rs.close();
 
 		// TODO error handling/consistency check: check whether all players were updated
+	}
+
+	private void updatePlayersCardPileInDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardInPlayersCardPileStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		Player player;
+		for(int i = 0; i<game.getPlayersNumber(); i++) {
+			if (rs.next()) {
+				int playerId = rs.getInt(PLAYER_PLAYERID);
+				player = game.getPlayer(playerId);
+				for (int j = 0; j < player.cardPile.size(); j++) {
+					rs.updateInt(CARDINPLAYERSCARDPILE_CARDPILENO, j);
+					if(player.cardPile.get(j) != null) {
+						rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, player.cardPile.get(j).command.value);
+					}
+					else{
+						rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, -1);
+					}
+					rs.updateRow();
+				}
+			}
+		}
+		rs.close();
+	}
+
+	private void updatePlayersDiscardPileInDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardInPlayersDiscardPileStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		Player player;
+		for(int i = 0; i<game.getPlayersNumber(); i++) {
+			if (rs.next()) {
+				int playerId = rs.getInt(PLAYER_PLAYERID);
+				player = game.getPlayer(playerId);
+				for (int j = 0; j < player.discardPile.size(); j++) {
+					rs.updateInt(CARDINPLAYERSDISCARDPILE_DISCARDPILENO, j);
+					if(player.discardPile.get(j) != null) {
+						rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, player.discardPile.get(j).command.value);
+					}
+					else{
+						rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, -1);
+					}
+					rs.updateRow();
+				}
+			}
+		}
+		rs.close();
 	}
 
 	private static final String SQL_INSERT_GAME =
@@ -601,6 +736,48 @@ class Repository implements IRepository {
 			}
 		}
 		return select_cardInPlayersRegister_stmt;
+	}
+
+	private static final String SQL_SELECT_CARDINPLAYERSCARDPILE =
+			"SELECT * FROM CardInPlayersCardPile WHERE gameID = ?";
+
+	private PreparedStatement select_cardInPlayersCardPile_stmt = null;
+
+	private PreparedStatement getSelectCardInPlayersCardPileStatementU() {
+		if (select_cardInPlayersCardPile_stmt == null) {
+			Connection connection = connector.getConnection();
+			try {
+				select_cardInPlayersCardPile_stmt = connection.prepareStatement(
+						SQL_SELECT_CARDINPLAYERSCARDPILE,
+						ResultSet.TYPE_FORWARD_ONLY,
+						ResultSet.CONCUR_UPDATABLE);
+			} catch (SQLException e) {
+				// TODO error handling
+				e.printStackTrace();
+			}
+		}
+		return select_cardInPlayersCardPile_stmt;
+	}
+
+	private static final String SQL_SELECT_CARDINPLAYERSDISCARDPILE =
+			"SELECT * FROM CardInPlayersDiscardPile WHERE gameID = ?";
+
+	private PreparedStatement select_cardInPlayersDiscardPile_stmt = null;
+
+	private PreparedStatement getSelectCardInPlayersDiscardPileStatementU() {
+		if (select_cardInPlayersDiscardPile_stmt == null) {
+			Connection connection = connector.getConnection();
+			try {
+				select_cardInPlayersDiscardPile_stmt = connection.prepareStatement(
+						SQL_SELECT_CARDINPLAYERSDISCARDPILE,
+						ResultSet.TYPE_FORWARD_ONLY,
+						ResultSet.CONCUR_UPDATABLE);
+			} catch (SQLException e) {
+				// TODO error handling
+				e.printStackTrace();
+			}
+		}
+		return select_cardInPlayersDiscardPile_stmt;
 	}
 
 	private static final String SQL_SELECT_PLAYERS_ASC =

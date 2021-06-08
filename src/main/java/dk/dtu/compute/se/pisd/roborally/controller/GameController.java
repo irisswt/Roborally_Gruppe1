@@ -101,7 +101,9 @@ public class GameController {
                 }
                     for (int j = 0; j < Player.NO_CARDS; j++) {
                         CommandCardField field = player.getCardField(j);
-                        field.setCard(board.getPlayer(i).cardPile.get(j));
+                        if(field.getCard() == null) {
+                            field.setCard(board.getPlayer(i).cardPile.remove(0));
+                        }
                         field.setVisible(true);
                     }
 
@@ -247,13 +249,15 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     currentPlayer.discardPile.add(card);
-                    currentPlayer.cardPile.remove(card);
                     Command command = card.command;
                     if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
                         return;
                     }
                     executeCommand(currentPlayer, command);
+                    if(board.getPhase() == Phase.PLAYER_INTERACTION){
+                        return;
+                    }
                 }
                 if(currentPlayer.getInPit()){
                     currentPlayer.setInPit(false);
@@ -647,7 +651,7 @@ public class GameController {
 
     public void spam(@NotNull Player player){
         player.discardPile.remove(player.discardPile.size());
-        CommandCard card = player.cardPile.remove(9);
+        CommandCard card = player.cardPile.remove(0);
         player.discardPile.add(card);
         executeCommand(player, card.command );
     }

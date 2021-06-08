@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useState } from "react";
 import { Game } from "../types/Game";
 import GameContext from "../context/GameContext";
-import styles from "../styling/BoardComponent.module.scss" //Import css module
+import styles from "../styling/MenuComponent.module.scss" //Import css module
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import CardActions from '@material-ui/core/CardActions';
@@ -61,6 +61,11 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
         setName(event.target.value);
     };
 
+    const onCancel = () => {
+        setName(game.gameName)
+        setEdit(false)
+    }
+
     return (
         <div className={styles.container} >
             <Box m={2}>
@@ -89,8 +94,8 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
                         </Box>
 
                         <CardActions>
-                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={onClickGame}>Join game</Button> : <Button className={classes.orange} size="small" color="primary" type="submit" onClick={onSubmit}>Save game</Button>}
-                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(true)}>Edit game</Button> : <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(false)}>Cancel</Button>}
+                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={onClickGame}>See game</Button> : <Button className={classes.orange} size="small" color="primary" type="submit" onClick={onSubmit}>Save game</Button>}
+                            {!edit ? <Button className={classes.orange} size="small" color="primary" onClick={() => setEdit(true)}>Edit game</Button> : <Button className={classes.orange} size="small" color="primary" onClick={onCancel}>Cancel</Button>}
                             {edit ? <Button className={classes.orange} size="small" color="primary">Delete game</Button> : <div />}
                         </CardActions>
                     </CardContent>

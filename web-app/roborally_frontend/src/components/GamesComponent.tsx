@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import GameContext from "../context/GameContext";
 import { GameComponent } from "./GameComponent";
+import styles from "../styling/BoardComponent.module.scss" //Import css module
 
 type GamesComponentProps = {}
 const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
@@ -9,11 +10,11 @@ const GamesComponent: FunctionComponent<GamesComponentProps> = () => {
 
     return (
         !loaded ?
-            <div>
-            { games.map((game, index) =>
+            <div className={styles.container} >
+                {games.map((game, index) =>
                     <GameComponent key={"game" + index} game={game} />
                 )
-            }
+                }
             </div>
             :
             <div />

@@ -310,6 +310,7 @@ public class Board extends Subject {
      * @return the space in the given direction; null if there is no (reachable) neighbour
      * @author Ekkart Kindler, ekki@dtu.dk
      * @author Jens Will Iversen
+     * @author Jonathan Zørn
      *
      */
     public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {

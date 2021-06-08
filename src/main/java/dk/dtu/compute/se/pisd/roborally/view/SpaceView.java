@@ -151,31 +151,31 @@ public class SpaceView extends StackPane implements ViewObserver {
         for (FieldAction action : space.getActions())
         if (subject == this.space) {
             if (action instanceof PushPanel) {
-                PushPanelView.drawPushPanel(this,action);
+                PushPanelView.draw(this,action);
             }
             if (action instanceof Gear) {
-                GearView.drawGear(this,action);
+                GearView.draw(this,action);
             }
             if(action instanceof Laser){
-                LaserView.drawLaser(this,action);
+                LaserView.draw(this,action);
             }
             if (action instanceof Checkpoint) {
-                CheckpointView.drawCheckpoint(this, action);
+                CheckpointView.draw(this, action);
             }
             if(action instanceof PriorityAntenna){
-                PriorityAntennaView.drawPriorityAntenna(this,space);
+                PriorityAntennaView.draw(this,space);
             }
             if(action instanceof Pit){
-                PitView.drawPit(this,space);
+                PitView.draw(this,space);
             }
             if(action instanceof ConveyorBelt){
-                ConveyorBeltView.drawConveyorBeltView(this,action);
+                ConveyorBeltView.draw(this,action);
             }
             if(action instanceof StartGear){
                 startGearView.draw(this,action);
             }
             if(action instanceof RebootTokens){
-                RebootTokenView.drawRebootToken(this,action);
+                RebootTokenView.draw(this,action);
             }
 
             }

@@ -144,8 +144,8 @@ public class AppController implements Observer {
                         player.setSpace(startfields.get(i%startfields.size()));
                         for(int j = 0; j<9;j++) {
                             
-                            board.getPlayer(i).discardPile.add(new CommandCard(commands[j]));
-                            board.getPlayer(i).discardPile.add(new CommandCard(commands[j]));
+                            board.getPlayer(i).getDiscardPile().add(new CommandCard(commands[j]));
+                            board.getPlayer(i).getDiscardPile().add(new CommandCard(commands[j]));
                         }
                     }
                    

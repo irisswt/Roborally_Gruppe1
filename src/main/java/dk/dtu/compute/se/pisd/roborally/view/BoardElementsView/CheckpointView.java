@@ -23,7 +23,7 @@ public class CheckpointView {
      *
      * @auther Louis Monty-Krohn
      */
-    public static void drawCheckpoint(SpaceView spaceView, FieldAction fieldAction) {
+    public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         Checkpoint checpoint = (Checkpoint) fieldAction;
         FileInputStream inputstream = null;
         try {

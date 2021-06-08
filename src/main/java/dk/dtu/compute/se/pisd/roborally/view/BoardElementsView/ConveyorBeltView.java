@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class ConveyorBeltView {
-    public static void drawConveyorBeltView(SpaceView spaceView, FieldAction fieldAction) {
+    public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         ConveyorBelt tempcontroler = (ConveyorBelt) fieldAction;
 
             Polygon arrow = new Polygon(1.0, 1.0,

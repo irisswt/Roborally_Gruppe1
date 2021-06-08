@@ -20,7 +20,7 @@ public class PitView {
      *
      * @auther Louis Monty-Krohn
      */
-    public static void drawPit(SpaceView spaceView, Space space){
+    public static void draw(SpaceView spaceView, Space space){
         FileInputStream inputstream = null;
         try {
             inputstream = new FileInputStream("src/main/resources/Img/Pit.PNG");

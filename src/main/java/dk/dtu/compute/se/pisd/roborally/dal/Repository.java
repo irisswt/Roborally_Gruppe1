@@ -377,13 +377,13 @@ class Repository implements IRepository {
 		ResultSet rs = ps.executeQuery();
 		for (int i = 0; i < game.getPlayersNumber(); i++) {
 			Player player = game.getPlayer(i);
-			for(int j=0; j<game.getPlayer(i).cardPile.size(); j++) {
+			for(int j=0; j<game.getPlayer(i).getCardPile().size(); j++) {
 				rs.moveToInsertRow();
 				rs.updateInt(PLAYER_GAMEID, game.getGameId());
 				rs.updateInt(PLAYER_PLAYERID, i);
 				rs.updateInt(CARDINPLAYERSCARDPILE_CARDPILENO, j);
-				if(game.getPlayer(i).cardPile.get(j) != null) {
-					rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, game.getPlayer(i).cardPile.get(j).command.value);
+				if(game.getPlayer(i).getCardPile().get(j) != null) {
+					rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, game.getPlayer(i).getCardPile().get(j).command.value);
 				}
 				else{
 					rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, -1);
@@ -406,13 +406,13 @@ class Repository implements IRepository {
 		ResultSet rs = ps.executeQuery();
 		for (int i = 0; i < game.getPlayersNumber(); i++) {
 			Player player = game.getPlayer(i);
-			for(int j=0; j<game.getPlayer(i).discardPile.size(); j++) {
+			for(int j=0; j<game.getPlayer(i).getDiscardPile().size(); j++) {
 				rs.moveToInsertRow();
 				rs.updateInt(PLAYER_GAMEID, game.getGameId());
 				rs.updateInt(PLAYER_PLAYERID, i);
 				rs.updateInt(CARDINPLAYERSDISCARDPILE_DISCARDPILENO, j);
-				if(game.getPlayer(i).discardPile.get(j) != null) {
-					rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, game.getPlayer(i).discardPile.get(j).command.value);
+				if(game.getPlayer(i).getDiscardPile().get(j) != null) {
+					rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, game.getPlayer(i).getDiscardPile().get(j).command.value);
 				}
 				else{
 					rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, -1);
@@ -520,7 +520,7 @@ class Repository implements IRepository {
 			int cardValue = rs.getInt(CARDINPLAYERSCARDPILE_CARDVALUE)-1;
 			if(cardValue < 0){}
 			else {
-				game.getPlayer(playerId).cardPile.add(new CommandCard(commands[cardValue]));
+				game.getPlayer(playerId).getDiscardPile().add(new CommandCard(commands[cardValue]));
 			}
 		}
 		rs.close();
@@ -542,7 +542,7 @@ class Repository implements IRepository {
 			int cardValue = rs.getInt(CARDINPLAYERSDISCARDPILE_CARDVALUE)-1;
 			if(cardValue < 0){}
 			else {
-				game.getPlayer(playerId).discardPile.add(new CommandCard(commands[cardValue]));
+				game.getPlayer(playerId).getDiscardPile().add(new CommandCard(commands[cardValue]));
 			}
 		}
 		rs.close();
@@ -648,10 +648,10 @@ class Repository implements IRepository {
 			if (rs.next()) {
 				int playerId = rs.getInt(PLAYER_PLAYERID);
 				player = game.getPlayer(playerId);
-				for (int j = 0; j < player.cardPile.size(); j++) {
+				for (int j = 0; j < player.getCardPile().size(); j++) {
 					rs.updateInt(CARDINPLAYERSCARDPILE_CARDPILENO, j);
-					if(player.cardPile.get(j) != null) {
-						rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, player.cardPile.get(j).command.value);
+					if(player.getCardPile().get(j) != null) {
+						rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, player.getCardPile().get(j).command.value);
 					}
 					else{
 						rs.updateInt(CARDINPLAYERSCARDPILE_CARDVALUE, -1);
@@ -678,10 +678,10 @@ class Repository implements IRepository {
 			if (rs.next()) {
 				int playerId = rs.getInt(PLAYER_PLAYERID);
 				player = game.getPlayer(playerId);
-				for (int j = 0; j < player.discardPile.size(); j++) {
+				for (int j = 0; j < player.getDiscardPile().size(); j++) {
 					rs.updateInt(CARDINPLAYERSDISCARDPILE_DISCARDPILENO, j);
-					if(player.discardPile.get(j) != null) {
-						rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, player.discardPile.get(j).command.value);
+					if(player.getDiscardPile().get(j) != null) {
+						rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, player.getDiscardPile().get(j).command.value);
 					}
 					else{
 						rs.updateInt(CARDINPLAYERSDISCARDPILE_CARDVALUE, -1);

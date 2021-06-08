@@ -21,7 +21,7 @@ public class GearView {
      *
      * @auther Louis Monty-Krohn
      */
-    public static void drawGear(SpaceView spaceView, FieldAction fieldAction) {
+    public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         FileInputStream inputstream = null;
         try {
             inputstream = new FileInputStream("src/main/resources/Img/Gear.PNG");

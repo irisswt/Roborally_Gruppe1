@@ -16,7 +16,7 @@ public class RebootTokenView {
      *
      * @auther Louis Monty-Krohn
      */
-    public static void drawRebootToken(SpaceView spaceView, FieldAction fieldAction) {
+    public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         FileInputStream inputstream = null;
         try {
             inputstream = new FileInputStream("src/main/resources/Img/Gear.PNG");

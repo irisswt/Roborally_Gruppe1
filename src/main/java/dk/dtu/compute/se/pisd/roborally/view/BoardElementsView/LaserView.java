@@ -18,7 +18,7 @@ public class LaserView {
      *
      * @auther Louis Monty-Krohn
      */
-        public  static void drawLaser(SpaceView spaceView, FieldAction fieldAction) {
+        public  static void draw(SpaceView spaceView, FieldAction fieldAction) {
         Laser tempSpace = (Laser) fieldAction;
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();

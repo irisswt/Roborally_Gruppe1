@@ -52,20 +52,30 @@ public class Player extends Subject {
 
     private int checkpoint = 0;
 
-    public ArrayList<CommandCard> cardPile = new ArrayList<>();
-    public ArrayList<CommandCard> discardPile = new ArrayList<>();
+    public ArrayList<CommandCard> getCardPile() {
+        return cardPile;
+    }
+
+    public void setCardPile(ArrayList<CommandCard> cardPile) {
+        this.cardPile = cardPile;
+    }
+
+    private ArrayList<CommandCard> cardPile = new ArrayList<>();
+
+    public ArrayList<CommandCard> getDiscardPile() {
+        return discardPile;
+    }
+
+    public void setDiscardPile(ArrayList<CommandCard> discardPile) {
+        this.discardPile = discardPile;
+    }
+
+    private ArrayList<CommandCard> discardPile = new ArrayList<>();
 
 
     private double disToPri;
 
 
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
 
     public double getDisToPri() {
         return disToPri;
@@ -76,7 +86,6 @@ public class Player extends Subject {
     }
 
     private Boolean isInPit = false;
-    private int damage = 0;
 
     /**
      * Constructor for Player.

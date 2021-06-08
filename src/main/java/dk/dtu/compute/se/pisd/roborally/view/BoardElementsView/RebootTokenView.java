@@ -9,6 +9,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class RebootTokenView {
+    /**
+     * Draws a image of a gear from "src/main/resources/Img/Gear.PNG"
+     * @param spaceView
+     * @param fieldAction
+     *
+     * @auther Louis Monty-Krohn
+     */
     public static void drawRebootToken(SpaceView spaceView, FieldAction fieldAction) {
         FileInputStream inputstream = null;
         try {

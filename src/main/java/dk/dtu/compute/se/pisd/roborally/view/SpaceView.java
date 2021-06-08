@@ -105,6 +105,11 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    /**
+     * finds the heading of the wall and draws a yellow wall
+     *
+     * @auther Louis Monty-Krohn
+     */
     private void drawWalls(){
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -134,6 +139,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     /**
      * The update method for the observer.
      * @param subject inherited from Subject attached to an observer.
+     *
+     * If a space has a space action the function to draw it will be called
+     *
+     * @auther Louis Monty-Krohn
      */
     @Override
     public void updateView(Subject subject){
@@ -152,9 +161,6 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
             if (action instanceof Checkpoint) {
                 CheckpointView.drawCheckpoint(this, action);
-            }
-            if(action instanceof RebootTokens){
-                RebootTokensView.drawRebootTokens(this,action);
             }
             if(action instanceof PriorityAntenna){
                 PriorityAntennaView.drawPriorityAntenna(this,space);

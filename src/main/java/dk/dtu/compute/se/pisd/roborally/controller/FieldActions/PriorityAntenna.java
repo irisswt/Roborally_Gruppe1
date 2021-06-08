@@ -14,6 +14,15 @@ public class PriorityAntenna extends FieldAction {
         return false;
     }
 
+    /**
+     * gives the player a distance to the priority antenna and sorts them
+     * @param board the bord that they are playing on
+     * @param x x position of the player
+     * @param y y position of the player
+     * @return returnees the a list of players sorted
+     *
+     * @author Louis Monty-Krohn
+     */
     public Player[] playerOrder(Board board, int x, int y) {
         Player[] tempList = new Player[board.getPlayersNumber()];
         for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -24,16 +33,28 @@ public class PriorityAntenna extends FieldAction {
         bubbleSort(tempList);
         return tempList;
     }
-    private static void bubbleSort(Player[] a) {
+
+    /**
+     * sortes the players by who is closest to the priority antennas
+     *
+     * @param Array array of Players in game
+     *
+     * @author https://stackabuse.com/sorting-algorithms-in-java
+     *
+     * @modified Louis Monty-Krohn
+     *
+     *
+     */
+    private static void bubbleSort(Player[] Array) {
         boolean sorted = false;
-        Player temp;
+        Player tempPlayer;
         while(!sorted) {
             sorted = true;
-            for (int i = 0; i < a.length - 1; i++) {
-                if (a[i].getDisToPri() > a[i+1].getDisToPri()) {
-                    temp = a[i];
-                    a[i] = a[i+1];
-                    a[i+1] = temp;
+            for (int i = 0; i < Array.length - 1; i++) {
+                if (Array[i].getDisToPri() > Array[i+1].getDisToPri()) {
+                    tempPlayer = Array[i];
+                    Array[i] = Array[i+1];
+                    Array[i+1] = tempPlayer;
                     sorted = false;
                 }
             }

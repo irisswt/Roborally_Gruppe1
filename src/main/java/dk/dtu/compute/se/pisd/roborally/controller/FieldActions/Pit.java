@@ -7,6 +7,14 @@ import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 public class Pit extends FieldAction {
+    /**
+     * Draws 2 damage cards
+     * @param gameController the gameController of the respective game
+     * @param space the space this action should be executed for
+     * @return
+     *
+     * author Louis Monty-Krohn
+     */
     @Override
     public boolean doAction(GameController gameController, Space space) {
         space.getPlayer().discardPile.add(new CommandCard(Command.SPAM));

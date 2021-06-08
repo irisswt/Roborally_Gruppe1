@@ -12,13 +12,14 @@ import javafx.scene.shape.StrokeLineCap;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-/**
- * Riped from PriorityAntennaView*
- * TODO make pretty
- * kh Thomse
- */
-
 public class PitView {
+    /**
+     * Draws the image in the path "src/main/resources/Img/Pit.PNG"
+     * @param spaceView
+     * @param space
+     *
+     * @auther Louis Monty-Krohn
+     */
     public static void drawPit(SpaceView spaceView, Space space){
         FileInputStream inputstream = null;
         try {

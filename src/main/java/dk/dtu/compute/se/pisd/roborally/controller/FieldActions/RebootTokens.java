@@ -9,6 +9,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 import java.util.ArrayList;
 
+
 public class RebootTokens extends FieldAction {
     @Override
     public boolean doAction(GameController gameController, Space space) {

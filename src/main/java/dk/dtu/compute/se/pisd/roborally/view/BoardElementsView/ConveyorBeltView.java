@@ -15,22 +15,6 @@ import java.io.FileNotFoundException;
 
 public class ConveyorBeltView {
     public static void drawConveyorBeltView(SpaceView spaceView, FieldAction fieldAction) {
-        //TConveyorBelt tempSpace = (TConveyorBelt) space;
-        /*
-        Checkpoint checpoint = (Checkpoint) fieldAction;
-        FileInputStream inputstream = null;
-        try {
-            inputstream = new FileInputStream("src/main/resources/Img/startGear.PNG");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Image image = new Image(inputstream,SpaceView.SPACE_WIDTH,SpaceView.SPACE_WIDTH,false,false);
-        ImageView selectedImage = new ImageView();
-        selectedImage.setImage(image);
-        spaceView.getChildren().addAll(selectedImage);
-
-         */
-
         ConveyorBelt tempcontroler = (ConveyorBelt) fieldAction;
 
             Polygon arrow = new Polygon(1.0, 1.0,

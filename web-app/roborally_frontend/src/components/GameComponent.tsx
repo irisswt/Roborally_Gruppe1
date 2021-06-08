@@ -67,6 +67,7 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
 
 
     return (
+        
         <div className={styles.container} >
             <Box m={2}>
                 <Card>

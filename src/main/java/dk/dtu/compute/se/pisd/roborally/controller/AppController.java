@@ -83,6 +83,7 @@ public class AppController implements Observer {
      * Method to start a new game. Will present a dropdown menu with number of
      * players and create the chosen amount of players along with other elements
      * required for the game to start such as a board and the GUI.
+     * @author Niklas Jessen
      */
     public void newGame() {
         File boardFolder = new File("src/main/resources/boards");
@@ -163,6 +164,9 @@ public class AppController implements Observer {
         }
     }
 
+    /*
+    * @author Niklas Jessen
+    */
     public void saveGame() {
         // XXX needs to be implemented eventually
 
@@ -201,6 +205,7 @@ public class AppController implements Observer {
      * gives the ability select a game from the database
      *
      * @auther Louis Monty-Krohn
+     * @author Niklas Jessen
      */
     public void loadGame() {
 

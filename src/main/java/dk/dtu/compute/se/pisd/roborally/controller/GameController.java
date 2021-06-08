@@ -519,9 +519,9 @@ public class GameController {
 
 
         }
-        for(int j = 0; j<board.getPlayersNumber(); j++){
-            robotsAttack(board.getPlayer(j));
-        }
+
+            robotsAttack(player);
+
 
 
     }
@@ -546,7 +546,7 @@ public class GameController {
         }
         if(player.getHeading()==Heading.WEST){
             for(int i = player.getSpace().x; i>=0; i--){
-                if(board.getSpace(player.getSpace().x,i).getPlayer() != null && board.getSpace(i, player.getSpace().y).getPlayer() != player){
+                if(board.getSpace(i, player.getSpace().y).getPlayer() != null && board.getSpace(i, player.getSpace().y).getPlayer() != player){
                     damagePlayersInHorizontalLine(player, i);
                     break;
                 }

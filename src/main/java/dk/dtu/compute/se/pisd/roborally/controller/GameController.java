@@ -236,8 +236,8 @@ public class GameController {
      * executes the current card in the register for the current player. If the card
      * has an interaction it will set the phase to PLAYER_INTERACTION.
      * @author Ekkart Kindler, ekki@dtu.dk
-     * @author Louis Monty-Krohn, s205424
-     * @author Jens Iversen, s205411
+     * @author Louis Monty-Krohn
+     * @author Jens Will Iversen
      */
     // TODO: here is end register
     private void executeNextStep() {
@@ -302,7 +302,7 @@ public class GameController {
      *
      * @param option the option the player has chosen from the interactive card.
      * @author Ekkart Kindler, ekki@dtu.dk
-     * @author Louis Monty-Krohn s205424
+     * @author Louis Monty-Krohn
      */
     public void executeCommandOptionAndContinue(@NotNull Command option) {
         Player currentPlayer = board.getCurrentPlayer();
@@ -381,8 +381,8 @@ public class GameController {
      *
      * @param player the player that needs to move
      * @author Ekkart Kindler, ekki@dtu.dk
-     * @author Jens Iversen, s205411
-     * @author Jonathan Zørn, s194134
+     * @author Jens Will Iversen
+     * @author Jonathan Zørn
      */
     public void moveForward(@NotNull Player player) {
         Heading heading = player.getHeading();
@@ -404,7 +404,7 @@ public class GameController {
      * @param player
      * @param heading
      * @return Boolean Checks if a move is possible in regard to tokens
-     * @author Jens Iversen, s205411
+     * @author Jens Will Iversen
      */
     public Boolean isMovePossible(Player player, Heading heading) {
 
@@ -444,8 +444,8 @@ public class GameController {
      *                                 first one. If a player cannot move, the
      *                                 impossible move exception is thrown
      * @author Ekkart Kindler, ekki@dtu.dk
-     * @author Jens Iversen, s205424
-     * @author Jonathan Zørn, s194034
+     * @author Jens Will Iversen
+     * @author Jonathan Zørn
      */
     public void moveToSpace(Player player, Space space, Heading heading) throws ImpossibleMoveException {
         Boolean canMove;
@@ -477,7 +477,7 @@ public class GameController {
      * @param player that needs to be checked
      * @throws ImpossibleMoveException if the player is going to make an illegal
      *                                 move
-     * @author Jens Iversen, s205411
+     * @author Jens Will Iversen
      */
 
     public void endRegister(Player player) throws ImpossibleMoveException {
@@ -521,7 +521,7 @@ public class GameController {
      *
      * @param player that needs to be checked
      *
-     * @auther Jens Iversen, s205411
+     * @auther Jens Will Iversen
      */
     public void checkForPit(Player player){
         Space space = player.getSpace();
@@ -539,8 +539,8 @@ public class GameController {
     /**
      * Reboots a players robot
      * @param player which robot is being rebooted
-     * @author Jens Iversen, s205411
-     * @author Louis Monty-Krohn, s205424
+     * @author Jens Will Iversen
+     * @author Louis Monty-Krohn
      */
     public void reboot(Player player) {
         player.resetCards();
@@ -564,8 +564,8 @@ public class GameController {
      * @param spaces all spaces which has a reboot token
      * @param player Player which is being rebooted
      * @return The closest space with a reboot token
-     * @author Jens Iversen, s205411
-     * @author Louis Monty-Krohn, s205424
+     * @author Jens Will Iversen
+     * @author Louis Monty-Krohn
      */
     public Space getClosestRebootToken(List<Space> spaces, Player player) {
         Space retSpace = null;
@@ -626,9 +626,9 @@ public class GameController {
      * Moves the player one field backwards without turning around.
      *
      * @param player the player that needs to move
-     * @author Isak Risager, s205452
-     * @author Niklas Jessen, s205454
-     * @author Jens Iversen, s205411
+     * @author Isak Risager
+     * @author Niklas Jessen
+     * @author Jens Will Iversen
      */
     public void moveBackward(@NotNull Player player) {
         Heading heading = player.getHeading().next().next();

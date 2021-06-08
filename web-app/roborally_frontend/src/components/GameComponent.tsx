@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useState } from "react";
 import { Game } from "../types/Game";
 import GameContext from "../context/GameContext";
-import styles from "../styling/BoardComponent.module.scss" //Import css module
+import styles from "../styling/MenuComponent.module.scss" //Import css module
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import CardActions from '@material-ui/core/CardActions';
@@ -63,6 +63,11 @@ export const GameComponent: FunctionComponent<GameComponentProps> = ({ game }) =
     };
     const onClickDelete = async () => {
         deleteGame(game)
+    }
+
+    const onCancel = () => {
+        setName(game.gameName)
+        setEdit(false)
     }
 
     return (

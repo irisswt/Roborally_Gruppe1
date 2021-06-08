@@ -4,6 +4,7 @@ import styles from "../styling/BoardComponent.module.scss" //Import css module
 import GameContext from "../context/GameContext";
 import { Typography, Button } from "@material-ui/core";
 import { Game } from "../types/Game";
+// https://material-ui.com
 /*
 If the board component took any props/arguments they would be declared inside the type below
 see the space component for an example.

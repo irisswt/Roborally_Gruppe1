@@ -308,6 +308,10 @@ public class Board extends Subject {
      * @param space the space for which the neighbour should be computed
      * @param heading the heading of the neighbour
      * @return the space in the given direction; null if there is no (reachable) neighbour
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Jens Will Iversen
+     * @author Jonathan Zørn
+     *
      */
     public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
         int x = space.x;

@@ -216,11 +216,18 @@ public class Player extends Subject {
      * Get method for a players Card field.
      * @param i the number of the specific field.
      * @return the specific Card field.
+     *
      */
     public CommandCardField getCardField(int i) {
         return cards[i];
     }
 
+    /**
+     * Discards all cards player has in registers and on hand
+     * Also sets isInPit to true
+     * @author Jens Will Iversen
+     * @author Louis Monty-Krohn
+     */
     public void resetCards(){
         isInPit = true;
         for(CommandCardField cardField : cards){

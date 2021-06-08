@@ -43,8 +43,7 @@ class GameControllerTest {
     }
 
     /*
-     * Start programming phase
-     * Check if phase == PROGRAMMING and step == 0
+     * Start programming phase Check if phase == PROGRAMMING and step == 0
      */
     @Test
     void startProgrammingPhase() {
@@ -55,8 +54,7 @@ class GameControllerTest {
     }
 
     /*
-     * Finish programming phase
-     * Check if phase == ACTIVATION and step == 0
+     * Finish programming phase Check if phase == ACTIVATION and step == 0
      */
     @Test
     void finishProgrammingPhase() {
@@ -69,8 +67,7 @@ class GameControllerTest {
     }
 
     /*
-     * Testing function moveCurrentPlayerToSpace()
-     * Moves player to specific space
+     * Testing function moveCurrentPlayerToSpace() Moves player to specific space
      * Checks if the player is placed on the new space
      */
     @Test
@@ -89,9 +86,8 @@ class GameControllerTest {
     }
 
     /*
-     * Testing function moveBackward()
-     * Moves player backwards to new space
-     * Checks if the player is placed on the new space
+     * Testing function moveBackward() Moves player backwards to new space Checks if
+     * the player is placed on the new space
      */
     @Test
     void moveBackward() {
@@ -110,9 +106,8 @@ class GameControllerTest {
     }
 
     /*
-     * Testing function moveForward()
-     * Moves player forward to new space
-     * Checks if the player is placed on the new space
+     * Testing function moveForward() Moves player forward to new space Checks if
+     * the player is placed on the new space
      */
     @Test
     void moveForward() throws ImpossibleMoveException {
@@ -132,8 +127,7 @@ class GameControllerTest {
     }
 
     /*
-     * Testing function fastForward()
-     * Moves player 2 times forward to new space
+     * Testing function fastForward() Moves player 2 times forward to new space
      * Checks if the player is placed on the new space
      */
     @Test
@@ -150,8 +144,7 @@ class GameControllerTest {
     }
 
     /*
-     * Testing function moveThreeForward()
-     * Moves player 3 times forward to new space
+     * Testing function moveThreeForward() Moves player 3 times forward to new space
      * Checks if the player is placed on the new space
      */
     @Test
@@ -170,9 +163,8 @@ class GameControllerTest {
     }
 
     /*
-     * Testing function turnRight()
-     * Changes players heading to the right
-     * Checks if the player heading is WEST
+     * Testing function turnRight() Changes players heading to the right Checks if
+     * the player heading is WEST
      */
     @Test
     void turnRight() {
@@ -185,9 +177,8 @@ class GameControllerTest {
     }
 
     /*
-     * Testing function turnLeft()
-     * Changes players heading to the left
-     * Checks if the player heading is EAST
+     * Testing function turnLeft() Changes players heading to the left Checks if the
+     * player heading is EAST
      */
     @Test
     void turnLeft() {
@@ -200,9 +191,8 @@ class GameControllerTest {
     }
 
     /*
-     * Testing function uTurn()
-     * Changes players heading 180 degrees
-     * West should be East, North should be South, East should be West, South should be North
+     * Testing function uTurn() Changes players heading 180 degrees West should be
+     * East, North should be South, East should be West, South should be North
      */
     @Test
     void uTurn() {

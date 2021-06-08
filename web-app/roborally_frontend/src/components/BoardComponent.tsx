@@ -3,7 +3,6 @@ import { SpaceComponent } from "./SpaceComponent";
 import styles from "../styling/BoardComponent.module.scss" //Import css module
 import GameContext from "../context/GameContext";
 import { Typography, Button } from "@material-ui/core";
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import { Game } from "../types/Game";
 import { deepPurple } from '@material-ui/core/colors';

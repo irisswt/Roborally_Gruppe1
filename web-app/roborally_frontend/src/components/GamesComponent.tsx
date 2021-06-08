@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import GameContext from "../context/GameContext";
 import { GameComponent } from "./GameComponent";
 import styles from "../styling/BoardComponent.module.scss" //Import css module
-import { CardContent, Box, Card, Typography, Button } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 
 type GamesComponentProps = {}
 const GamesComponent: FunctionComponent<GamesComponentProps> = () => {

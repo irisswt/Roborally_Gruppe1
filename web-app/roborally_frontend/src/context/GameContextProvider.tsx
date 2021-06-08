@@ -223,7 +223,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
             console.log("Players in game:" + game.gameUsers.length)
             addToast('Not enough players to start game!', { appearance: 'warning' });
         }
-    }, [])
+    }, [addToast])
 
     /**
      * Function that ends a game if its valid
@@ -243,9 +243,8 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
             console.log("Game already stopped: " + game.gameId + " id")
             addToast('Game is already stopped!', { appearance: 'warning' });
         }
-    }, [])
+    }, [addToast])
 
-    // TODO: Lav warnings
 
     return (
         <GameContext.Provider

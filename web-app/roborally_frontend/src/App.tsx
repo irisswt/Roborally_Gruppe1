@@ -2,7 +2,7 @@ import React from 'react';
 import BoardComponent from "./components/BoardComponent";
 import GamesComponent from "./components/GamesComponent";
 import GameContextProvider from "./context/GameContextProvider";
-import { ToastProvider, useToasts } from 'react-toast-notifications';
+import { ToastProvider } from 'react-toast-notifications';
 
 
 function App() {

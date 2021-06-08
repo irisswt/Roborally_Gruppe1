@@ -33,9 +33,17 @@ class GameApi {
     public getGame(gameId: number) {
         return axios.get<Game>(`${this.BACKEND_URL}/game/${gameId}`).then(value => value.data)
     }
+
+    public deleteGame(gameId: number) {
+        return axios.delete<Game>(`${this.BACKEND_URL}/game/${gameId}/delete`).then(value => value.data)
+    }
+
+
+
     //TODO:
     // Start game
     // Create game
+    // End game
 }
 
 export default GameApi.getInstance()

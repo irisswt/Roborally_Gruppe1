@@ -235,6 +235,9 @@ public class GameController {
      * Checks for which step the game is on and which players turn it is. Then it
      * executes the current card in the register for the current player. If the card
      * has an interaction it will set the phase to PLAYER_INTERACTION.
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Louis Monty-Krohn, s205424
+     * @author Jens Iversen, s205411
      */
     // TODO: here is end register
     private void executeNextStep() {
@@ -623,6 +626,9 @@ public class GameController {
      * Moves the player one field backwards without turning around.
      *
      * @param player the player that needs to move
+     * @author Isak Risager, s205452
+     * @author Niklas Jessen, s205454
+     * @author Jens Iversen, s205411
      */
     public void moveBackward(@NotNull Player player) {
         Heading heading = player.getHeading().next().next();

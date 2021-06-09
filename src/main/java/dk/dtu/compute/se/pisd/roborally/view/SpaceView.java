@@ -57,6 +57,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     /**
      * Constructor for SpaceView. Creates a board in a checkerboard pattern.
+     * @Author Ekkart Kindler
      * @param space The actual Space that needs GUI.
      */
     public SpaceView(@NotNull Space space) {
@@ -85,6 +86,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     /**
      * Method to update GUI for a space if there's a player on that space.
+     * @Author Ekkart Kindler
      */
     private void updatePlayer() {
 

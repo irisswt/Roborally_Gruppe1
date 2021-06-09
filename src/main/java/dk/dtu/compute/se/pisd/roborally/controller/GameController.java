@@ -431,7 +431,7 @@ public class GameController {
             List<Heading> wallHeadings = target.getWalls();
             if (!wallHeadings.isEmpty()) {
                 for (Heading h : wallHeadings) {
-                    if (h == heading.next().next()) {
+                    if (h == heading) {
                         return false;
                     }
                 }
@@ -443,7 +443,7 @@ public class GameController {
         List<Heading> wallHeadings = player.getSpace().getWalls();
         if (!wallHeadings.isEmpty()) {
             for (Heading h : wallHeadings) {
-                if (h == heading) {
+                if (h == heading.next().next()) {
                     return false;
                 }
             }

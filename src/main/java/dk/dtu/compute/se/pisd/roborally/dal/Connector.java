@@ -46,8 +46,13 @@ class Connector {
     private static final String DELIMITER = ";;";
     
     private Connection connection;
-        
-    Connector() {
+
+	/**
+	 * Constructor for connector. Writes the URL for the database, and connects with login information defined in this class.
+	 * Calls the createDataSchema method.
+	 * @Author Ekkart Kindler
+	 */
+	Connector() {
         try {
 			// String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE;
 			String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?serverTimezone=UTC&autoReconnect=true&useSSL=false";
@@ -61,8 +66,14 @@ class Connector {
 			// Platform.exit();
 		}
     }
-    
-    private void createDatabaseSchema() {
+
+	/**
+	 * Method that uses the file createschema.sql to create new tables in the database if they don't exist.
+	 * createschema.sql contains pure SQL code for creation of the tables.
+	 *
+	 * @Author Ekkart Kindler
+	 */
+	private void createDatabaseSchema() {
 
     	String createTablesStatement =
 				IOUtil.readResource("schemas/createschema.sql");

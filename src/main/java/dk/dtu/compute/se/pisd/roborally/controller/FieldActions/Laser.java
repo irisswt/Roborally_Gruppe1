@@ -43,7 +43,7 @@ public class Laser extends FieldAction {
      * @param gameController the gameController of the respective game
      * @param space the space this action should be executed for
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     @Override
     public boolean doAction(GameController gameController, Space space) {

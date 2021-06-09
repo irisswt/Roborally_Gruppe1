@@ -21,7 +21,7 @@ public class CheckpointView {
      * @param spaceView space that needs to be drawn
      * @param fieldAction the action that needs to be drawn in this case a checkpoint
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         Checkpoint checpoint = (Checkpoint) fieldAction;

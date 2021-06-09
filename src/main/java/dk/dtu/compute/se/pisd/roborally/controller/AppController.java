@@ -204,7 +204,7 @@ public class AppController implements Observer {
     /**
      * gives the ability select a game from the database from a dialog menu with the names from the database pisu
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      * @author Niklas Jessen
      */
     public void loadGame() {

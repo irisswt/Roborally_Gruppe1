@@ -15,8 +15,8 @@ public class PushPanelView {
      * @param spaceView space that needs to be drawn
      * @param fieldAction the action that needs to be drawn in this case a pushpanel and finds the heading of it
      *
-     * @auther Louis Monty-Krohn
-     * @auther Jens Will Iversen
+     * @author Louis Monty-Krohn
+     * @author Jens Will Iversen
      */
     public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         PushPanel tempSpace = (PushPanel) fieldAction;

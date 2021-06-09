@@ -108,7 +108,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     /**
      * finds the heading of the wall and draws a yellow wall
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     private void drawWalls(){
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
@@ -142,7 +142,7 @@ public class SpaceView extends StackPane implements ViewObserver {
      *
      * If a space has a space action the function to draw it will be called
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     @Override
     public void updateView(Subject subject){

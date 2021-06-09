@@ -19,7 +19,7 @@ public class PitView {
      * @param spaceView space that needs to be drawn
      * @param fieldAction the action that needs to be drawn in this case a Pit
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     public static void draw(SpaceView spaceView, FieldAction fieldAction){
         FileInputStream inputstream = null;

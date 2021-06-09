@@ -121,7 +121,7 @@ public class GameController {
      *Shuffles the cards from the discardPile into the CardPile
      * @param currentPlayer
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     private void shuffelCards( Player currentPlayer){
         int runs =  currentPlayer.getDiscardPile().size();
@@ -177,8 +177,8 @@ public class GameController {
      * ACTIVATION instead of PROGRAMMING. Sets the first register visible and the
      * rest invisible
      *
-     * @auther  Ekkart Kindler, ekki@dtu.dk
-     * @auther Louis Monty-Krohn
+     * @author  Ekkart Kindler, ekki@dtu.dk
+     * @author Louis Monty-Krohn
      */
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
@@ -621,7 +621,7 @@ public class GameController {
      *
      * @param player that needs to be checked
      *
-     * @auther Jens Will Iversen
+     * @author Jens Will Iversen
      */
     public void checkForPit(Player player){
         Space space = player.getSpace();

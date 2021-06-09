@@ -16,7 +16,7 @@ public class LaserView {
      *@param spaceView space that needs to be drawn
      *@param fieldAction the action that needs to be drawn in this case a laser this is used to find the amount of lasers and the type
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
         public  static void draw(SpaceView spaceView, FieldAction fieldAction) {
         Laser tempSpace = (Laser) fieldAction;

@@ -29,8 +29,9 @@ class LaserTest {
     void doAction() {
         gameController.board.getSpace(0,1).setPlayer(gameController.board.getPlayer(0));
         gameController.board.getSpace(0,1).getActions().add(new Laser());
+        ((Laser)gameController.board.getSpace(0,1).getActions().get(0)).setAmountOFLaser(1);
         gameController.board.getSpace(0,1).getActions().get(0).doAction(gameController,gameController.board.getSpace(0,1));
 
-        assertEquals(gameController.board.getPlayer(0).discardPile.get(0).command.value,10);
+        assertEquals(gameController.board.getPlayer(0).getDiscardPile().get(0).command.value,10);
     }
 }

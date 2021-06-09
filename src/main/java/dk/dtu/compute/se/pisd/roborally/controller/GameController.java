@@ -95,14 +95,14 @@ public class GameController {
                     field.setCard(null);
                     field.setVisible(true);
                 }
-                if(board.getPlayer(i).cardPile.size()<Player.NO_CARDS) {
+                if(board.getPlayer(i).getCardPile().size()<Player.NO_CARDS) {
 
                     shuffelCards(board.getPlayer(i));
                 }
                     for (int j = 0; j < Player.NO_CARDS; j++) {
                         CommandCardField field = player.getCardField(j);
                         if(field.getCard() == null) {
-                            field.setCard(board.getPlayer(i).cardPile.remove(0));
+                            field.setCard(board.getPlayer(i).getCardPile().remove(0));
                         }
                         field.setVisible(true);
                     }
@@ -121,14 +121,14 @@ public class GameController {
      *Shuffles the cards from the discardPile into the CardPile
      * @param currentPlayer
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     private void shuffelCards( Player currentPlayer){
-        int runs =  currentPlayer.discardPile.size();
+        int runs =  currentPlayer.getDiscardPile().size();
         int random;
         for(int i = 0; i < runs;i++) {
-            random = (int) (Math.random() * (currentPlayer.discardPile.size()));
-            currentPlayer.cardPile.add(currentPlayer.discardPile.remove(random));
+            random = (int) (Math.random() * (currentPlayer.getDiscardPile().size()));
+            currentPlayer.getCardPile().add(currentPlayer.getDiscardPile().remove(random));
         }
 
     }
@@ -139,7 +139,7 @@ public class GameController {
      *
      * @return a random generated CommandCard in-game known as a programming card
      */
-    private CommandCard generateRandomCommandCard(Player player) {
+    /*private CommandCard generateRandomCommandCard(Player player) {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * (commands.length-4));
         if(player.getDamage() > 0){
@@ -161,7 +161,9 @@ public class GameController {
         return new CommandCard(commands[random]);
 
 
-    }/*
+
+
+    }
 
         Command[] commands = Command.values();
         int random = (int) (Math.random() * (commands.length-4));
@@ -175,8 +177,8 @@ public class GameController {
      * ACTIVATION instead of PROGRAMMING. Sets the first register visible and the
      * rest invisible
      *
-     * @auther  Ekkart Kindler, ekki@dtu.dk
-     * @auther Louis Monty-Krohn
+     * @author  Ekkart Kindler, ekki@dtu.dk
+     * @author Louis Monty-Krohn
      */
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
@@ -260,7 +262,7 @@ public class GameController {
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
-                    currentPlayer.discardPile.add(card);
+                    currentPlayer.getDiscardPile().add(card);
                     Command command = card.command;
                     if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
@@ -429,7 +431,7 @@ public class GameController {
             List<Heading> wallHeadings = target.getWalls();
             if (!wallHeadings.isEmpty()) {
                 for (Heading h : wallHeadings) {
-                    if (h == heading.next().next()) {
+                    if (h == heading) {
                         return false;
                     }
                 }
@@ -441,7 +443,7 @@ public class GameController {
         List<Heading> wallHeadings = player.getSpace().getWalls();
         if (!wallHeadings.isEmpty()) {
             for (Heading h : wallHeadings) {
-                if (h == heading) {
+                if (h == heading.next().next()) {
                     return false;
                 }
             }
@@ -523,14 +525,18 @@ public class GameController {
 
                         }
                     }
+                }else if (action instanceof Gear){
+                    action.doAction(this,player.getSpace());
+                }else if (action instanceof Laser){
+                    action.doAction(this,player.getSpace());
                 }
         }
 
 
         }
-        for(int j = 0; j<board.getPlayersNumber(); j++){
-            robotsAttack(board.getPlayer(j));
-        }
+
+            robotsAttack(player);
+
 
 
     }
@@ -555,7 +561,7 @@ public class GameController {
         }
         if(player.getHeading()==Heading.WEST){
             for(int i = player.getSpace().x; i>=0; i--){
-                if(board.getSpace(player.getSpace().x,i).getPlayer() != null && board.getSpace(i, player.getSpace().y).getPlayer() != player){
+                if(board.getSpace(i, player.getSpace().y).getPlayer() != null && board.getSpace(i, player.getSpace().y).getPlayer() != player){
                     damagePlayersInHorizontalLine(player, i);
                     break;
                 }
@@ -598,7 +604,7 @@ public class GameController {
      */
     public void damagePlayersInVerticalLine(@NotNull Player player, int i){
         //board.getSpace(player.getSpace().x,i).getPlayer().setDamage(board.getSpace(player.getSpace().x, i).getPlayer().getDamage()+1);
-        board.getSpace(player.getSpace().x,i).getPlayer().discardPile.add(new CommandCard(Command.SPAM));
+        board.getSpace(player.getSpace().x,i).getPlayer().getDiscardPile().add(new CommandCard(Command.SPAM));
     }
 
     /**
@@ -611,7 +617,7 @@ public class GameController {
      */
     public void damagePlayersInHorizontalLine(@NotNull Player player, int i){
         //board.getSpace(i, player.getSpace().y).getPlayer().setDamage(board.getSpace(i, player.getSpace().y).getPlayer().getDamage()+1);
-        board.getSpace(i, player.getSpace().y).getPlayer().discardPile.add(new CommandCard(Command.SPAM));
+        board.getSpace(i, player.getSpace().y).getPlayer().getDiscardPile().add(new CommandCard(Command.SPAM));
     }
 
     /**
@@ -619,7 +625,7 @@ public class GameController {
      *
      * @param player that needs to be checked
      *
-     * @auther Jens Will Iversen
+     * @author Jens Will Iversen
      */
     public void checkForPit(Player player){
         Space space = player.getSpace();
@@ -649,8 +655,8 @@ public class GameController {
             tempSpace = board.getNeighbour(tempSpace,heading);
         }
         player.setSpace(tempSpace);
-        player.discardPile.add(new CommandCard(Command.SPAM));
-        player.discardPile.add(new CommandCard(Command.SPAM));
+        player.getDiscardPile().add(new CommandCard(Command.SPAM));
+        player.getDiscardPile().add(new CommandCard(Command.SPAM));
 
         if (board.getCurrentPlayer() != player){
             player.setInPit(false);
@@ -778,9 +784,9 @@ public class GameController {
     }
 
     public void spam(@NotNull Player player){
-        player.discardPile.remove(player.discardPile.size());
-        CommandCard card = player.cardPile.remove(0);
-        player.discardPile.add(card);
+        player.getDiscardPile().remove(player.getDiscardPile().size());
+        CommandCard card = player.getCardPile().remove(0);
+        player.getDiscardPile().add(card);
         executeCommand(player, card.command );
     }
 

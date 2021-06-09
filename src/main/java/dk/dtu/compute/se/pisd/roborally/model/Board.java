@@ -114,6 +114,7 @@ public class Board extends Subject {
      * @param width the width of the board.
      * @param height the height of the board.
      * @param boardName the custom/premade board name.
+     * @Author Ekkart Kindler
      */
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -140,6 +141,7 @@ public class Board extends Subject {
      * Constructor for the board with overload. Made for a default board.
      * @param width the width of the board.
      * @param height the height of the board.
+     * @Author Ekkart Kindler
      */
     public Board(int width, int height) {
         this(width, height, "defaultboard");
@@ -168,6 +170,7 @@ public class Board extends Subject {
      * @param x the position on the horizontal axis
      * @param y the position on the vertical axis
      * @return the space object on the coordinates.
+     * @Author Ekkart Kindler
      */
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
@@ -189,6 +192,7 @@ public class Board extends Subject {
     /**
      * Adds a player to the arraylist of players. Updates the GUI.
      * @param player the player being added.
+     * @Author Ekkart Kindler
      */
     public void addPlayer(@NotNull Player player) {
         if (player.board == this && !players.contains(player)) {

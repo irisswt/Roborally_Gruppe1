@@ -13,12 +13,12 @@ import javafx.scene.shape.StrokeLineCap;
 public class LaserView {
     /**
      *Draws the amount of lasers by the integer saved in the field element Laser
-     * @param spaceView
-     * @param fieldAction
+     *@param spaceView space that needs to be drawn
+     *@param fieldAction the action that needs to be drawn in this case a laser this is used to find the amount of lasers and the type
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
-        public  static void drawLaser(SpaceView spaceView, FieldAction fieldAction) {
+        public  static void draw(SpaceView spaceView, FieldAction fieldAction) {
         Laser tempSpace = (Laser) fieldAction;
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();

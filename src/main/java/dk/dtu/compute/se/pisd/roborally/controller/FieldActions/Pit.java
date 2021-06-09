@@ -17,8 +17,8 @@ public class Pit extends FieldAction {
      */
     @Override
     public boolean doAction(GameController gameController, Space space) {
-        space.getPlayer().discardPile.add(new CommandCard(Command.SPAM));
-        space.getPlayer().discardPile.add(new CommandCard(Command.SPAM));
+        space.getPlayer().getDiscardPile().add(new CommandCard(Command.SPAM));
+        space.getPlayer().getDiscardPile().add(new CommandCard(Command.SPAM));
         return false;
     }
 }

@@ -12,13 +12,13 @@ import javafx.scene.shape.StrokeLineCap;
 public class PushPanelView {
     /**
      * Draws the a push panel like a wall but green
-     * @param spaceView
-     * @param fieldAction
+     * @param spaceView space that needs to be drawn
+     * @param fieldAction the action that needs to be drawn in this case a pushpanel and finds the heading of it
      *
-     * @auther Louis Monty-Krohn
-     * @auther Jens
+     * @author Louis Monty-Krohn
+     * @author Jens Will Iversen
      */
-    public static void drawPushPanel(SpaceView spaceView, FieldAction fieldAction) {
+    public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         PushPanel tempSpace = (PushPanel) fieldAction;
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();

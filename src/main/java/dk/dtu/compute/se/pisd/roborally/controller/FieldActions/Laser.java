@@ -11,6 +11,11 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
 public class Laser extends FieldAction {
 
     private whatKindOfLaser laserType;
+
+    public void setAmountOFLaser(int amountOFLaser) {
+        this.amountOFLaser = amountOFLaser;
+    }
+
     private int amountOFLaser;
     private Heading headin;
 
@@ -35,12 +40,15 @@ public class Laser extends FieldAction {
     /**
      * makes the player draw damage cards, decided by the amount of lasers
      *
-     * @auther Louis Monty-Krohn
+     * @param gameController the gameController of the respective game
+     * @param space the space this action should be executed for
+     *
+     * @author Louis Monty-Krohn
      */
     @Override
     public boolean doAction(GameController gameController, Space space) {
         for(int i = 0;i<amountOFLaser;i++){
-            space.getPlayer().discardPile.add(new CommandCard(Command.SPAM));
+            space.getPlayer().getDiscardPile().add(new CommandCard(Command.SPAM));
         }
         return false;
     }

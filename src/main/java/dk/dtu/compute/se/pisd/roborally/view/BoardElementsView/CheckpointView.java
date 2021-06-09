@@ -18,12 +18,12 @@ public class CheckpointView {
     /**
      *Draws a image of a Checkpoint
      * And draws the number of the checkpoint
-     * @param spaceView
-     * @param fieldAction
+     * @param spaceView space that needs to be drawn
+     * @param fieldAction the action that needs to be drawn in this case a checkpoint
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
-    public static void drawCheckpoint(SpaceView spaceView, FieldAction fieldAction) {
+    public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         Checkpoint checpoint = (Checkpoint) fieldAction;
         FileInputStream inputstream = null;
         try {

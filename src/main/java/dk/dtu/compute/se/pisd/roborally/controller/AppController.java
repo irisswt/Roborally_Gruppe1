@@ -83,6 +83,7 @@ public class AppController implements Observer {
      * Method to start a new game. Will present a dropdown menu with number of
      * players and create the chosen amount of players along with other elements
      * required for the game to start such as a board and the GUI.
+     * @author Ekkart Kindler, ekki@dtu.dk
      * @author Niklas Jessen
      */
     public void newGame() {
@@ -145,8 +146,8 @@ public class AppController implements Observer {
                         player.setSpace(startfields.get(i%startfields.size()));
                         for(int j = 0; j<9;j++) {
                             
-                            board.getPlayer(i).discardPile.add(new CommandCard(commands[j]));
-                            board.getPlayer(i).discardPile.add(new CommandCard(commands[j]));
+                            board.getPlayer(i).getDiscardPile().add(new CommandCard(commands[j]));
+                            board.getPlayer(i).getDiscardPile() .add(new CommandCard(commands[j]));
                         }
                     }
                    
@@ -164,7 +165,7 @@ public class AppController implements Observer {
         }
     }
 
-    /*
+    /**
     * @author Niklas Jessen
     */
     public void saveGame() {
@@ -202,9 +203,9 @@ public class AppController implements Observer {
     }
 
     /**
-     * gives the ability select a game from the database
+     * gives the ability select a game from the database from a dialog menu with the names from the database pisu
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      * @author Niklas Jessen
      */
     public void loadGame() {

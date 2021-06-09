@@ -13,10 +13,10 @@ import java.io.FileNotFoundException;
 public class startGearView {
     /**
      * Draws a image of a gear from "src/main/resources/Img/startGear.PNG"
-     * @param spaceView
-     * @param fieldAction
+     * @param spaceView space that needs to be drawn
+     * @param fieldAction the action that needs to be drawn in this case a startGear
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         StartGear startGear = (StartGear) fieldAction;

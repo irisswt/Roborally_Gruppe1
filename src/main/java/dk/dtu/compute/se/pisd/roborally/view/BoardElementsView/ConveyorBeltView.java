@@ -13,8 +13,12 @@ import javafx.scene.shape.Polygon;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+/**
+ * CLass for the GUI part of the board element ConveyorBelt
+ * @Author Louis Monty-Krohn
+ */
 public class ConveyorBeltView {
-    public static void drawConveyorBeltView(SpaceView spaceView, FieldAction fieldAction) {
+    public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         ConveyorBelt tempcontroler = (ConveyorBelt) fieldAction;
 
             Polygon arrow = new Polygon(1.0, 1.0,

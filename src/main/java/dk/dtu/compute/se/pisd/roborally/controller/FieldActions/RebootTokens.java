@@ -9,6 +9,10 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 import java.util.ArrayList;
 
+/**
+ * A board element where your robot will "respawn" ie. will be put after it has been pushed off the board or falled into a pit
+ * @Author Jens Iversen
+ */
 
 public class RebootTokens extends FieldAction {
     @Override

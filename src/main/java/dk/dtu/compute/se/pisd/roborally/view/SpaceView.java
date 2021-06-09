@@ -57,6 +57,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     /**
      * Constructor for SpaceView. Creates a board in a checkerboard pattern.
+     * @Author Ekkart Kindler
      * @param space The actual Space that needs GUI.
      */
     public SpaceView(@NotNull Space space) {
@@ -85,6 +86,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     /**
      * Method to update GUI for a space if there's a player on that space.
+     * @Author Ekkart Kindler
      */
     private void updatePlayer() {
 
@@ -108,7 +110,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     /**
      * finds the heading of the wall and draws a yellow wall
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     private void drawWalls(){
         Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
@@ -142,7 +144,7 @@ public class SpaceView extends StackPane implements ViewObserver {
      *
      * If a space has a space action the function to draw it will be called
      *
-     * @auther Louis Monty-Krohn
+     * @author Louis Monty-Krohn
      */
     @Override
     public void updateView(Subject subject){
@@ -151,31 +153,31 @@ public class SpaceView extends StackPane implements ViewObserver {
         for (FieldAction action : space.getActions())
         if (subject == this.space) {
             if (action instanceof PushPanel) {
-                PushPanelView.drawPushPanel(this,action);
+                PushPanelView.draw(this,action);
             }
             if (action instanceof Gear) {
-                GearView.drawGear(this,action);
+                GearView.draw(this,action);
             }
             if(action instanceof Laser){
-                LaserView.drawLaser(this,action);
+                LaserView.draw(this,action);
             }
             if (action instanceof Checkpoint) {
-                CheckpointView.drawCheckpoint(this, action);
+                CheckpointView.draw(this, action);
             }
             if(action instanceof PriorityAntenna){
-                PriorityAntennaView.drawPriorityAntenna(this,space);
+                PriorityAntennaView.draw(this,action);
             }
             if(action instanceof Pit){
-                PitView.drawPit(this,space);
+                PitView.draw(this,action);
             }
             if(action instanceof ConveyorBelt){
-                ConveyorBeltView.drawConveyorBeltView(this,action);
+                ConveyorBeltView.draw(this,action);
             }
             if(action instanceof StartGear){
                 startGearView.draw(this,action);
             }
             if(action instanceof RebootTokens){
-                RebootTokenView.drawRebootToken(this,action);
+                RebootTokenView.draw(this,action);
             }
 
             }

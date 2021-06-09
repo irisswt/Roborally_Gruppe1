@@ -52,20 +52,30 @@ public class Player extends Subject {
 
     private int checkpoint = 0;
 
-    public ArrayList<CommandCard> cardPile = new ArrayList<>();
-    public ArrayList<CommandCard> discardPile = new ArrayList<>();
+    public ArrayList<CommandCard> getCardPile() {
+        return cardPile;
+    }
+
+    public void setCardPile(ArrayList<CommandCard> cardPile) {
+        this.cardPile = cardPile;
+    }
+
+    private ArrayList<CommandCard> cardPile = new ArrayList<>();
+
+    public ArrayList<CommandCard> getDiscardPile() {
+        return discardPile;
+    }
+
+    public void setDiscardPile(ArrayList<CommandCard> discardPile) {
+        this.discardPile = discardPile;
+    }
+
+    private ArrayList<CommandCard> discardPile = new ArrayList<>();
 
 
     private double disToPri;
 
 
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
 
     public double getDisToPri() {
         return disToPri;
@@ -76,13 +86,13 @@ public class Player extends Subject {
     }
 
     private Boolean isInPit = false;
-    private int damage = 0;
 
     /**
      * Constructor for Player.
      * @param board the board the player is playing on.
      * @param color Color of player.
      * @param name The players name.
+     * @Author Ekkart Kindler
      */
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -166,6 +176,7 @@ public class Player extends Subject {
      * Removes the player from the old space if new space is available and moves the player to the new space.
      * Also updates GUI.
      * @param space The new space the player object moves to.
+     * @Author Ekkart Kindler
      */
     public void setSpace(Space space) {
         Space oldSpace = this.space;

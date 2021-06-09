@@ -145,9 +145,9 @@ public class PlayerView extends Tab implements ViewObserver {
      *
      * Changed to find first card from again card
      *
-     * @auther Ekkart Kindler, ekki@dtu.dk
-     * @auther Louis Monty-Krohn
-     * @auther Jens Will Iversen
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Louis Monty-Krohn
+     * @author Jens Will Iversen
      */
     @Override
     public void updateView(Subject subject) {

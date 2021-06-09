@@ -146,7 +146,7 @@ public class AppController implements Observer {
                         for(int j = 0; j<9;j++) {
                             
                             board.getPlayer(i).getDiscardPile().add(new CommandCard(commands[j]));
-                            board.getPlayer(i).getDiscardPile().add(new CommandCard(commands[j]));
+                            board.getPlayer(i).getDiscardPile() .add(new CommandCard(commands[j]));
                         }
                     }
                    
@@ -164,7 +164,7 @@ public class AppController implements Observer {
         }
     }
 
-    /*
+    /**
     * @author Niklas Jessen
     */
     public void saveGame() {
@@ -202,7 +202,7 @@ public class AppController implements Observer {
     }
 
     /**
-     * gives the ability select a game from the database
+     * gives the ability select a game from the database from a dialog menu with the names from the database pisu
      *
      * @auther Louis Monty-Krohn
      * @author Niklas Jessen

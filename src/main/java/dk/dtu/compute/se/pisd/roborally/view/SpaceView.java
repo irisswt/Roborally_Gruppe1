@@ -163,10 +163,10 @@ public class SpaceView extends StackPane implements ViewObserver {
                 CheckpointView.draw(this, action);
             }
             if(action instanceof PriorityAntenna){
-                PriorityAntennaView.draw(this,space);
+                PriorityAntennaView.draw(this,action);
             }
             if(action instanceof Pit){
-                PitView.draw(this,space);
+                PitView.draw(this,action);
             }
             if(action instanceof ConveyorBelt){
                 ConveyorBeltView.draw(this,action);

@@ -16,8 +16,8 @@ import java.io.FileNotFoundException;
 public class GearView {
     /**
      *Draws a image of a gear from "src/main/resources/Img/Gear.PNG"
-     * @param spaceView
-     * @param fieldAction
+     * @param spaceView space that needs to be drawn
+     * @param fieldAction the action that needs to be drawn in this case a Gear
      *
      * @auther Louis Monty-Krohn
      */

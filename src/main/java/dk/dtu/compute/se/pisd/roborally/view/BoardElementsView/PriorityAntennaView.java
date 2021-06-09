@@ -1,5 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.view.BoardElementsView;
 
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 import javafx.scene.canvas.Canvas;
@@ -15,12 +16,12 @@ import java.io.FileNotFoundException;
 public class PriorityAntennaView {
     /**
      * Draws the image in the path "src/main/resources/Img/PriorityAntenna.PNG"
-     * @param spaceView
-     * @param space
+     * @param spaceView space that needs to be drawn
+     * @param fieldAction the action that needs to be drawn in this case a priority antenna
      *
      * @auther Louis Monty-Krohn
      */
-    public static void draw(SpaceView spaceView, Space space){
+    public static void draw(SpaceView spaceView, FieldAction fieldAction){
         FileInputStream inputstream = null;
         try {
             inputstream = new FileInputStream("src/main/resources/Img/PriorityAntenna.PNG");

@@ -12,8 +12,8 @@ import javafx.scene.shape.StrokeLineCap;
 public class PushPanelView {
     /**
      * Draws the a push panel like a wall but green
-     * @param spaceView
-     * @param fieldAction
+     * @param spaceView space that needs to be drawn
+     * @param fieldAction the action that needs to be drawn in this case a pushpanel and finds the heading of it
      *
      * @auther Louis Monty-Krohn
      * @auther Jens

@@ -30,6 +30,11 @@ import java.util.List;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
+ * added Damage command
+ *
+ * @author Louis Monty-Krohn
+ * @author Isak
+ *
  */
 public enum Command {
 

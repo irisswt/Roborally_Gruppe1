@@ -13,8 +13,8 @@ import javafx.scene.shape.StrokeLineCap;
 public class LaserView {
     /**
      *Draws the amount of lasers by the integer saved in the field element Laser
-     * @param spaceView
-     * @param fieldAction
+     *@param spaceView space that needs to be drawn
+     *@param fieldAction the action that needs to be drawn in this case a laser this is used to find the amount of lasers and the type
      *
      * @auther Louis Monty-Krohn
      */

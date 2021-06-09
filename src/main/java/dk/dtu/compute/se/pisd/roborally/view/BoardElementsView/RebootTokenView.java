@@ -11,8 +11,8 @@ import java.io.FileNotFoundException;
 public class RebootTokenView {
     /**
      * Draws a image of a gear from "src/main/resources/Img/Gear.PNG"
-     * @param spaceView
-     * @param fieldAction
+     * @param spaceView space that needs to be drawn
+     * @param fieldAction the action that needs to be drawn in this case a reboot token
      *
      * @auther Louis Monty-Krohn
      */

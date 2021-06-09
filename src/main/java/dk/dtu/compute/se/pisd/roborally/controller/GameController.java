@@ -525,6 +525,8 @@ public class GameController {
 
                         }
                     }
+                }else if (action instanceof Gear){
+                    action.doAction(this,player.getSpace());
                 }
         }
 

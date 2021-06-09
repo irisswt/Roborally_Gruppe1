@@ -28,7 +28,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
+ * Simple board element meant to push a player in a direction at the end of a register.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *

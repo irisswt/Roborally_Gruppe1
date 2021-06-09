@@ -17,7 +17,7 @@ public class Gear extends FieldAction {
      * @param space the space this action should be executed for
      * @return
      *
-     * @author Jonas zørnsen
+     * @author Jonathan Zørn
      */
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {

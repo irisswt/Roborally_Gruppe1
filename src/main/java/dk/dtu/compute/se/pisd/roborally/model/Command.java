@@ -33,7 +33,7 @@ import java.util.List;
  * added Damage command
  *
  * @author Louis Monty-Krohn
- * @author Isak
+ * @author Isak Risager
  *
  */
 public enum Command {

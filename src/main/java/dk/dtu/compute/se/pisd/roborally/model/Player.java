@@ -92,6 +92,7 @@ public class Player extends Subject {
      * @param board the board the player is playing on.
      * @param color Color of player.
      * @param name The players name.
+     * @Author Ekkart Kindler
      */
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -175,6 +176,7 @@ public class Player extends Subject {
      * Removes the player from the old space if new space is available and moves the player to the new space.
      * Also updates GUI.
      * @param space The new space the player object moves to.
+     * @Author Ekkart Kindler
      */
     public void setSpace(Space space) {
         Space oldSpace = this.space;

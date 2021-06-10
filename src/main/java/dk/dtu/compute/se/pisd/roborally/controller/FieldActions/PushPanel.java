@@ -5,6 +5,8 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
+import java.util.ArrayList;
+
 /**
  * A class for the board element Push Panel.
  * This panel will have a direction which it will push a player standing on it, at the end of the specified registers.
@@ -16,17 +18,17 @@ public class PushPanel extends FieldAction {
         return heading;
     }
 
-    public int getNumber() {
+    public int[] getNumber() {
         return number;
     }
 
     public void setHeading(Heading heading) {
         this.heading = heading;
     }
-    public void setNumber(int number){this.number = number;}
+    public void setNumber(int[] number){this.number = number;}
 
     private Heading heading;
-    private int number;
+    private int[] number ;
     @Override
     public boolean doAction(GameController gameController, Space space) {
         return false;

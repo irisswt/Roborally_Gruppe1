@@ -518,11 +518,15 @@ public class GameController {
                         }
                     }
                 }else if(action instanceof PushPanel){
-                    if(((PushPanel) action).getNumber() == board.getStep()){
-                        try {
-                            moveToSpace(player, board.getNeighbour(space, ((PushPanel) action).getHeading()), ((PushPanel) action).getHeading());
-                        }catch (ImpossibleMoveException e){
 
+                    for (int n : ((PushPanel) action).getNumber()) {
+
+                        if (n == board.getStep() || n == 9) {
+                            try {
+                                moveToSpace(player, board.getNeighbour(space, ((PushPanel) action).getHeading()), ((PushPanel) action).getHeading());
+                            } catch (ImpossibleMoveException e) {
+
+                            }
                         }
                     }
                 }else if (action instanceof Gear){

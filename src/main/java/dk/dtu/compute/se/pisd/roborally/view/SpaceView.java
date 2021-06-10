@@ -50,8 +50,8 @@ import java.io.FileNotFoundException;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 75; // 60; // 75;
-    final public static int SPACE_WIDTH = 75;  // 60; // 75;
+    final public static int SPACE_HEIGHT = 60; //75;  60; // 75;
+    final public static int SPACE_WIDTH = 60; //75;  // 60; // 75;
 
     public final Space space;
 
@@ -121,17 +121,17 @@ public class SpaceView extends StackPane implements ViewObserver {
         for(Heading heading: space.getWalls()) {
             switch (heading) {
                 case SOUTH:
-                    gc.strokeLine(2, SpaceView.SPACE_HEIGHT - 73, SpaceView.SPACE_WIDTH - 2, SpaceView.SPACE_HEIGHT - 73);
+                    gc.strokeLine(2, SPACE_HEIGHT - SPACE_HEIGHT+2, SPACE_WIDTH - 2, SPACE_HEIGHT - SPACE_HEIGHT+2);
                     break;
                 case NORTH:
+                    gc.strokeLine(2, SPACE_HEIGHT -2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
 
-                    gc.strokeLine(2, SpaceView.SPACE_HEIGHT - 2, SpaceView.SPACE_WIDTH - 2, SpaceView.SPACE_HEIGHT - 2);
                     break;
                 case WEST:
-                    gc.strokeLine(73, SpaceView.SPACE_HEIGHT - 2, SpaceView.SPACE_WIDTH - 2, SpaceView.SPACE_HEIGHT - 73);
+                    gc.strokeLine(SPACE_HEIGHT-2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - SPACE_WIDTH-2);
                     break;
                 case EAST:
-                    gc.strokeLine(2, SpaceView.SPACE_HEIGHT - 2, SpaceView.SPACE_WIDTH - 73, SpaceView.SPACE_HEIGHT - 73);
+                    gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - SPACE_HEIGHT+2, SPACE_HEIGHT - SPACE_HEIGHT - 2);
                     break;
             }
         }

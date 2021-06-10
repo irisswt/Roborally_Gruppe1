@@ -19,7 +19,7 @@ public class RebootTokenView {
     public static void draw(SpaceView spaceView, FieldAction fieldAction) {
         FileInputStream inputstream = null;
         try {
-            inputstream = new FileInputStream("src/main/resources/Img/Gear.PNG");
+            inputstream = new FileInputStream("src/main/resources/Img/reboot.PNG");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

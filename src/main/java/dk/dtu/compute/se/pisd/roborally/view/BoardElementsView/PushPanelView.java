@@ -44,7 +44,12 @@ public class PushPanelView {
             }
         gc.setStroke(Color.RED);
         gc.setLineWidth(1);
-        gc.strokeText(String.valueOf(tempSpace.getNumber()), SpaceView.SPACE_WIDTH/2, SpaceView.SPACE_WIDTH/2);
+        String stirng = "";
+        for(int number:tempSpace.getNumber()){
+            stirng += "  ";
+            stirng +=  +number;
+        }
+        gc.strokeText(stirng, 0, SpaceView.SPACE_WIDTH/2);
         spaceView.getChildren().add(canvas);
 
     }

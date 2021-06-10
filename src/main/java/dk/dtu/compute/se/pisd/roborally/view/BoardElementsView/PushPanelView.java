@@ -26,20 +26,25 @@ public class PushPanelView {
         gc.setLineWidth(20);
         gc.setLineCap(StrokeLineCap.ROUND);
         switch (tempSpace.getHeading()) {
-            case SOUTH:
-                gc.strokeLine(2, SpaceView.SPACE_HEIGHT-73, SpaceView.SPACE_WIDTH-2, SpaceView.SPACE_HEIGHT-73);
-                break;
-            case NORTH:
+                case SOUTH:
+                    gc.strokeLine(2, spaceView.SPACE_HEIGHT - spaceView.SPACE_HEIGHT+2, spaceView.SPACE_WIDTH - 2, spaceView.SPACE_HEIGHT - spaceView.SPACE_HEIGHT+2);
+                    break;
+                case NORTH:
+                    gc.strokeLine(2, spaceView.SPACE_HEIGHT -2, spaceView.SPACE_WIDTH - 2, spaceView.SPACE_HEIGHT - 2);
 
-                gc.strokeLine(2, SpaceView.SPACE_HEIGHT - 2, SpaceView.SPACE_WIDTH - 2, SpaceView.SPACE_HEIGHT - 2);
-                break;
-            case WEST:
-                gc.strokeLine(73, SpaceView.SPACE_HEIGHT-2, SpaceView.SPACE_WIDTH-2, SpaceView.SPACE_HEIGHT-73);
-                break;
-            case EAST:
-                gc.strokeLine(2, SpaceView.SPACE_HEIGHT-2, SpaceView.SPACE_WIDTH-73, SpaceView.SPACE_HEIGHT-73);
-                break;
-        }
+                    break;
+                case WEST:
+
+                    gc.strokeLine(spaceView.SPACE_HEIGHT-2, spaceView.SPACE_HEIGHT - 2, spaceView.SPACE_WIDTH - 2, spaceView.SPACE_HEIGHT - spaceView.SPACE_WIDTH-2);
+                    break;
+                case EAST:
+
+                    gc.strokeLine(2, spaceView.SPACE_HEIGHT - 2, spaceView.SPACE_WIDTH - spaceView.SPACE_HEIGHT+2, spaceView.SPACE_HEIGHT - spaceView.SPACE_HEIGHT - 2);
+                    break;
+            }
+        gc.setStroke(Color.RED);
+        gc.setLineWidth(1);
+        gc.strokeText(String.valueOf(tempSpace.getNumber()), SpaceView.SPACE_WIDTH/2, SpaceView.SPACE_WIDTH/2);
         spaceView.getChildren().add(canvas);
 
     }

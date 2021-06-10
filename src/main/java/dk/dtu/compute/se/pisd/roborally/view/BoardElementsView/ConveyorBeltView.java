@@ -5,6 +5,8 @@ import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -28,5 +30,11 @@ public class ConveyorBeltView {
             arrow.setFill(Color.TRANSPARENT);
             arrow.setRotate((90*tempcontroler.getHeading().ordinal())%360);
             spaceView.getChildren().add(arrow);
+        Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_WIDTH);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(Color.RED);
+        gc.setLineWidth(1);
+        gc.strokeText(String.valueOf(tempcontroler.getSpeed()), SpaceView.SPACE_WIDTH/2, SpaceView.SPACE_WIDTH/2);
+        spaceView.getChildren().add(canvas);
     }
 }

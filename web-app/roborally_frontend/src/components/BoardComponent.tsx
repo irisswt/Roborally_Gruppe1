@@ -4,19 +4,37 @@ import styles from "../styling/BoardComponent.module.scss" //Import css module
 import GameContext from "../context/GameContext";
 import { Typography, Button } from "@material-ui/core";
 import { Game } from "../types/Game";
-// https://material-ui.com
+import { deepPurple } from '@material-ui/core/colors';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 /*
 If the board component took any props/arguments they would be declared inside the type below
 see the space component for an example.
  */
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            display: 'flex',
+            '& > *': {
+                margin: theme.spacing(1),
+            },
+        },
+        purple: {
+            color: theme.palette.getContrastText(deepPurple[500]),
+            backgroundColor: deepPurple[500],
+        },
+    }),
+);
+
 type BoardComponentProps = {}
 const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
     //{...} context is known as object destructuring
-    const { games, board, loaded, unselectGame, startGame } = useContext(GameContext) //Hook form of Context.Consumer, used to access the context
+    const { games, board, loaded, unselectGame, startGame, endGame } = useContext(GameContext) //Hook form of Context.Consumer, used to access the context
 
     let [join, setJoin] = useState(false);
     let [start, setStart] = useState(false);
+
+    const classes = useStyles();
 
     const onSetJoin = () => {
         setJoin(true);
@@ -37,7 +55,14 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
 
     }
     const onSetEnd = () => {
-        setStart(false);
+        let game: Game | undefined;
+        game = games.find(game => game.gameId === board.boardId);
+        if (game === undefined) {
+            console.log("Game could not be found in map")
+        } else {
+            endGame(game);
+            setStart(false);
+        }
     }
 
     const onBack = () => {
@@ -48,37 +73,10 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
 
     return (
         loaded ?
-            <div>
+            <div className={styles.centerAll}>
 
-                {!join ?
-                    <Button variant="contained" color="primary" onClick={onSetJoin}  >
-                        Join
-                    </Button>
-
-                    :
-
-                    < Button variant="contained" color="primary" onClick={onSetLeave}  >
-                        Leave
-                    </Button>
-
-
-                }
-
-                {!start && join ? <Button variant="contained" color="primary" onClick={onSetStart}  >
-                    Start Game
-                </Button> : join ? <Button variant="contained" color="primary" onClick={onSetEnd}  >
-                    End Game
-                </Button> : <div />}
-
-
-                <Button variant="contained" color="secondary" onClick={onBack}>
-                    Back to Games
-                </Button>
-
-
-
-
-                <Typography variant="h3"> {board.boardName} </Typography>
+                <Typography variant="h3" align="center" >Roborally </Typography>
+                <br />
                 <div className={styles.container}>
                     {board.spaceDtos.map((spaceArray, index) =>
                         <div key={"spaceArray" + index}>
@@ -89,6 +87,39 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
                     )
                     }
                 </div>
+                <br />
+                <br />
+                {!join ?
+                    <Button className={classes.purple} size="large" variant="text" color="primary" onClick={onSetJoin}  >
+                        Join
+                    </Button>
+
+                    :
+
+                    < Button className={classes.purple} size="large" variant="text" color="primary" onClick={onSetLeave}  >
+                        Leave
+                    </Button>
+                }
+
+                &emsp;
+                <Button className={classes.purple} size="large" variant="text" color="primary" onClick={onBack}>
+                    Back to Games
+                </Button>
+                &emsp;
+                <Button className={classes.purple} size="large" variant="text" color="primary" onClick={onSetStart}  >
+                    Start Game
+                </Button>
+                &emsp;
+                <Button className={classes.purple} size="large" variant="text" color="primary" onClick={onSetEnd}  >
+                    End Game
+                </Button>
+                <br />
+                <br />
+                <Typography variant="h5">Game info</Typography>
+                <Typography variant="subtitle1">{"Board id: " + board.boardId}</Typography>
+                <Typography variant="subtitle1">{"Board name: " + board.boardName}</Typography>
+                <Typography variant="subtitle1">Players:</Typography>
+                {board.playerDtos.map((user, index) => <Typography variant="subtitle1" key={index}>- {user.playerName}</Typography>)}
 
 
 

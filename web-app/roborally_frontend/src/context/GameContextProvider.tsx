@@ -190,8 +190,10 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     const deleteGame = useCallback(async (game: Game) => {
         GameApi.deleteGame(game.gameId).then(() => {
             console.log("Deleting game: " + game.gameId)
+            addToast('Game deleted!', { appearance: 'success' });
         }).catch(() => {
             console.error("Error while deleting board from backend")
+            addToast('Error while deleting board from backend!', { appearance: 'error' });
         })
 
     }, [])

@@ -149,6 +149,8 @@ public class AppController implements Observer {
                             board.getPlayer(i).getDiscardPile().add(new CommandCard(commands[j]));
                             board.getPlayer(i).getDiscardPile() .add(new CommandCard(commands[j]));
                         }
+                        board.getPlayer(i).getDiscardPile().add(new CommandCard(commands[0]));
+                        board.getPlayer(i).getDiscardPile().add(new CommandCard(commands[0]));
                     }
                    
                     
@@ -167,6 +169,7 @@ public class AppController implements Observer {
 
     /**
     * @author Niklas Jessen
+     * @author Louis Monty-Krohn
     */
     public void saveGame() {
         // XXX needs to be implemented eventually
@@ -231,7 +234,6 @@ public class AppController implements Observer {
                     }
                 }
 
-                // todo same name
                 gameController = new GameController(RepositoryAccess.getRepository().loadGameFromDB(currentGame.id));
 
                 roboRally.createBoardView(gameController);

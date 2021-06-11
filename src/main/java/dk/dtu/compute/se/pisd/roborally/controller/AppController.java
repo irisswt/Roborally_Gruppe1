@@ -176,10 +176,10 @@ public class AppController implements Observer {
 
         Boolean isSame = false;
 
-        TextInputDialog dialog = new TextInputDialog("walter");
-        dialog.setTitle("Text Input Dialog");
-        dialog.setHeaderText("Look, a Text Input Dialog");
-        dialog.setContentText("Please enter your name:");
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle("Save game");
+        dialog.setHeaderText("Name save file");
+        dialog.setContentText("Please enter name of save file:");
 
         // Traditional way to get the response value.
         Optional<String> result = dialog.showAndWait();
@@ -225,7 +225,7 @@ public class AppController implements Observer {
             ChoiceDialog<String> dialog = new ChoiceDialog<>(gameName.get(0), gameName);
 
             dialog.setTitle("Player number");
-            dialog.setHeaderText("Chose a game");
+            dialog.setHeaderText("Choose a game");
             Optional<String> result = dialog.showAndWait();
             try {
                 for (GameInDB game : gameIDs) {

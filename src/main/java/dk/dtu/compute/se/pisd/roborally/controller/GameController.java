@@ -788,7 +788,7 @@ public class GameController {
     }
 
     public void spam(@NotNull Player player){
-        player.getDiscardPile().remove(player.getDiscardPile().size());
+        player.getDiscardPile().remove(player.getDiscardPile().size()-1);
         CommandCard card = player.getCardPile().remove(0);
         player.getDiscardPile().add(card);
         executeCommand(player, card.command );

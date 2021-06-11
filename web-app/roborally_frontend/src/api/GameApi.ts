@@ -46,10 +46,8 @@ class GameApi {
         return axios.put<Game>(`${this.BACKEND_URL}/game/${gameId}/end`).then(value => value.data)
     }
 
-
-
     //TODO:
-    // Create game
+    // Create game and build request body
 }
 
 export default GameApi.getInstance()

@@ -2,7 +2,13 @@ import React, { FunctionComponent, useContext, useState } from 'react';
 import GameContext from "../context/GameContext";
 import { GameComponent } from "./GameComponent";
 import styles from "../styling/BoardComponent.module.scss" //Import css module
-import { Typography, Button, TextField, FormControl, InputLabel, Input, FormHelperText } from "@material-ui/core";
+import { Typography, Button, FormControl, InputLabel, Input } from "@material-ui/core";
+
+/**
+ * @Author: Jonathan Zørn
+ * @Author: Niklas Jessen
+ */
+
 
 type GamesComponentProps = {}
 const GamesComponent: FunctionComponent<GamesComponentProps> = () => {

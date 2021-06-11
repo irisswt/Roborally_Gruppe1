@@ -11,6 +11,11 @@ If the board component took any props/arguments they would be declared inside th
 see the space component for an example.
  */
 
+/**
+ * @Author: Jonathan Zørn
+ * @Author: Niklas Jessen
+ */
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -32,7 +37,7 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
     const { games, board, loaded, unselectGame, startGame, endGame } = useContext(GameContext) //Hook form of Context.Consumer, used to access the context
 
     let [join, setJoin] = useState(false);
-    let [start, setStart] = useState(false);
+    let [start, setStart] = useState(false); // TODO: Add functionallity so start gets the game value instead of local boolean
 
     const classes = useStyles();
 

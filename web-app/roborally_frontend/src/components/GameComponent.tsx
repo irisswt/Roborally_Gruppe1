@@ -18,6 +18,10 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 
+/**
+ * @Author: Jonathan Zørn
+ * @Author: Niklas Jessen
+ */
 
 export type GameComponentProps = {
     game: Game

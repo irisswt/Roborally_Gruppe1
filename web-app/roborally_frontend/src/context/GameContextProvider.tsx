@@ -8,6 +8,8 @@ import GameApi from "../api/GameApi";
 import { useToasts } from 'react-toast-notifications';
 
 
+
+
 type GameContextProviderPropsType = {
     children: ReactNode
 }
@@ -21,31 +23,6 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     // For notifications
     const { addToast } = useToasts();
 
-    /*
-    useEffect(() => {
-        GameApi.getBoard(gameId).then(board => {
-            setSpaces(board.spaceDtos)
-            setPlayers(board.playerDtos)
-            setWidth(board.width)
-            setHeight(board.height)
-            setGameId(board.boardId)
-            setGameName(board.boardName)
-            if (board.currentPlayerDto) {
-                setCurrentPlayer(board.currentPlayerDto)
-                board.playerDtos.forEach((player, index) => {
-                    if (player.playerId === board.currentPlayerDto?.playerId) {
-                        setCurrentPlayerIndex(index)
-                    }
-                })
-
-            }
-
-            setLoaded(true)
-        }).catch(() => {
-            console.error("Error while fetching board from backend")
-        })
-    }, [])
-    */
     //The code below is executed when the provider is rendered (inside App.tsx)
     //The code should fetch the data from the API instead of using a static assignment
     //Define a useState variable, note that useState returns an array, containing that state itself aswell as
@@ -196,7 +173,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
             addToast('Error while deleting board from backend!', { appearance: 'error' });
         })
 
-    }, [])
+    }, [addToast])
 
     /**
      * Function that starts a game if its valid

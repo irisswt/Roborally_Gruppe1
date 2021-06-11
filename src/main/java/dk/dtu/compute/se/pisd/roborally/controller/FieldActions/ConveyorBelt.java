@@ -19,34 +19,48 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.view;
+package dk.dtu.compute.se.pisd.roborally.controller.FieldActions;
 
-import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import javafx.application.Platform;
-
-import java.io.FileNotFoundException;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.model.Space;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Observer which relays the View classes whenever there's an update.
+ * Simple board element meant to push a player in a direction at the end of a register.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public interface ViewObserver extends Observer {
+public class ConveyorBelt extends FieldAction {
 
-    void updateView(Subject subject);
+
+    private int speed;
+
+    private Heading heading;
+
+    public Heading getHeading() {
+        return heading;
+    }
+
+    public void setHeading(Heading heading) {
+        this.heading = heading;
+    }
+
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 
     @Override
-    default void update(Subject subject) {
-        // This default implementation of the update method makes sure that ViewObserver implementations
-        // are doing the update only in the FX application thread. The update of the view is instead
-        // done in the updateView() method;
-        if (Platform.isFxApplicationThread()) {
-            updateView(subject);
-        } else {
-            Platform.runLater(() -> updateView(subject));
-        }
+    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+        // do nothing
+        return false;
     }
 
 }

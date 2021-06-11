@@ -107,6 +107,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
     /**
      * A method to give the players an easy overview of the order of the cards.
+     * @Author Ekkart Kindler
      * @param cardField the place the cards can be placed.
      * @return Strings representing the places for the cards.
      */
@@ -133,6 +134,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
     /**
      * A method to identify the card field from the string representation.
+     * @Author Ekkart Kindler
      * @param rep the string representation made in the cardFieldRepresentation method.
      * @return a field corresponding to the string representation.
      */
@@ -174,6 +176,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private class OnDragDetectedHandler implements EventHandler<MouseEvent> {
         /**
          * Method to handle the start of a drag action by a mouse input.
+         * @Author Ekkart Kindler
          * @param event the mouse drag action.
          */
         @Override
@@ -206,6 +209,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private class OnDragOverHandler implements EventHandler<DragEvent> {
         /**
          * Method to handle a card being dragged.
+         * @Author Ekkart Kindler
          * @param event the mouse drag action
          */
         @Override
@@ -231,6 +235,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private class OnDragEnteredHandler implements EventHandler<DragEvent> {
         /**
          * Method to handle when a card is being dragged over a card field.
+         * @Author Ekkart Kindler
          * @param event the mouse drag action
          */
         @Override
@@ -257,6 +262,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private class OnDragExitedHandler implements EventHandler<DragEvent> {
         /**
          * Method to handle when the dragging of a card stops.
+         * @Author Ekkart Kindler
          * @param event the mouse drag action.
          */
         @Override
@@ -283,6 +289,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private class OnDragDroppedHandler implements EventHandler<DragEvent> {
         /**
          * Method to handle when you let go of the mouse and stop dragging.
+         * @Author Ekkart Kindler
          * @param event the mouse drag action.
          */
         @Override
@@ -325,6 +332,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private class OnDragDoneHandler implements EventHandler<DragEvent> {
         /**
          * Method to handle that you're done dragging a card.
+         * @Author Ekkart Kindler
          * @param event the mouse drag action.
          */
         @Override

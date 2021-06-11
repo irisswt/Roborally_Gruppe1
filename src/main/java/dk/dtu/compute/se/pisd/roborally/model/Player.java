@@ -24,6 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
@@ -48,16 +50,55 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
+    private int checkpoint = 0;
+
+    public ArrayList<CommandCard> getCardPile() {
+        return cardPile;
+    }
+
+    public void setCardPile(ArrayList<CommandCard> cardPile) {
+        this.cardPile = cardPile;
+    }
+
+    private ArrayList<CommandCard> cardPile = new ArrayList<>();
+
+    public ArrayList<CommandCard> getDiscardPile() {
+        return discardPile;
+    }
+
+    public void setDiscardPile(ArrayList<CommandCard> discardPile) {
+        this.discardPile = discardPile;
+    }
+
+    private ArrayList<CommandCard> discardPile = new ArrayList<>();
+
+
+    private double disToPri;
+
+
+
+    public double getDisToPri() {
+        return disToPri;
+    }
+
+    public void setDisToPri(double disToPri) {
+        this.disToPri = disToPri;
+    }
+
+    private Boolean isInPit = false;
+
     /**
      * Constructor for Player.
      * @param board the board the player is playing on.
      * @param color Color of player.
      * @param name The players name.
+     * @Author Ekkart Kindler
      */
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
         this.color = color;
+
 
         this.space = null;
 
@@ -70,6 +111,14 @@ public class Player extends Subject {
         for (int i = 0; i < cards.length; i++) {
             cards[i] = new CommandCardField(this);
         }
+    }
+
+    public int getCheckpoint() {
+        return checkpoint;
+    }
+
+    public void setCheckpoint(int x){
+        checkpoint = x;
     }
 
     /**
@@ -127,6 +176,7 @@ public class Player extends Subject {
      * Removes the player from the old space if new space is available and moves the player to the new space.
      * Also updates GUI.
      * @param space The new space the player object moves to.
+     * @Author Ekkart Kindler
      */
     public void setSpace(Space space) {
         Space oldSpace = this.space;
@@ -177,9 +227,46 @@ public class Player extends Subject {
      * Get method for a players Card field.
      * @param i the number of the specific field.
      * @return the specific Card field.
+     *
      */
     public CommandCardField getCardField(int i) {
         return cards[i];
     }
 
+    /**
+     * Discards all cards player has in registers and on hand
+     * Also sets isInPit to true
+     * @author Jens Will Iversen
+     * @author Louis Monty-Krohn
+     */
+    public void resetCards(){
+        isInPit = true;
+        for(CommandCardField cardField : cards){
+            if (cardField.getCard() != null){
+                discardPile.add(cardField.getCard());
+                cardPile.remove(cardField.getCard());
+                cardField.setCard(null);
+            }
+
+        }
+        for(int i = board.getStep()+1; i < 5; i++){
+            CommandCardField current = program[i];
+            if (current.getCard() != null){
+                discardPile.add(current.getCard());
+                cardPile.remove(current.getCard());
+                current.setCard(null);
+            }
+
+        }
+
+        notifyChange();
+    }
+
+    public void setInPit(Boolean inPit) {
+        isInPit = inPit;
+    }
+
+    public Boolean getInPit() {
+        return isInPit;
+    }
 }

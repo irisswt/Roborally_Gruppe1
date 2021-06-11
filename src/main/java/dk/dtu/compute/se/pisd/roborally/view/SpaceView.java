@@ -22,16 +22,25 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.*;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.view.BoardElementsView.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 
 /**
  * Class responsible for each Space GUI that a board is made of.
@@ -41,13 +50,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 75; // 60; // 75;
-    final public static int SPACE_WIDTH = 75;  // 60; // 75;
+    final public static int SPACE_HEIGHT = 60; //75;  60; // 75;
+    final public static int SPACE_WIDTH = 60; //75;  // 60; // 75;
 
     public final Space space;
 
     /**
      * Constructor for SpaceView. Creates a board in a checkerboard pattern.
+     * @Author Ekkart Kindler
      * @param space The actual Space that needs GUI.
      */
     public SpaceView(@NotNull Space space) {
@@ -63,13 +73,12 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMaxHeight(SPACE_HEIGHT);
 
         if ((space.x + space.y) % 2 == 0) {
-            this.setStyle("-fx-background-color: white;");
+           this.setStyle("-fx-background-color: white;");
         } else {
-            this.setStyle("-fx-background-color: black;");
+            this.setStyle("-fx-background-color: #808080;");
         }
 
         // updatePlayer();
-
         // This space view should listen to changes of the space
         space.attach(this);
         update(space);
@@ -77,9 +86,10 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     /**
      * Method to update GUI for a space if there's a player on that space.
+     * @Author Ekkart Kindler
      */
     private void updatePlayer() {
-        this.getChildren().clear();
+
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -98,14 +108,80 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     /**
-     * The update method for the observer.
-     * @param subject inherited from Subject attached to an observer.
+     * finds the heading of the wall and draws a yellow wall
+     *
+     * @author Louis Monty-Krohn
      */
-    @Override
-    public void updateView(Subject subject) {
-        if (subject == this.space) {
-            updatePlayer();
+    private void drawWalls(){
+        Canvas canvas = new Canvas(SpaceView.SPACE_WIDTH, SpaceView.SPACE_HEIGHT);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(Color.YELLOW);
+        gc.setLineWidth(5);
+        gc.setLineCap(StrokeLineCap.ROUND);
+        for(Heading heading: space.getWalls()) {
+            switch (heading) {
+                case SOUTH:
+                    gc.strokeLine(2, SPACE_HEIGHT - SPACE_HEIGHT+2, SPACE_WIDTH - 2, SPACE_HEIGHT - SPACE_HEIGHT+2);
+                    break;
+                case NORTH:
+                    gc.strokeLine(2, SPACE_HEIGHT -2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
+
+                    break;
+                case WEST:
+                    gc.strokeLine(SPACE_HEIGHT-2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - SPACE_WIDTH-2);
+                    break;
+                case EAST:
+                    gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - SPACE_HEIGHT+2, SPACE_HEIGHT - SPACE_HEIGHT - 2);
+                    break;
+            }
         }
+        this.getChildren().add(canvas);
     }
 
-}
+    /**
+     * The update method for the observer.
+     * @param subject inherited from Subject attached to an observer.
+     *
+     * If a space has a space action the function to draw it will be called
+     *
+     * @author Louis Monty-Krohn
+     */
+    @Override
+    public void updateView(Subject subject){
+        this.getChildren().clear();
+        drawWalls();
+        for (FieldAction action : space.getActions())
+        if (subject == this.space) {
+            if (action instanceof PushPanel) {
+                PushPanelView.draw(this,action);
+            }
+            if (action instanceof Gear) {
+                GearView.draw(this,action);
+            }
+            if(action instanceof Laser){
+                LaserView.draw(this,action);
+            }
+            if (action instanceof Checkpoint) {
+                CheckpointView.draw(this, action);
+            }
+            if(action instanceof PriorityAntenna){
+                PriorityAntennaView.draw(this,action);
+            }
+            if(action instanceof Pit){
+                PitView.draw(this,action);
+            }
+            if(action instanceof ConveyorBelt){
+                ConveyorBeltView.draw(this,action);
+            }
+            if(action instanceof StartGear){
+                startGearView.draw(this,action);
+            }
+            if(action instanceof RebootTokens){
+                RebootTokenView.draw(this,action);
+            }
+
+            }
+        updatePlayer();
+
+        }
+    }

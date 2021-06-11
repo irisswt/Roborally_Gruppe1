@@ -22,6 +22,9 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.Gear;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldActions.PushPanel;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,13 +45,32 @@ public class Board extends Subject {
 
     public final int height;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String name;
+
     public final String boardName;
 
     private Integer gameId;
 
     private final Space[][] spaces;
 
+
+    private Player[] playerList;
+
     private final List<Player> players = new ArrayList<>();
+
+    public List<Space> getRebootTokens() {
+        return rebootTokens;
+    }
+
+    private final List<Space> rebootTokens = new ArrayList<>();
 
     private Player current;
 
@@ -58,12 +80,41 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    private Space priorityAntenna;
+
+    public Space getPriorityAntenna() {
+        return priorityAntenna;
+    }
+
+    public void setPriorityAntenna(Space priorityAntenna) {
+        this.priorityAntenna = priorityAntenna;
+    }
+
+    public Player[] getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(Player[] playerList) {
+        this.playerList = playerList;
+    }
+
+    public int getCheckpoints() {
+        return checkpoints;
+    }
+
+    public void setCheckpoints(int checkpoints) {
+        this.checkpoints = checkpoints;
+    }
+
+    private int checkpoints = 0;
+
     /**
      * Constructor for Board.
      * If the boardName is included will create a custom board.
      * @param width the width of the board.
      * @param height the height of the board.
      * @param boardName the custom/premade board name.
+     * @Author Ekkart Kindler
      */
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -76,6 +127,13 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
+        /*spaces[7][1].getActions().add(new Gear());
+        spaces[7][2].getActions().add(new PushPanel());
+        ((PushPanel)spaces[7][2].getActions().get(0)).setHeading(Heading.WEST);
+
+        LoadBoard.saveBoard(this,"fuck2");
+
+         */
         this.stepMode = false;
     }
 
@@ -83,6 +141,7 @@ public class Board extends Subject {
      * Constructor for the board with overload. Made for a default board.
      * @param width the width of the board.
      * @param height the height of the board.
+     * @Author Ekkart Kindler
      */
     public Board(int width, int height) {
         this(width, height, "defaultboard");
@@ -111,6 +170,7 @@ public class Board extends Subject {
      * @param x the position on the horizontal axis
      * @param y the position on the vertical axis
      * @return the space object on the coordinates.
+     * @Author Ekkart Kindler
      */
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
@@ -132,6 +192,7 @@ public class Board extends Subject {
     /**
      * Adds a player to the arraylist of players. Updates the GUI.
      * @param player the player being added.
+     * @Author Ekkart Kindler
      */
     public void addPlayer(@NotNull Player player) {
         if (player.board == this && !players.contains(player)) {
@@ -251,23 +312,47 @@ public class Board extends Subject {
      * @param space the space for which the neighbour should be computed
      * @param heading the heading of the neighbour
      * @return the space in the given direction; null if there is no (reachable) neighbour
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Jens Will Iversen
+     * @author Jonathan Zørn
+     *
      */
     public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
         int x = space.x;
         int y = space.y;
         switch (heading) {
             case SOUTH:
-                y = (y + 1) % height;
-                break;
+                if (y+1 < height) {
+                    y = (y + 1) % height;
+                    break;
+                }else{
+                    return null;
+                }
+
             case WEST:
-                x = (x + width - 1) % width;
-                break;
+                if((x - 1) >= 0){
+                    x = (x + width - 1) % width;
+                    break;
+                }else{
+                    return null;
+                }
+
             case NORTH:
-                y = (y + height - 1) % height;
-                break;
+
+                if ((y - 1) >= 0) {
+                    y = (y - 1) % height;
+                    break;
+                }else{
+                    return null;
+                }
+
             case EAST:
-                x = (x + 1) % width;
-                break;
+                if (( (x + 1)) < width) {
+                    x = (x + 1) % width;
+                    break;
+                }else{
+                    return null;
+                }
         }
 
         return getSpace(x, y);
@@ -285,7 +370,8 @@ public class Board extends Subject {
         // XXX: V2 changed the status so that it shows the phase, the player and the step
         return "Phase: " + getPhase().name() +
                 ", Player = " + getCurrentPlayer().getName() +
-                ", Step: " + getStep();
+                ", Step: " + getStep()+
+                ", Checkpoint "+ getCurrentPlayer().getCheckpoint();
     }
 
 

@@ -34,28 +34,43 @@ public class GameAdminController {
         this.dtoMapper = dtoMapper;
     }
 
+    /**
+     * Gets lists of all game objects
+     */
     @GetMapping("/games")
     public ResponseEntity<List<Game>> getGames() throws ServiceException, MappingException, DaoException {
         return new ResponseEntity<>(gameAdminService.getGames(), HttpStatus.OK);
     }
 
-
+    /**
+     * Gets information of a specific game
+     */
     @GetMapping("/game/{gameId}")
     public ResponseEntity<GameDto> getGame(@PathVariable("gameId") int gameId) throws ServiceException, MappingException, DaoException {
         Game game = gameAdminService.getGame(gameId);
         return new ResponseEntity<>(dtoMapper.convertToDto(game), HttpStatus.OK);
     }
+
+    /**
+     * Changes gameStarted state to True of specific game
+     */
     @PutMapping("/game/{gameId}/start")
     public ResponseEntity<Void> startGame(@PathVariable("gameId") int gameId) throws ServiceException, MappingException, DaoException {
         gameAdminService.startGame(gameId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    /**
+     * Changes gameStarted state to False of specific game
+     */
     @PutMapping("/game/{gameId}/end")
     public ResponseEntity<Void> endGame(@PathVariable("gameId") int gameId) throws ServiceException, MappingException, DaoException {
         gameAdminService.endGame(gameId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Creates new game object from request body
+     */
     @PostMapping("/game")
     public ResponseEntity<Integer> createGame(@RequestBody GameDto gameDto) throws ServiceException, MappingException, DaoException {
         Game game = dtoMapper.convertToEntity(gameDto);
@@ -63,6 +78,9 @@ public class GameAdminController {
         return new ResponseEntity<>(gameId, HttpStatus.CREATED);
     }
 
+    /**
+     * Deletes specific game from list of all games.
+     */
     @DeleteMapping("/game/{gameId}/delete")
     public ResponseEntity<Integer> deleteGame(@PathVariable("gameId") int gameId) throws ServiceException, MappingException, DaoException {
         Game game = gameAdminService.getGame(gameId);

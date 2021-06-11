@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 /**
  * Primitive implementation of a game dao, using a HashMap.
+ * @Author: Jonathan Zørn
  */
 @Repository
 public class GameDao implements IGameDao {

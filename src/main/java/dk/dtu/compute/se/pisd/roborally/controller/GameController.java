@@ -771,17 +771,19 @@ public class GameController {
         if (board.getStep() != 0) {
             int i = board.getStep();
             int j = 0;
+            if(player.getProgramField(board.getStep() - 1).getCard() != null) {
             while (player.getProgramField(i).getCard().command == Command.AGAIN && board.getStep() != 0) {
                 i--;
                 j++;
             }
-            if (player.getProgramField(board.getStep() - j).getCard().command.isInteractive()) {
-                board.setPhase(Phase.PLAYER_INTERACTION);
-                return;
-            } else {
-                executeCommand(player, player.getProgramField(board.getStep()-j).getCard().command);
-            }
 
+                if (player.getProgramField(board.getStep() - j).getCard().command.isInteractive()) {
+                    board.setPhase(Phase.PLAYER_INTERACTION);
+                    return;
+                } else {
+                    executeCommand(player, player.getProgramField(board.getStep() - j).getCard().command);
+                }
+            }
         }
     }
 

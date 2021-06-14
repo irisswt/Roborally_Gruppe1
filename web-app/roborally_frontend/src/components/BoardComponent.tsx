@@ -4,6 +4,7 @@ import styles from "../styling/BoardComponent.module.scss" //Import css module
 import GameContext from "../context/GameContext";
 import { Typography, Button } from "@material-ui/core";
 import { Game } from "../types/Game";
+import { User } from "../types/User";
 import { deepPurple } from '@material-ui/core/colors';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 /*
@@ -39,6 +40,23 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
     let [join, setJoin] = useState(false);
     let [start, setStart] = useState(false); // TODO: Add functionallity so start gets the game value instead of local boolean
 
+
+    // TODO: Make better
+    // Major hack to find out which game is being used in this instance
+    let game = games.find(game => game.gameId === board.boardId);
+    if (game === undefined) {
+        console.log("Game could not be found in board")
+        var users: User[] = [];
+        game = {
+            gameName: "null",
+            gameId: 500,
+            gameStarted: false,
+            gameUsers: users
+        };
+    }
+
+
+
     const classes = useStyles();
 
     const onSetJoin = () => {
@@ -49,15 +67,10 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
         setJoin(false);
     }
     const onSetStart = () => {
-        let game: Game | undefined;
-        game = games.find(game => game.gameId === board.boardId);
-        if (game === undefined) {
-            console.log("Game could not be found in board")
-        } else {
+        if (game !== undefined) {
             startGame(game);
             setStart(true);
         }
-
     }
     const onSetEnd = () => {
         let game: Game | undefined;
@@ -81,6 +94,7 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
             <div className={styles.centerAll}>
 
                 <Typography variant="h3" align="center" >Roborally </Typography>
+                <Typography variant="h5" align="center" >Game name: {game.gameName} </Typography>
                 <br />
                 <div className={styles.container}>
                     {board.spaceDtos.map((spaceArray, index) =>

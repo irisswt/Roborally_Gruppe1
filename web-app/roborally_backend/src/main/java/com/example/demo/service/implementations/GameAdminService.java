@@ -3,8 +3,12 @@ package com.example.demo.service.implementations;
 import com.example.demo.dal.interfaces.IGameDao;
 import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.ServiceException;
+import com.example.demo.model.Board;
+import com.example.demo.model.Player;
 import com.example.demo.model.admin.Game;
+import com.example.demo.model.admin.User;
 import com.example.demo.service.interfaces.IGameAdminService;
+import com.example.demo.service.interfaces.IGameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +23,11 @@ public class GameAdminService implements IGameAdminService {
      * @Author: Jonathan Zørn
      */
     private final IGameDao gameDao;
+    private final IGameService gameService;
 
-    public GameAdminService(IGameDao gameDao) {
+    public GameAdminService(IGameDao gameDao, IGameService gameService) {
         this.gameDao = gameDao;
+        this.gameService = gameService;
     }
 
     @Override
@@ -48,6 +54,18 @@ public class GameAdminService implements IGameAdminService {
     @Override
     public int saveGame(Game game) throws ServiceException, DaoException {
         int savedGameId = gameDao.createGame(game);
+        Board board = new Board(8, 8, game.gameName);
+        gameService.saveBoard(board);
+
+        Player player = new Player(board, "blue", "InitialUser");
+        User user = new User(player.getPlayerId(), "InitialUser");
+
+        gameService.addPlayer(board.getGameId(), player);
+        gameService.setCurrentPlayer(board.getGameId(), player.getPlayerId());
+        gameService.moveCurrentPlayer(board.getGameId(), 1, 1);
+
+        game.gameUsers.add(user);
+
         if (savedGameId < 0) {
             throw new ServiceException("GameDao generated invalid gameId " + savedGameId, HttpStatus.INTERNAL_SERVER_ERROR);
         }

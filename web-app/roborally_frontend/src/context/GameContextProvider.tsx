@@ -225,6 +225,17 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     }, [addToast])
 
 
+
+    const createGame = useCallback(async (gameName: String) => {
+        GameApi.createGame(gameName).then(() => {
+            addToast('Game created!', { appearance: 'success' });
+        }).catch(() => {
+            console.error("Error while creating game from backend")
+            addToast('Error while creating game from backend!', { appearance: 'error' });
+        })
+    }, [addToast])
+
+
     return (
         <GameContext.Provider
             value={
@@ -234,6 +245,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                     unselectGame: unselectGame,
                     deleteGame: deleteGame,
                     startGame: startGame,
+                    createGame: createGame,
                     endGame: endGame,
                     loaded: loaded,
                     board: board,

@@ -7,6 +7,7 @@ import com.example.demo.exceptions.MappingException;
 import com.example.demo.exceptions.ServiceException;
 import com.example.demo.model.Board;
 import com.example.demo.model.admin.Game;
+import com.example.demo.model.admin.User;
 import com.example.demo.service.interfaces.IGameAdminService;
 import com.example.demo.util.mapping.IDtoMapper;
 import org.springframework.http.HttpStatus;
@@ -71,9 +72,9 @@ public class GameAdminController {
     /**
      * Creates new game object from request body
      */
-    @PostMapping("/game")
-    public ResponseEntity<Integer> createGame(@RequestBody GameDto gameDto) throws ServiceException, MappingException, DaoException {
-        Game game = dtoMapper.convertToEntity(gameDto);
+    @PostMapping("/newgame/{gameName}")
+    public ResponseEntity<Integer> createGame(@PathVariable("gameName") String gameName) throws ServiceException, MappingException, DaoException {
+        Game game = new Game(gameName, -1, false);
         int gameId = gameAdminService.saveGame(game);
         return new ResponseEntity<>(gameId, HttpStatus.CREATED);
     }

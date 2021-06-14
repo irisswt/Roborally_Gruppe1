@@ -24,7 +24,6 @@ public class DataLoader implements ApplicationRunner {
     private final IGameService gameService;
     private final IGameAdminService gameAdminService;
 
-    public ArrayList<Game> gamesLists;
 
     public DataLoader(IGameService gameService, IGameAdminService gameAdminService) {
         this.gameService = gameService;
@@ -32,24 +31,12 @@ public class DataLoader implements ApplicationRunner {
     }
 
     public void createGame(String Name) throws ServiceException, DaoException {
-        Board board = new Board(8, 8, Name);
-        List<User> emptyList = new ArrayList<>();
-
-
-        gameService.saveBoard(board);
-        Player player = new Player(board, "blue", "Player1Name");
-        User user1 = new User(player.getPlayerId(), "Player1Name");
-        gameService.addPlayer(board.getGameId(), player);
-        gameService.setCurrentPlayer(board.getGameId(), player.getPlayerId());
-        gameService.moveCurrentPlayer(board.getGameId(), 1, 1);
-        player = new Player(board, "green", "Player2Name");
-        User user2 = new User(player.getPlayerId(), "Player2Name");
-        gameService.addPlayer(board.getGameId(), player);
-        gameService.movePlayer(board, 4, 4, player.getPlayerId());
-        Game game = new Game(Name, board.getGameId(), false, emptyList);
-        game.gameUsers.add(user1);
-        game.gameUsers.add(user2);
+        Game game = new Game(Name, -1, false);
         gameAdminService.saveGame(game);
+
+
+
+
     }
 
     @Override
@@ -57,5 +44,9 @@ public class DataLoader implements ApplicationRunner {
         createGame("Hallo");
         createGame("Hej");
         createGame("Hola");
+        createGame("pislort");
+
+
+
     }
 }

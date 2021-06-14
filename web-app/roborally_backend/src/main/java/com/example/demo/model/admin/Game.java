@@ -15,13 +15,20 @@ public class Game {
     public boolean gameStarted;
 
     public List<User> gameUsers = new ArrayList<>();
+    //public List<User> gameUsers = new ArrayList<>();
 
 
-    public Game(String name, int gameId, boolean started, List<User> users) {
+    public Game(String name, int gameId, boolean started) {
         this.gameName = name;
         this.gameId = gameId;
         this.gameStarted = started;
-        this.gameUsers = users;
+    }
+
+    public Game(String name, int gameId, boolean started, List<User> gameUsers) {
+        this.gameName = name;
+        this.gameId = gameId;
+        this.gameStarted = started;
+        this.gameUsers = gameUsers;
     }
 
     public int getGameId() {return gameId;}

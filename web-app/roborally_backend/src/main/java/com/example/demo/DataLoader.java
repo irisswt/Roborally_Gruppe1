@@ -21,30 +21,22 @@ import java.util.List;
  */
 @Component
 public class DataLoader implements ApplicationRunner {
-    private final IGameService gameService;
     private final IGameAdminService gameAdminService;
 
 
-    public DataLoader(IGameService gameService, IGameAdminService gameAdminService) {
-        this.gameService = gameService;
+    public DataLoader(IGameAdminService gameAdminService) {
         this.gameAdminService = gameAdminService;
     }
 
     public void createGame(String Name) throws ServiceException, DaoException {
         Game game = new Game(Name, -1, false);
         gameAdminService.saveGame(game);
-
-
-
-
     }
 
     @Override
     public void run(ApplicationArguments args) throws ServiceException, DaoException {
         createGame("Hallo");
         createGame("Hej");
-        createGame("Hola");
-        createGame("pislort");
 
 
 

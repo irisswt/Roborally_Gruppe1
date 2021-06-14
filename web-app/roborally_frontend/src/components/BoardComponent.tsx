@@ -53,6 +53,9 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
             gameStarted: false,
             gameUsers: users
         };
+    } else {
+        // Sets local var of game to actual status
+        start = game.gameStarted
     }
 
 
@@ -68,8 +71,11 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
     }
     const onSetStart = () => {
         if (game !== undefined) {
-            startGame(game);
-            setStart(true);
+            startGame(game).then(() =>
+                setStart(true)
+            ).catch(() =>
+                setStart(false)
+            );
         }
     }
     const onSetEnd = () => {
@@ -95,6 +101,16 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
 
                 <Typography variant="h3" align="center" >Roborally </Typography>
                 <Typography variant="h5" align="center" >Game name: {game.gameName} </Typography>
+                <br />
+                <br />
+                {!start ?
+                    <Typography variant="h5" align="center" >Press "Start game" to play! </Typography>
+
+                    :
+                    <Typography variant="h5" align="center" >Player {board.currentPlayerDto?.playerName}'s turn. </Typography>
+                }
+
+                <br />
                 <br />
                 <div className={styles.container}>
                     {board.spaceDtos.map((spaceArray, index) =>

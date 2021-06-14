@@ -40,31 +40,40 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
 
     //Define a function used to set a player ona  specific space
     const setPlayerOnSpace = useCallback(async (space: Space) => {
-        //Check if space already has a player standing on it
-        if (!space.playerId) {
-            await GameApi.moveCurrentPlayer(gameId, { ...space, playerId: currentPlayer.playerId }).then(() => {
-                let tempSpaces = [...spaces] //Use spread operator to copy spaces array, needed for making immutable changes
-                //See https://bit.ly/2My8Bfz, until the section about Immutable.js
-                tempSpaces[space.x][space.y].playerId = currentPlayer.playerId //Set the player on the new space they clicked on
+        // Check if game is started
+        let game = games.find(game => game.gameId === board.boardId);
+        if (game?.gameStarted) {
+            //Check if space already has a player standing on it
+            if (!space.playerId) {
+                await GameApi.moveCurrentPlayer(gameId, { ...space, playerId: currentPlayer.playerId }).then(() => {
+                    let tempSpaces = [...spaces] //Use spread operator to copy spaces array, needed for making immutable changes
+                    //See https://bit.ly/2My8Bfz, until the section about Immutable.js
+                    tempSpaces[space.x][space.y].playerId = currentPlayer.playerId //Set the player on the new space they clicked on
 
-                if (currentPlayer.x !== undefined && currentPlayer.y !== undefined) { //If the player was standing on a space previously, remove them from that space
-                    // FIXME: Theres a warning here. It is from the original backend. I dont think it affects anything tho.
-                    tempSpaces[currentPlayer.x][currentPlayer.y].playerId = undefined
-                }
-                setSpaces(tempSpaces)
-                let tempPlayers = [...players]
-                tempPlayers[currentPlayerIndex].x = space.x; //Update the players array to reflect the changes
-                tempPlayers[currentPlayerIndex].y = space.y; //Update the players array to reflect the changes
-                setPlayers(tempPlayers)
-                setCurrentPlayer({ ...currentPlayer, x: space.x, y: space.y }) //Update current player
+                    if (currentPlayer.x !== undefined && currentPlayer.y !== undefined) { //If the player was standing on a space previously, remove them from that space
+                        // FIXME: Theres a warning here. It is from the original backend. I dont think it affects anything tho.
+                        tempSpaces[currentPlayer.x][currentPlayer.y].playerId = undefined
+                    }
+                    setSpaces(tempSpaces)
+                    let tempPlayers = [...players]
+                    tempPlayers[currentPlayerIndex].x = space.x; //Update the players array to reflect the changes
+                    tempPlayers[currentPlayerIndex].y = space.y; //Update the players array to reflect the changes
+                    setPlayers(tempPlayers)
+                    setCurrentPlayer({ ...currentPlayer, x: space.x, y: space.y }) //Update current player
 
-            }).catch(() => {
-                console.error("Error while moving player")
-            })
+                }).catch(() => {
+                    console.error("Error while moving player")
+                })
 
+            }
+        } else {
+            addToast('Game is not yet started!', { appearance: 'warning' });
+            throw 'game not started'
         }
 
-    }, [currentPlayer, currentPlayerIndex, gameId, players, spaces])
+
+
+    }, [currentPlayer, currentPlayerIndex, gameId, players, spaces, addToast])
 
     const switchToNextPlayer = useCallback(async () => {
         await GameApi.switchPlayer(gameId).then(() => {
@@ -189,18 +198,20 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                 }).catch(() => {
                     console.error("Error while starting game from backend")
                     addToast('Error while starting game from backend!', { appearance: 'error' });
+                    throw 'Error in backend'
                 })
             } else {
                 console.log("Game already started: " + game.gameId + " id")
                 addToast('Game is already started!', { appearance: 'warning' });
+                throw 'Game is already started'
 
             }
-
         } else {
             // Logic if games do not have enough players
-            console.log("Not enough players to start game: " + game.gameId + " id")
+            console.error("Not enough players to start game: " + game.gameId + " id")
             console.log("Players in game:" + game.gameUsers.length)
-            addToast('Not enough players to start game!', { appearance: 'warning' });
+            addToast('Not enough players to start game!', { appearance: 'warning' })
+            throw 'Not enough players'
         }
     }, [addToast])
 

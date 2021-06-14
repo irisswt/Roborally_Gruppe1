@@ -63,8 +63,20 @@ public class GameAdminService implements IGameAdminService {
         gameService.addPlayer(board.getGameId(), player);
         gameService.setCurrentPlayer(board.getGameId(), player.getPlayerId());
         gameService.moveCurrentPlayer(board.getGameId(), 1, 1);
-
         game.gameUsers.add(user);
+
+
+        // Extra user:::
+        Player player2 = new Player(board, "green", "user2");
+        User user2 = new User(player.getPlayerId(), "user2");
+        gameService.addPlayer(board.getGameId(), player2);
+        gameService.setCurrentPlayer(board.getGameId(), player2.getPlayerId());
+        gameService.moveCurrentPlayer(board.getGameId(), 1, 0);
+        game.gameUsers.add(user2);
+        // Extra user:::
+
+
+
 
         if (savedGameId < 0) {
             throw new ServiceException("GameDao generated invalid gameId " + savedGameId, HttpStatus.INTERNAL_SERVER_ERROR);

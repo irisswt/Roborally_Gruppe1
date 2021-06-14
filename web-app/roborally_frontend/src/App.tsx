@@ -12,7 +12,7 @@ function App() {
             <header className="App-header">
             </header>
             {/*Context provider component below makes sure the context is accessible in any children components*/}
-            <ToastProvider>
+            <ToastProvider autoDismiss={true}>
                 <GameContextProvider>
                     <GamesComponent />
                     <BoardComponent />

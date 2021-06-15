@@ -224,7 +224,7 @@ public class AppController implements Observer {
             }
             ChoiceDialog<String> dialog = new ChoiceDialog<>(gameName.get(0), gameName);
 
-            dialog.setTitle("Player number");
+            dialog.setTitle("Load game");
             dialog.setHeaderText("Choose a game");
             Optional<String> result = dialog.showAndWait();
             try {

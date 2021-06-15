@@ -47,9 +47,8 @@ public class DtoMapper implements IDtoMapper {
         }
 
         if (board.getPlayersNumber() > 0) {
-            boardDto.setPlayerDtos(new PlayerDto[board.getPlayersNumber()]);
             for (int i = 0; i < board.getPlayersNumber(); i++) {
-                boardDto.getPlayerDtos()[i] = convertToDto(board.getPlayer(i));
+                boardDto.getPlayerDtos().add(convertToDto(board.getPlayer(i)));
             }
         }
 

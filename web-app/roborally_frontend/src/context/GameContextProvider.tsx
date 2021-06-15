@@ -32,9 +32,6 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
 
     const playerCount = useMemo(() => players.length, [players])
 
-
-
-
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0)
     const [currentPlayer, setCurrentPlayer] = useState<Player>({ playerId: -1, playerColor: "red", boardId: -1, playerName: "" })
     const [spaces, setSpaces] = useState<Space[][]>([])
@@ -107,10 +104,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
         GameApi.getBoard(game.gameId).then(board => {
             setSpaces(board.spaceDtos)
 
-            // Hack to avoid crash when board has no players
-            if (board.playerDtos != null) {
-                setPlayers(board.playerDtos)
-            }
+            setPlayers(board.playerDtos)
             setWidth(board.width)
             setHeight(board.height)
             setGameId(board.boardId)
@@ -144,10 +138,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                 GameApi.getBoard(gameId).then(board => {
                     if (gameId === board.boardId) {
                         setSpaces(board.spaceDtos)
-                        // Hack to avoid crash when board has no players
-                        if (board.playerDtos != null) {
-                            setPlayers(board.playerDtos)
-                        }
+                        setPlayers(board.playerDtos)
                         setWidth(board.width)
                         setHeight(board.height)
                         setGameId(board.boardId)

@@ -1,5 +1,10 @@
 package com.example.demo.controller.GameController;
 
+import com.example.demo.model.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoardDto {
 
     private Integer boardId;
@@ -8,13 +13,13 @@ public class BoardDto {
     private int width;
     private SpaceDto[][] spaceDtos;
     private PlayerDto currentPlayerDto;
-    private PlayerDto[] playerDtos;
+    private List<PlayerDto> playerDtos = new ArrayList<PlayerDto>();
 
-    public PlayerDto[] getPlayerDtos() {
+    public List<PlayerDto> getPlayerDtos() {
         return playerDtos;
     }
 
-    public void setPlayerDtos(PlayerDto[] playerDtos) {
+    public void setPlayerDtos(List<PlayerDto> playerDtos) {
         this.playerDtos = playerDtos;
     }
 

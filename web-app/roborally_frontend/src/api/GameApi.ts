@@ -47,7 +47,12 @@ class GameApi {
     }
 
     public createGame(gameName: String) {
-        return axios.post<Game>(`${this.BACKEND_URL}/newgame/${gameName}`).then(value => value.data)
+        let game = {
+            gameName: gameName,
+            gameStarted: false,
+            gameId: -1
+        }
+        return axios.post<Game>(`${this.BACKEND_URL}/newgame/`, game).then(value => value.data)
     }
 
 

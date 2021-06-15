@@ -72,9 +72,9 @@ public class GameAdminController {
     /**
      * Creates new game object from request body
      */
-    @PostMapping("/newgame/{gameName}")
-    public ResponseEntity<Integer> createGame(@PathVariable("gameName") String gameName) throws ServiceException, MappingException, DaoException {
-        Game game = new Game(gameName, -1, false);
+    @PostMapping("/newgame/")
+    public ResponseEntity<Integer> createGame(@RequestBody GameDto gameDto) throws ServiceException, MappingException, DaoException {
+        Game game = new Game(gameDto.getGameName(), gameDto.getGameId(),  gameDto.getGameStarted());
         int gameId = gameAdminService.saveGame(game);
         return new ResponseEntity<>(gameId, HttpStatus.CREATED);
     }

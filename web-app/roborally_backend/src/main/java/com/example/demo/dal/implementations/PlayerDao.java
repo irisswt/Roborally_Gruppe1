@@ -19,6 +19,7 @@ public class PlayerDao implements IPlayerDao {
     public int addPlayer(int boardId, Player player) {
         playerIdCounter++;
         player.setPlayerId(playerIdCounter);
+        player.setColor(player.colors[playerIdCounter-1]);
         players.put(player.getPlayerId(), player);
         return player.getPlayerId();
     }

@@ -6,6 +6,8 @@ import { Space } from "../types/Space";
 import { Game } from "../types/Game";
 import GameApi from "../api/GameApi";
 import { useToasts } from 'react-toast-notifications';
+import { BorderAll } from "@material-ui/icons";
+import { escapeLeadingUnderscores } from "typescript";
 
 
 
@@ -70,7 +72,6 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
             }
         } else {
             addToast('Game is not yet started!', { appearance: 'warning' });
-            throw 'game not started'
         }
 
 
@@ -103,7 +104,6 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     const selectGame = useCallback(async (game: Game) => {
         GameApi.getBoard(game.gameId).then(board => {
             setSpaces(board.spaceDtos)
-
             setPlayers(board.playerDtos)
             setWidth(board.width)
             setHeight(board.height)
@@ -150,8 +150,6 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                                     setCurrentPlayerIndex(index)
                                 }
                             })
-                        } else {
-                            // No players in game
                         }
                     }
                 }).catch(() => {
@@ -166,7 +164,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
 
             }
 
-        }, 2000)
+        }, 1000)
 
         return () => clearInterval(interval)
     }, [loaded, gameId])
@@ -192,7 +190,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
      * @author: Jonathan Zørn
      */
     const startGame = useCallback(async (game: Game) => {
-        if (game.gameUsers.length >= 2) {
+        if (board.playerDtos.length > 1) {
             if (!game.gameStarted) {
                 GameApi.startGame(game.gameId).then(() => {
                     game.gameStarted = true;
@@ -206,15 +204,13 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
             } else {
                 console.log("Game already started: " + game.gameId + " id")
                 addToast('Game is already started!', { appearance: 'warning' });
-                throw 'Game is already started'
 
             }
         } else {
             // Logic if games do not have enough players
             console.error("Not enough players to start game: " + game.gameId + " id")
-            console.log("Players in game:" + game.gameUsers.length)
+            console.log("Players in game:" + board.playerDtos.length)
             addToast('Not enough players to start game!', { appearance: 'warning' })
-            throw 'Not enough players'
         }
     }, [addToast])
 
@@ -250,6 +246,24 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     }, [addToast])
 
 
+    const createPlayer = useCallback(async (game: Game) => {
+        if (game.gameId === board.boardId) {
+            if (board.playerDtos.length < 6) {
+                GameApi.createPlayer(game.gameId).then(() =>
+                    console.log("Nice")
+                )
+            } else {
+                addToast('Max players reached!', { appearance: 'warning' });
+            }
+        } else {
+            console.log("Not nice")
+            // TODO: RESUME FROM HERE
+        }
+
+
+    }, [addToast])
+
+
     return (
         <GameContext.Provider
             value={
@@ -261,6 +275,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                     startGame: startGame,
                     createGame: createGame,
                     endGame: endGame,
+                    createPlayer: createPlayer,
                     loaded: loaded,
                     board: board,
                     setCurrentPlayerOnSpace: setPlayerOnSpace,

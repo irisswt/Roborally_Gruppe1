@@ -117,7 +117,7 @@ public class DtoMapper implements IDtoMapper {
             throw new MappingException("Board was null when trying to convert PlayerDto to Player");
         }
         if (playerDto.getPlayerId() == null) { //If we have not provided a player id, we are creating a new player
-            return new Player(board, playerDto.getPlayerColor(), playerDto.getPlayerName());
+            return new Player(board);
         }
         return null;
     }

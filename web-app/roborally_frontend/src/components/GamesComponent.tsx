@@ -2,8 +2,7 @@ import React, { FunctionComponent, useContext, useState } from 'react';
 import GameContext from "../context/GameContext";
 import { GameComponent } from "./GameComponent";
 import styles from "../styling/BoardComponent.module.scss" //Import css module
-import { Typography, Button, FormControl, InputLabel, Input, TextField } from "@material-ui/core";
-import GameApi from '../api/GameApi';
+import { Typography, Button, TextField } from "@material-ui/core";
 
 /**
  * @Author: Jonathan Zørn

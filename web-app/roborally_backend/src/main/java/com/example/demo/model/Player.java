@@ -40,6 +40,7 @@ public class Player {
     private String color;
     private Space space;
     private Heading heading = SOUTH;
+    public String[] colors = {"red", "green", "blue", "yellow", "orange", "purple"};
 
     private CommandCardField[] program;
     private CommandCardField[] cards;
@@ -61,6 +62,27 @@ public class Player {
             cards[i] = new CommandCardField(this);
         }
     }
+
+    public Player(@NotNull Board board) {
+        this.board = board;
+
+        this.name = "Generic player "+board.getPlayersNumber();
+        this.color = "red";
+
+        this.space = null;
+
+        program = new CommandCardField[NO_REGISTERS];
+        for (int i = 0; i < program.length; i++) {
+            program[i] = new CommandCardField(this);
+        }
+
+        cards = new CommandCardField[NO_CARDS];
+        for (int i = 0; i < cards.length; i++) {
+            cards[i] = new CommandCardField(this);
+        }
+    }
+
+
 
     public String getName() {
         return name;

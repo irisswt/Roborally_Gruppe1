@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 type BoardComponentProps = {}
 const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
     //{...} context is known as object destructuring
-    const { games, board, loaded, unselectGame, startGame, endGame } = useContext(GameContext) //Hook form of Context.Consumer, used to access the context
+    const { games, createPlayer, board, loaded, unselectGame, startGame, endGame } = useContext(GameContext) //Hook form of Context.Consumer, used to access the context
 
     let [join, setJoin] = useState(false);
     let [start, setStart] = useState(false); // TODO: Add functionallity so start gets the game value instead of local boolean
@@ -45,7 +45,6 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
     // Major hack to find out which game is being used in this instance
     let game = games.find(game => game.gameId === board.boardId);
     if (game === undefined) {
-        console.log("Game could not be found in board")
         var users: User[] = [];
         game = {
             gameName: "null",
@@ -64,6 +63,12 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
 
     const onSetJoin = () => {
         setJoin(true);
+    }
+
+    const onClickCreate = () => {
+        if (game !== undefined) {
+            createPlayer(game)
+        }
     }
 
     const onSetLeave = () => {
@@ -92,7 +97,6 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
     const onBack = () => {
         setJoin(false);
         unselectGame();
-
     }
 
     return (
@@ -135,7 +139,10 @@ const BoardComponent: FunctionComponent<BoardComponentProps> = () => {
                         Leave
                     </Button>
                 }
-
+                &emsp;
+                <Button className={classes.purple} size="large" variant="text" color="primary" onClick={onClickCreate}>
+                    Create new player
+                </Button>
                 &emsp;
                 <Button className={classes.purple} size="large" variant="text" color="primary" onClick={onBack}>
                     Back to Games

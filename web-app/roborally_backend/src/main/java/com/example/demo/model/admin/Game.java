@@ -41,4 +41,5 @@ public class Game {
     public void setGameStarted(boolean bool) {this.gameStarted = bool;}
 
     public List<User> getGameUsers() {return gameUsers;}
+
 }

@@ -1,6 +1,5 @@
 import { FunctionComponent, useCallback, useContext, useMemo } from "react";
 import { Space } from "../types/Space";
-import { Game } from "../types/Game";
 import GameContext from "../context/GameContext";
 import styles from "../styling/SpaceComponent.module.scss"
 

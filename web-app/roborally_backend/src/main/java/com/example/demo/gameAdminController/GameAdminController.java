@@ -89,17 +89,4 @@ public class GameAdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /**
-     * Creates a user in a specific game and joins the board.
-     */
-    /*
-    @PutMapping("/game/{gameId}/join/{playerId}")
-    public ResponseEntity<Void> joinGame(@PathVariable("gameId", "playerId") int gameId, String playerId) throws ServiceException, MappingException, DaoException {
-        gameAdminService.startGame(gameId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-    */
-
-
-
 }

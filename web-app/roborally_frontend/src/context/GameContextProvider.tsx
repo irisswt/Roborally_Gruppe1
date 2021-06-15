@@ -29,7 +29,12 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     // a function to set a new state value, here we use array destructuring (the [..., ...] notation).
     // we also declare that the state variable and setter should be of type /take type Player[]
     const [players, setPlayers] = useState<Player[]>([])
+
     const playerCount = useMemo(() => players.length, [players])
+
+
+
+
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0)
     const [currentPlayer, setCurrentPlayer] = useState<Player>({ playerId: -1, playerColor: "red", boardId: -1, playerName: "" })
     const [spaces, setSpaces] = useState<Space[][]>([])
@@ -101,7 +106,11 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
     const selectGame = useCallback(async (game: Game) => {
         GameApi.getBoard(game.gameId).then(board => {
             setSpaces(board.spaceDtos)
-            setPlayers(board.playerDtos)
+
+            // Hack to avoid crash when board has no players
+            if (board.playerDtos != null) {
+                setPlayers(board.playerDtos)
+            }
             setWidth(board.width)
             setHeight(board.height)
             setGameId(board.boardId)
@@ -135,7 +144,10 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                 GameApi.getBoard(gameId).then(board => {
                     if (gameId === board.boardId) {
                         setSpaces(board.spaceDtos)
-                        setPlayers(board.playerDtos)
+                        // Hack to avoid crash when board has no players
+                        if (board.playerDtos != null) {
+                            setPlayers(board.playerDtos)
+                        }
                         setWidth(board.width)
                         setHeight(board.height)
                         setGameId(board.boardId)
@@ -148,7 +160,7 @@ const GameContextProvider = ({ children }: GameContextProviderPropsType) => {
                                 }
                             })
                         } else {
-                            console.error("Load outdated")
+                            // No players in game
                         }
                     }
                 }).catch(() => {
